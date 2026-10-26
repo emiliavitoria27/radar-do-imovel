@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Radar do Imóvel · Nova São Paulo</title>
+<meta name="description" content="Cole o link de um imóvel da Nova São Paulo e veja se a compra faz sentido: preço, aluguel, temporada, valorização, custos e riscos.">
+<meta name="theme-color" content="#0455A1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230455A1'/%3E%3Cpath d='M7 22l9-10 9 10' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --fundo:#ECEEEF; --superficie:#FFFFFF; --tinta:#1A2230; --suave:#566173; --linha:#D3D8DE;
+  --azul:#0455A1; --azul-claro:#DCE8F5; --verde:#1C7A4A; --verde-claro:#DDF0E5;
+  --ambar:#9A5B00; --ambar-claro:#F7EAD2; --vermelho:#B3261E; --vermelho-claro:#F7DEDC;
+  --mosaico:#1A2230; --raio:14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --fundo:#13171D; --superficie:#1C222B; --tinta:#E7EAEE; --suave:#A3ADBA; --linha:#2F3742;
+    --azul:#76AEFF; --azul-claro:#1D3350; --verde:#5CCB8E; --verde-claro:#163326;
+    --ambar:#F0B556; --ambar-claro:#3A2C14; --vermelho:#FF8A80; --vermelho-claro:#3D1E1C;
+    --mosaico:#E7EAEE; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --fundo:#13171D; --superficie:#1C222B; --tinta:#E7EAEE; --suave:#A3ADBA; --linha:#2F3742;
+  --azul:#76AEFF; --azul-claro:#1D3350; --verde:#5CCB8E; --verde-claro:#163326;
+  --ambar:#F0B556; --ambar-claro:#3A2C14; --vermelho:#FF8A80; --vermelho-claro:#3D1E1C;
+  --mosaico:#E7EAEE; color-scheme: dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5;font-variant-numeric:tabular-nums}
+a{color:var(--azul)}
+:focus-visible{outline:3px solid var(--azul);outline-offset:2px;border-radius:6px}
+.mosaico{height:22px;background-color:var(--fundo);color:var(--mosaico)}
+.mosaico svg{display:block;width:100%;height:22px}
+.envelope{max-width:760px;margin:0 auto;padding:0 18px}
+header.topo{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 6px}
+.marca{font-weight:800;font-stretch:112%;letter-spacing:-.01em;font-size:1.05rem}
+.marca small{display:block;font-weight:500;font-stretch:100%;color:var(--suave);font-size:.8rem;letter-spacing:0}
+.modo{display:flex;background:var(--superficie);border:1px solid var(--linha);border-radius:999px;padding:3px}
+.modo button{border:0;background:transparent;color:var(--suave);font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
+.modo button[aria-pressed="true"]{background:var(--tinta);color:var(--fundo)}
+h1{font-size:clamp(2rem,7vw,3.1rem);line-height:1.02;font-stretch:118%;font-weight:800;letter-spacing:-.02em;margin:28px 0 12px}
+.intro{color:var(--suave);max-width:60ch;margin:0 0 22px}
+.busca{display:flex;gap:8px;flex-wrap:wrap}
+.busca input{flex:1 1 260px;min-width:0;font:inherit;font-size:1rem;padding:14px 16px;border-radius:12px;border:1.5px solid var(--linha);background:var(--superficie);color:var(--tinta)}
+.busca input:focus{border-color:var(--azul);outline:none;box-shadow:0 0 0 3px var(--azul-claro)}
+.botao{font:inherit;font-weight:700;font-size:1rem;padding:14px 20px;border-radius:12px;border:0;background:var(--azul);color:#fff;cursor:pointer}
+:root[data-theme="dark"] .botao{color:#0D1B2E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .botao{color:#0D1B2E}}
+.botao:disabled{opacity:.6;cursor:wait}
+.botao.sec{background:transparent;color:var(--azul);border:1.5px solid var(--azul)}
+.link-btn{background:none;border:0;padding:0;font:inherit;color:var(--azul);text-decoration:underline;cursor:pointer}
+.aviso{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:.95rem;display:none}
+.aviso.on{display:block}
+.aviso.erro{background:var(--vermelho-claro);color:var(--vermelho)}
+.aviso.info{background:var(--azul-claro);color:var(--tinta)}
+.aviso.ok{background:var(--verde-claro);color:var(--tinta)}
+.selo-dados{margin-top:14px;font-size:.85rem;color:var(--suave)}
+section.bloco{background:var(--superficie);border-radius:var(--raio);padding:20px 18px;margin:16px 0;border:1px solid var(--linha)}
+section.bloco>h2{font-size:1.25rem;font-stretch:108%;font-weight:750;margin:0 0 4px;letter-spacing:-.01em}
+.sub{color:var(--suave);font-size:.92rem;margin:0 0 14px}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+label.campo{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--suave)}
+label.campo input,label.campo select{font:inherit;font-size:1rem;color:var(--tinta);background:var(--fundo);border:1.5px solid var(--linha);border-radius:10px;padding:10px 12px;width:100%}
+label.campo input:focus,label.campo select:focus{border-color:var(--azul);outline:none}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+#resultado{display:none}
+#resultado.on{display:block}
+.veredito{border-radius:var(--raio);padding:24px 18px 20px;margin:20px 0 16px;color:var(--tinta)}
+.veredito.bom{background:var(--verde-claro)} .veredito.medio{background:var(--ambar-claro)} .veredito.fraco{background:var(--vermelho-claro)}
+.veredito .ident{font-size:.9rem;color:var(--suave);margin:0 0 6px}
+.veredito h2{font-size:clamp(1.7rem,6vw,2.5rem);line-height:1.05;font-stretch:120%;font-weight:800;letter-spacing:-.02em;margin:0 0 10px}
+.medidor{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--vermelho),var(--ambar),var(--verde));position:relative;margin:16px 0 6px;opacity:.9}
+.medidor i{position:absolute;top:-6px;width:4px;height:22px;background:var(--tinta);border-radius:2px;transform:translateX(-2px);transition:left .6s ease}
+.medidor-leg{display:flex;justify-content:space-between;font-size:.78rem;color:var(--suave)}
+.duas{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
+@media(min-width:640px){.duas{grid-template-columns:1fr 1fr}}
+.duas h3{font-size:1rem;margin:0 0 6px}
+.duas ul{margin:0;padding-left:20px} .duas li{margin:4px 0}
+.numeros{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:8px 0 4px}
+.num{background:var(--fundo);border-radius:12px;padding:12px}
+.num b{display:block;font-size:1.25rem;font-stretch:105%}
+.num span{font-size:.82rem;color:var(--suave)}
+.barras{display:flex;flex-direction:column;gap:12px;margin:10px 0}
+.barra .rot{display:flex;justify-content:space-between;gap:10px;font-size:.92rem;margin-bottom:4px}
+.barra .rot b{white-space:nowrap}
+.trilho{height:14px;background:var(--fundo);border-radius:99px;overflow:hidden}
+.trilho i{display:block;height:100%;border-radius:99px;background:var(--azul);transition:width .5s ease}
+.trilho i.verde{background:var(--verde)} .trilho i.ambar{background:var(--ambar)} .trilho i.cinza{background:var(--suave)}
+.estrategias{display:grid;gap:12px}
+.estr{border:1.5px solid var(--linha);border-radius:12px;padding:14px}
+.estr.melhor{border-color:var(--verde)}
+.estr h3{margin:0 0 2px;font-size:1.05rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.etiqueta{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--verde-claro);color:var(--verde);white-space:nowrap}
+.etiqueta.amb{background:var(--ambar-claro);color:var(--ambar)} .etiqueta.ver{background:var(--vermelho-claro);color:var(--vermelho)} .etiqueta.az{background:var(--azul-claro);color:var(--azul)}
+.estr dl{display:grid;grid-template-columns:1fr auto;gap:2px 12px;margin:10px 0 0;font-size:.92rem}
+.estr dt{color:var(--suave)} .estr dd{margin:0;text-align:right;font-weight:600}
+.estr dd.forte{font-size:1.05rem}
+.estr .nota{font-size:.82rem;color:var(--suave);margin:8px 0 0}
+.tabela{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+th,td{padding:8px 6px;border-bottom:1px solid var(--linha);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--suave);font-size:.82rem}
+.riscos li{margin:6px 0}
+.nivel{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.nivel.alto{background:var(--vermelho)} .nivel.medio{background:var(--ambar)} .nivel.baixo{background:var(--verde)}
+details.premissas summary{cursor:pointer;font-weight:700;font-size:1.05rem}
+details.premissas .grade{margin-top:14px}
+.corretor-only{display:none}
+body.corretor .corretor-only{display:block}
+.status-lista{list-style:none;padding:0;margin:0}
+.status-lista li{padding:10px 0;border-bottom:1px solid var(--linha);font-size:.9rem}
+.status-lista li:last-child{border-bottom:0}
+.fonte-linha{display:flex;gap:8px;align-items:baseline;margin-top:4px}
+.fonte-linha .etiqueta{flex:none}
+footer{color:var(--suave);font-size:.82rem;padding:24px 0 40px}
+.oculto{display:none!important}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+@media print{.busca,.acoes,.modo,#form-imovel,details.premissas,.mosaico{display:none!important} body{background:#fff} section.bloco{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="mosaico" aria-hidden="true">
+  <svg preserveAspectRatio="none"><defs><pattern id="pm" width="44" height="22" patternUnits="userSpaceOnUse">
+    <path d="M0 11 C6 2 16 2 22 11 C28 20 38 20 44 11 L44 22 L0 22Z" fill="currentColor"/>
+    <circle cx="11" cy="6" r="2.2" fill="currentColor"/><circle cx="33" cy="17" r="2.2" fill="var(--fundo)"/>
+  </pattern></defs><rect width="100%" height="100%" fill="url(#pm)"/></svg>
+</div>
+<div class="envelope">
+  <header class="topo">
+    <div class="marca">Radar do Imóvel<small>Nova São Paulo</small></div>
+    <div class="modo" role="group" aria-label="Quem está usando">
+      <button type="button" id="modo-cliente" aria-pressed="true">Comprador</button>
+      <button type="button" id="modo-corretor" aria-pressed="false">Corretor</button>
+    </div>
+  </header>
+
+  <h1>Esse imóvel é um bom negócio?</h1>
+  <p class="intro">Cole o link de um anúncio da Nova São Paulo. Em segundos você vê se o preço está coerente, quanto ele pode render de aluguel ou temporada, quanto pode valer no futuro e como se compara a deixar o dinheiro aplicado.</p>
+
+  <form class="busca" id="form-link" autocomplete="off">
+    <input id="link" type="url" inputmode="url" placeholder="https://www.novasaopaulo.com.br/imovel/…" aria-label="Link do anúncio">
+    <button class="botao" id="btn-analisar" type="submit">Analisar imóvel</button>
+  </form>
+  <p style="margin:10px 0 0;font-size:.92rem">Sem link? <button class="link-btn" id="btn-manual" type="button">Preencha os dados à mão</button></p>
+  <div class="aviso" id="aviso" role="status"></div>
+  <p class="selo-dados" id="selo-dados">Carregando bases de dados…</p>
+
+  <section class="bloco oculto" id="form-imovel" aria-labelledby="t-dados">
+    <h2 id="t-dados">Confira os dados do imóvel</h2>
+    <p class="sub">Tudo que veio do anúncio pode ser corrigido. A análise muda na hora.</p>
+    <div class="grade">
+      <label class="campo">Preço pedido (R$)<input id="f-preco" inputmode="numeric" data-moeda></label>
+      <label class="campo">Área útil (m²)<input id="f-area" inputmode="decimal"></label>
+      <label class="campo">Quartos<input id="f-quartos" inputmode="numeric"></label>
+      <label class="campo">Vagas<input id="f-vagas" inputmode="numeric"></label>
+      <label class="campo">Condomínio por mês (R$)<input id="f-condo" inputmode="numeric" data-moeda></label>
+      <label class="campo">IPTU por mês (R$)<input id="f-iptu" inputmode="numeric" data-moeda></label>
+      <label class="campo">Tipo
+        <select id="f-tipo"><option>Apartamento</option><option>Studio</option><option>Cobertura</option><option>Casa</option><option>Sobrado</option><option>Flat</option><option>Outro</option></select></label>
+      <label class="campo">Bairro do anúncio<input id="f-bairro"></label>
+      <label class="campo">Distrito (para dados de temporada)<select id="f-distrito"><option value="">Escolha</option></select></label>
+      <label class="campo">Metrô mais perto (metros)<input id="f-metro" inputmode="numeric" placeholder="ex.: 500"></label>
+      <label class="campo">Objetivo do comprador
+        <select id="f-objetivo"><option value="investir">Investir (alugar)</option><option value="morar">Morar</option></select></label>
+      <label class="campo">Já vem mobiliado?
+        <select id="f-mobiliado"><option value="nao">Não</option><option value="sim">Sim</option></select></label>
+    </div>
+    <div class="acoes"><button class="botao" type="button" id="btn-calcular">Ver análise</button></div>
+  </section>
+
+  <div id="resultado" aria-live="polite">
+    <div class="veredito" id="veredito">
+      <p class="ident" id="v-ident"></p>
+      <h2 id="v-titulo"></h2>
+      <p id="v-frase" style="margin:0"></p>
+      <div class="medidor"><i id="v-ponteiro" style="left:50%"></i></div>
+      <div class="medidor-leg"><span>Há opções melhores</span><span>Faz sentido</span></div>
+      <div class="duas">
+        <div><h3>Por que pode fazer sentido</h3><ul id="v-pros"></ul></div>
+        <div><h3>Por que talvez não seja a melhor opção</h3><ul id="v-contras"></ul></div>
+      </div>
+    </div>
+
+    <section class="bloco" aria-labelledby="t-preco">
+      <h2 id="t-preco">O preço pedido está coerente?</h2>
+      <p class="sub" id="preco-sub"></p>
+      <div class="numeros" id="preco-num"></div>
+      <div class="barras" id="preco-barras"></div>
+      <p class="sub" id="preco-nota" style="margin-top:10px"></p>
+    </section>
+
+    <section class="bloco" aria-labelledby="t-renda">
+      <h2 id="t-renda">Quanto pode render por mês</h2>
+      <p class="sub">Três formas de alugar, já descontando custos, taxas e imposto estimado.</p>
+      <div class="estrategias" id="estrategias"></div>
+    </section>
+
+    <section class="bloco" aria-labelledby="t-futuro">
+      <h2 id="t-futuro">Patrimônio em 5, 10 e 15 anos</h2>
+      <p class="sub" id="futuro-sub"></p>
+      <div id="futuro-barras"></div>
+      <div class="tabela" style="margin-top:14px"><table id="futuro-tabela"></table></div>
+      <p class="sub" id="futuro-nota" style="margin-top:10px"></p>
+    </section>
+
+    <section class="bloco" aria-labelledby="t-custos">
+      <h2 id="t-custos">Quanto custa comprar e manter</h2>
+      <div class="tabela"><table id="custos-tabela"></table></div>
+    </section>
+
+    <section class="bloco" aria-labelledby="t-riscos">
+      <h2 id="t-riscos">Riscos e facilidade de revenda</h2>
+      <div class="numeros" id="liq-num"></div>
+      <ul class="riscos" id="riscos"></ul>
+    </section>
+
+    <section class="bloco corretor-only" aria-labelledby="t-corretor">
+      <h2 id="t-corretor">Para o corretor</h2>
+      <p class="sub">Argumentos baseados nos números acima e como conduzir até a proposta.</p>
+      <h3 style="font-size:1rem;margin:14px 0 6px">Argumentos de venda</h3><ul id="c-args"></ul>
+      <h3 style="font-size:1rem;margin:14px 0 6px">Objeções prováveis e como responder</h3><ul id="c-obj"></ul>
+      <h3 style="font-size:1rem;margin:14px 0 6px">Faixa de proposta sugerida</h3><div class="numeros" id="c-proposta"></div>
+      <p class="sub" style="margin-top:8px">Sugestão de negociação com base nos números do anúncio, não é avaliação técnica. Para um valor formal, use um Parecer Técnico de Avaliação Mercadológica (PTAM) feito por corretor avaliador.</p>
+    </section>
+
+    <section class="bloco">
+      <details class="premissas" id="premissas">
+        <summary>Ajustar premissas do cálculo</summary>
+        <p class="sub" style="margin-top:10px">Valores de referência com fonte. Mude o que quiser; tudo é recalculado.</p>
+        <div class="grade" id="grade-premissas"></div>
+        <div class="acoes"><button class="botao sec" type="button" id="btn-restaurar">Voltar aos valores de referência</button></div>
+      </details>
+    </section>
+
+    <div class="acoes" style="margin:6px 0 10px">
+      <button class="botao" type="button" id="btn-whats">Enviar no WhatsApp</button>
+      <button class="botao sec" type="button" id="btn-copiar">Copiar link desta análise</button>
+      <button class="botao sec" type="button" id="btn-imprimir">Salvar em PDF</button>
+    </div>
+  </div>
+
+  <section class="bloco" id="status" aria-labelledby="t-status">
+    <h2 id="t-status">De onde vêm os dados e quando foram atualizados</h2>
+    <p class="sub">As bases são conferidas automaticamente nos dias 1 e 16 de cada mês. Só entram dados novos depois de validados.</p>
+    <div id="status-resumo"></div>
+    <h3 style="font-size:1rem;margin:16px 0 4px">Últimas execuções da atualização</h3>
+    <ul class="status-lista" id="status-lista"></ul>
+  </section>
+
+  <footer>
+    <p>Esta análise é uma estimativa educativa com dados públicos e premissas editáveis. Não é recomendação de investimento, avaliação técnica nem garantia de renda. Confirme regras do condomínio, documentação e tributação com profissionais antes de decidir.</p>
+    <p>Dados de temporada: <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">Inside Airbnb</a>, licença CC BY 4.0. Índices de aluguel e venda: Índice FipeZAP. Juros e inflação: Banco Central do Brasil. Dados do imóvel: anúncio em novasaopaulo.com.br.</p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+// ================= utilidades =================
+const $ = (id) => document.getElementById(id);
+const brl = (v, casas = 0) => v == null || !isFinite(v) ? "—" : v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: casas, minimumFractionDigits: casas });
+const pct = (v, casas = 1) => v == null || !isFinite(v) ? "—" : (v * 100).toLocaleString("pt-BR", { maximumFractionDigits: casas, minimumFractionDigits: casas }) + "%";
+const num = (v) => { if (v == null) return null; const s = String(v).replace(/[R$\s]/g, "").replace(/\./g, "").replace(",", "."); const n = Number(s); return s === "" || !isFinite(n) ? null : n; };
+const normal = (s) => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const dataBR = (iso) => { if (!iso) return "—"; const d = new Date(iso.length === 10 ? iso + "T12:00:00" : iso); return isNaN(d) ? iso : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }); };
+const dataHoraBR = (iso) => { if (!iso) return "—"; const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString("pt-BR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }); };
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function aviso(msg, tipo = "info") { const a = $("aviso"); a.className = "aviso on " + tipo; a.textContent = msg; }
+function semAviso() { $("aviso").className = "aviso"; }
+
+// ================= dados =================
+const BASES = { airbnb: null, indicadores: null, log: null, serie: null };
+const IMOVEL = { similares: [], lat: null, lng: null, ref: "", url: "", fonte: "manual" };
+
+async function carregarBases() {
+  const pega = (u) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  [BASES.airbnb, BASES.indicadores, BASES.log, BASES.serie] = await Promise.all([
+    pega("data/airbnb-sp.json"), pega("data/indicadores.json"), pega("data/atualizacoes.json"), pega("data/historico/serie-sao-paulo.json"),
+  ]);
+  BASES.indicadores ||= {};
+  preencherDistritos();
+  montarPremissas();
+  mostrarStatus();
+  const a = BASES.airbnb;
+  $("selo-dados").textContent = a?.versao
+    ? `Temporada: dados do Inside Airbnb coletados em ${dataBR(a.versao)}, carregados no sistema em ${dataBR(a.processado_em)}. Veja detalhes no fim da página.`
+    : "Temporada: a base detalhada ainda não foi carregada. Por enquanto uso a média da cidade (Inside Airbnb, jun/2026). Veja o status no fim da página.";
+}
+
+function preencherDistritos() {
+  const sel = $("f-distrito");
+  const lista = Object.keys(BASES.airbnb?.distritos || {}).sort((a, b) => a.localeCompare(b, "pt-BR"));
+  sel.innerHTML = '<option value="">' + (lista.length ? "Escolha" : "Base de distritos ainda não carregada") + "</option>" + lista.map((d) => `<option>${esc(d)}</option>`).join("");
+}
+const BAIRRO_DISTRITO = { "vila guarani": "Jabaquara", "vila olimpia": "Itaim Bibi", "jardim paulista": "Jardim Paulista", "paraiso": "Vila Mariana" };
+function acharDistrito(bairro) {
+  const lista = Object.keys(BASES.airbnb?.distritos || {});
+  const b = normal(bairro);
+  if (!b || !lista.length) return "";
+  const exato = lista.find((d) => normal(d) === b); if (exato) return exato;
+  const map = BAIRRO_DISTRITO[b]; if (map && lista.includes(map)) return map;
+  const contem = lista.find((d) => b.includes(normal(d)) || normal(d).includes(b)); return contem || "";
+}
+
+// ================= premissas =================
+function premissasPadrao() {
+  const I = BASES.indicadores || {};
+  const selic = I.selic?.valor ?? 14;
+  return [
+    { id: "aluguelM2", rot: "Aluguel tradicional (R$/m² por mês)", v: I.aluguel_m2_sp?.valor ?? 65.78, fonte: I.aluguel_m2_sp ? `${I.aluguel_m2_sp.fonte}, ${I.aluguel_m2_sp.data}` : "FipeZAP" },
+    { id: "vacancia", rot: "Meses vazio por ano (tradicional)", v: 1, fonte: "Hipótese" },
+    { id: "adm", rot: "Taxa de administração do aluguel (%)", v: 10, fonte: "Prática de mercado" },
+    { id: "ir", rot: "Imposto de renda sobre o aluguel (% efetivo)", v: 15, fonte: "Hipótese; depende da sua renda (carnê-leão chega a 27,5%)" },
+    { id: "manut", rot: "Manutenção por ano (% do valor do imóvel)", v: 0.4, fonte: "Hipótese" },
+    { id: "itbi", rot: "ITBI (%)", v: 3, fonte: "Prefeitura de São Paulo, alíquota geral" },
+    { id: "cartorio", rot: "Escritura e registro (%)", v: 1.5, fonte: "Estimativa; confirme no cartório" },
+    { id: "valoriza", rot: "Valorização do imóvel por ano (%)", v: I.venda_var12m?.valor ?? 5.5, fonte: I.venda_var12m ? `${I.venda_var12m.fonte}, 12 meses até ${I.venda_var12m.data}` : "FipeZAP" },
+    { id: "aplicacao", rot: "Rendimento da aplicação alternativa (% ao ano, bruto)", v: selic, fonte: I.selic ? `${I.selic.fonte} (${I.selic.data}). Taxa de hoje; pode cair nos próximos anos` : "Selic" },
+    { id: "irAplic", rot: "IR sobre a aplicação (%)", v: 15, fonte: "Renda fixa acima de 2 anos" },
+    { id: "custoVenda", rot: "Custo para vender no futuro (% corretagem)", v: 6, fonte: "Tabela usual do CRECI-SP" },
+    { id: "mpPremio", rot: "Médio prazo: aluguel acima do tradicional (%)", v: 35, fonte: "Hipótese, mobiliado 1 a 6 meses" },
+    { id: "mpOcup", rot: "Médio prazo: ocupação (%)", v: 85, fonte: "Hipótese" },
+    { id: "gestao", rot: "Gestão de temporada/médio prazo (%)", v: 20, fonte: "Prática de mercado" },
+    { id: "plataforma", rot: "Taxa da plataforma (%)", v: 3, fonte: "Airbnb, taxa do anfitrião no modelo dividido" },
+    { id: "limpeza", rot: "Limpeza por estadia (R$)", v: 120, fonte: "Hipótese" },
+    { id: "estadia", rot: "Noites por estadia em média", v: 3, fonte: "Padrão do Inside Airbnb" },
+    { id: "contas", rot: "Contas pagas pelo dono em temporada (R$/mês)", v: 450, fonte: "Hipótese: luz, internet, reposição" },
+    { id: "mobiliaBase", rot: "Mobiliar e equipar: valor fixo (R$)", v: 30000, fonte: "Hipótese" },
+    { id: "mobiliaM2", rot: "Mobiliar e equipar: por m² (R$)", v: 350, fonte: "Hipótese" },
+  ];
+}
+let PREMISSAS = {};
+function montarPremissas(manter) {
+  const lista = premissasPadrao();
+  $("grade-premissas").innerHTML = lista.map((p) => `<label class="campo" title="${esc(p.fonte)}">${esc(p.rot)}<input id="p-${p.id}" inputmode="decimal" value="${String(manter && PREMISSAS[p.id] != null ? PREMISSAS[p.id] : p.v).replace(".", ",")}"><span style="font-size:.75rem">${esc(p.fonte)}</span></label>`).join("");
+  lista.forEach((p) => { PREMISSAS[p.id] = manter && PREMISSAS[p.id] != null ? PREMISSAS[p.id] : p.v; });
+  $("grade-premissas").querySelectorAll("input").forEach((el) => el.addEventListener("input", () => {
+    PREMISSAS[el.id.slice(2)] = num(el.value) ?? 0; if ($("resultado").classList.contains("on")) calcular();
+  }));
+}
+
+// ================= referência de temporada =================
+function temporadaRef(distrito, quartos, lat, lng) {
+  const A = BASES.airbnb, I = BASES.indicadores || {};
+  const f = quartos == null ? "todos" : quartos <= 1 ? "0-1" : quartos === 2 ? "2" : "3+";
+  const pega = (grupos) => grupos?.[f] || grupos?.todos || null;
+  const cid = A?.cidade ? pega(A.cidade) : null;
+  const noitesCidade = cid?.noites_p50 ?? I.temporada_ref_cidade?.noites_ano ?? 76;
+  const out = (g, nivel) => ({
+    diaria: g.diaria_p50, p25: g.diaria_p25, p75: g.diaria_p75, noites: g.noites_p50 ?? noitesCidade, n: g.n, ativos: g.ativos,
+    diariaMP: g.n_medio_prazo >= 5 ? g.diaria_medio_prazo_p50 : null, nMP: g.n_medio_prazo, nivel, versao: A?.versao, fonte: "Inside Airbnb",
+  });
+  if (A?.celulas && lat && lng) {
+    let n = 0, ativos = 0, sd = 0, sn = 0, mpN = 0, mpS = 0;
+    for (const dy of [-0.01, 0, 0.01]) for (const dx of [-0.01, 0, 0.01]) {
+      const c = A.celulas[`${(lat + dy).toFixed(2)},${(lng + dx).toFixed(2)}`]; const g = c && (c[f] || c.todos);
+      if (!g || !g.diaria_p50) continue;
+      n += g.n; sd += g.diaria_p50 * g.n; if (g.noites_p50 != null) { ativos += g.ativos; sn += g.noites_p50 * g.ativos; }
+      if (g.diaria_medio_prazo_p50) { mpN += g.n_medio_prazo; mpS += g.diaria_medio_prazo_p50 * g.n_medio_prazo; }
+    }
+    if (n >= 15) return { diaria: sd / n, noites: ativos ? sn / ativos : noitesCidade, n, ativos, diariaMP: mpN >= 5 ? mpS / mpN : null, nMP: mpN, nivel: "anúncios num raio de cerca de 1 km", versao: A.versao, fonte: "Inside Airbnb" };
+  }
+  const d = A?.distritos?.[distrito];
+  if (d?.[f]?.n >= 10 && d[f].diaria_p50) return out(d[f], `distrito ${distrito}, imóveis com ${f === "0-1" ? "até 1 quarto" : f === "3+" ? "3 quartos ou mais" : "2 quartos"}`);
+  if (d?.todos?.n >= 10 && d.todos.diaria_p50) return out(d.todos, `distrito ${distrito}, todos os tamanhos`);
+  if (cid?.diaria_p50) return out(cid, "média da cidade de São Paulo (distrito sem amostra suficiente)");
+  const r = I.temporada_ref_cidade || { diaria: 413, noites_ano: 76, data: "jun/2026" };
+  return { diaria: r.diaria, noites: r.noites_ano, n: null, ativos: null, diariaMP: null, nivel: `média da cidade (${r.data}), base detalhada ainda não carregada`, versao: r.data, fonte: "Inside Airbnb" };
+}
+
+// ================= leitura do link =================
+$("form-link").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const link = $("link").value.trim();
+  if (!link) { aviso("Cole o link do anúncio no campo acima.", "erro"); return; }
+  const btn = $("btn-analisar"); btn.disabled = true; btn.textContent = "Lendo anúncio…"; semAviso();
+  try {
+    const r = await fetch("/api/ler-imovel?url=" + encodeURIComponent(link));
+    const j = await r.json().catch(() => ({ ok: false, erro: "Resposta inválida do servidor." }));
+    if (!j.ok) { aviso(j.erro + " ", "erro"); abrirFormulario({}); return; }
+    Object.assign(IMOVEL, j.dados, { fonte: "anuncio" });
+    abrirFormulario(j.dados);
+    if (j.parcial) aviso(j.aviso, "info"); else aviso(`Anúncio ${j.dados.ref || ""} lido. Confira os dados e veja a análise abaixo.`, "ok");
+    calcular(true);
+  } catch {
+    aviso("Não consegui falar com o servidor. Se estiver abrindo o arquivo direto do computador, a leitura do link só funciona no site publicado. Preencha os dados à mão.", "erro");
+    abrirFormulario({});
+  } finally { btn.disabled = false; btn.textContent = "Analisar imóvel"; }
+});
+$("btn-manual").addEventListener("click", () => { Object.assign(IMOVEL, { similares: [], lat: null, lng: null, ref: "", url: "", fonte: "manual" }); abrirFormulario({}); $("f-preco").focus(); });
+$("btn-calcular").addEventListener("click", () => calcular(true));
+
+function abrirFormulario(d) {
+  $("form-imovel").classList.remove("oculto");
+  const set = (id, v) => { if (v != null && v !== "") $(id).value = typeof v === "number" ? v.toLocaleString("pt-BR") : v; };
+  set("f-preco", d.preco); set("f-area", d.area); set("f-quartos", d.quartos); set("f-vagas", d.vagas);
+  set("f-condo", d.condominio); set("f-iptu", d.iptu); set("f-bairro", d.bairro); set("f-metro", d.metroDistancia);
+  if (d.tipo) { const t = [...$("f-tipo").options].find((o) => normal(d.tipo).startsWith(normal(o.text))); $("f-tipo").value = t ? t.text : (/casa|sobrado/i.test(d.tipo) ? "Casa" : "Outro"); }
+  if (d.mobiliado != null) $("f-mobiliado").value = d.mobiliado ? "sim" : "nao";
+  if (d.bairro) { const dist = acharDistrito(d.bairro); if (dist) $("f-distrito").value = dist; }
+}
+document.querySelectorAll("#form-imovel input, #form-imovel select").forEach((el) => el.addEventListener("change", () => { if ($("resultado").classList.contains("on")) calcular(); }));
+
+function lerFormulario() {
+  return {
+    preco: num($("f-preco").value), area: num($("f-area").value), quartos: num($("f-quartos").value), vagas: num($("f-vagas").value) ?? 0,
+    condo: num($("f-condo").value) ?? 0, iptu: num($("f-iptu").value) ?? 0, tipo: $("f-tipo").value, bairro: $("f-bairro").value.trim(),
+    distrito: $("f-distrito").value, metro: num($("f-metro").value), objetivo: $("f-objetivo").value, mobiliado: $("f-mobiliado").value === "sim",
+  };
+}
+
+// ================= cálculo =================
+function calcular(rolar) {
+  const f = lerFormulario();
+  if (!f.preco || !f.area) { aviso("Preencha pelo menos o preço e a área para ver a análise.", "erro"); return; }
+  const P = PREMISSAS, pc = (x) => (Number(x) || 0) / 100;
+  const custoCompra = f.preco * (pc(P.itbi) + pc(P.cartorio));
+  const investBase = f.preco + custoCompra;
+  const mobilia = f.mobiliado ? 0 : P.mobiliaBase + P.mobiliaM2 * f.area;
+  const manutAno = f.preco * pc(P.manut);
+  const fixoMes = f.condo + f.iptu;
+  const aplicLiq = pc(P.aplicacao) * (1 - pc(P.irAplic));
+  const ref = temporadaRef(f.distrito, f.quartos, IMOVEL.lat, IMOVEL.lng);
+
+  // 1) aluguel tradicional
+  const alugMes = Math.round(f.area * P.aluguelM2);
+  const vac = clamp(P.vacancia, 0, 12) / 12;
+  const tRec = alugMes * 12 * (1 - vac);
+  const tAdm = tRec * pc(P.adm);
+  const tFixoVazio = fixoMes * 12 * vac;
+  const tIR = Math.max(0, tRec - tAdm - tFixoVazio) * pc(P.ir);
+  const tLiq = tRec - tAdm - tFixoVazio - manutAno - tIR;
+  const trad = { id: "trad", nome: "Aluguel tradicional (contrato de 30 meses)", recMes: alugMes, rec: tRec, custos: tAdm + tFixoVazio + manutAno + tIR, liq: tLiq, invest: investBase, extra: 0,
+    linhas: [["Aluguel estimado", brl(alugMes) + "/mês"], ["Meses vazio por ano", String(P.vacancia).replace(".", ",")], ["Administração", brl(tAdm / 12) + "/mês"], ["Condomínio e IPTU nos meses vazios", brl(tFixoVazio / 12) + "/mês"], ["Manutenção", brl(manutAno / 12) + "/mês"], ["Imposto de renda estimado", brl(tIR / 12) + "/mês"]],
+    nota: `Inquilino paga condomínio e IPTU. Aluguel pela média de ${String(P.aluguelM2).replace(".", ",")} R$/m² da cidade (FipeZAP); o bairro pode estar acima ou abaixo.` };
+
+  // 2) médio prazo (mobiliado, 1 a 6 meses)
+  const mpMesRef = ref.diariaMP ? Math.round(ref.diariaMP * 30) : null;
+  const mpMes = Math.round(mpMesRef || alugMes * (1 + pc(P.mpPremio)));
+  const mRec = mpMes * 12 * pc(P.mpOcup);
+  const mGest = mRec * pc(P.gestao);
+  const mFixo = (fixoMes + P.contas) * 12;
+  const mIR = Math.max(0, mRec - mGest - fixoMes * 12) * pc(P.ir);
+  const mLiq = mRec - mGest - mFixo - manutAno - mIR;
+  const medio = { id: "medio", nome: "Médio prazo (mobiliado, 1 a 6 meses)", recMes: mpMes, rec: mRec, custos: mGest + mFixo + manutAno + mIR, liq: mLiq, invest: investBase + mobilia, extra: mobilia,
+    linhas: [["Aluguel mensal estimado", brl(mpMes) + "/mês"], ["Ocupação", P.mpOcup + "%"], ["Gestão", brl(mGest / 12) + "/mês"], ["Condomínio, IPTU e contas", brl(mFixo / 12) + "/mês"], ["Manutenção", brl(manutAno / 12) + "/mês"], ["Imposto de renda estimado", brl(mIR / 12) + "/mês"]],
+    nota: mpMesRef ? `Valor mensal pela mediana de ${ref.nMP} anúncios de estadia mínima de 28 noites (${ref.nivel}, Inside Airbnb).` : `Sem anúncios suficientes de 28+ noites na região; estimado como ${P.mpPremio}% acima do tradicional.` };
+
+  // 3) curta temporada
+  const noites = clamp(ref.noites || 0, 0, 300);
+  const cRec = ref.diaria * noites;
+  const estadias = noites / Math.max(1, P.estadia);
+  const cTaxas = cRec * (pc(P.plataforma) + pc(P.gestao));
+  const cLimp = estadias * P.limpeza;
+  const cFixo = (fixoMes + P.contas) * 12;
+  const cIR = Math.max(0, cRec - cTaxas - fixoMes * 12) * pc(P.ir);
+  const cLiq = cRec - cTaxas - cLimp - cFixo - manutAno - cIR;
+  const curta = { id: "curta", nome: "Curta temporada (Airbnb e similares)", recMes: cRec / 12, rec: cRec, custos: cTaxas + cLimp + cFixo + manutAno + cIR, liq: cLiq, invest: investBase + mobilia + (f.mobiliado ? 0 : 8000), extra: mobilia + (f.mobiliado ? 0 : 8000),
+    linhas: [["Diária típica", brl(ref.diaria)], ["Noites ocupadas por ano", Math.round(noites)], ["Receita bruta", brl(cRec / 12) + "/mês"], ["Plataforma e gestão", brl(cTaxas / 12) + "/mês"], ["Limpezas", brl(cLimp / 12) + "/mês"], ["Condomínio, IPTU e contas", brl(cFixo / 12) + "/mês"], ["Imposto de renda estimado", brl(cIR / 12) + "/mês"]],
+    nota: `Base: ${ref.n ? ref.n + " anúncios, " : ""}${ref.nivel}. Coleta do Inside Airbnb de ${ref.versao ? dataBR(ref.versao) : "—"}. Ocupação estimada pelo Inside Airbnb, que tende a ser conservadora.` };
+
+  const ests = [trad, medio, curta];
+  ests.forEach((e) => { e.yield = e.liq / e.invest; });
+  const melhor = ests.reduce((a, b) => (b.yield > a.yield ? b : a));
+
+  // preço x similares
+  const sims = (IMOVEL.similares || []).filter((s) => s.precoM2 > 1000 && s.precoM2 < 60000);
+  const m2 = f.preco / f.area;
+  const medSim = sims.length ? mediana(sims.map((s) => s.precoM2)) : null;
+  const difSim = medSim ? m2 / medSim - 1 : null;
+
+  // futuro
+  const anos = [5, 10, 15];
+  const v = pc(P.valoriza), vPess = Math.max(0, v - 0.03), vOt = v + 0.02;
+  const projeta = (e, n, val) => {
+    let acum = 0;
+    for (let t = 1; t <= n; t++) acum = acum * (1 + aplicLiq) + e.liq * Math.pow(1 + val, t - 1);
+    const valor = f.preco * Math.pow(1 + val, n);
+    const venda = valor * pc(P.custoVenda);
+    const ganho = Math.max(0, valor - venda - investBase);
+    const irGanho = ganho * 0.15;
+    return { valor, patrimonio: valor - venda - irGanho + acum, acum };
+  };
+  const aplic = (inv, n) => inv * Math.pow(1 + aplicLiq, n);
+  const proj = anos.map((n) => ({
+    n, trad: projeta(trad, n, v), melhor: projeta(melhor, n, v), pess: projeta(melhor, n, vPess), ot: projeta(melhor, n, vOt),
+    aplicTrad: aplic(trad.invest, n), aplicMelhor: aplic(melhor.invest, n), valorImovel: f.preco * Math.pow(1 + v, n),
+  }));
+  // morar: comprar x alugar e investir a diferença
+  const morar = anos.map((n) => {
+    let saldo = investBase; for (let t = 1; t <= n; t++) saldo = saldo * (1 + aplicLiq) - alugMes * 12 * Math.pow(1 + v, t - 1);
+    const valor = f.preco * Math.pow(1 + v, n);
+    return { n, comprar: valor * (1 - pc(P.custoVenda)) - manutAno * n, alugar: saldo };
+  });
+  const breakeven = taxaEmpate(trad, f, investBase, 10, v, P);
+
+  // liquidez
+  let liq = 40;
+  if (/apart|studio|cobertura|flat/i.test(f.tipo)) liq += 10;
+  if (f.metro != null) liq += f.metro <= 500 ? 15 : f.metro <= 1000 ? 8 : -4;
+  if (f.vagas >= 1) liq += 8; else if (/apart|cobertura/i.test(f.tipo)) liq -= 6;
+  if (f.preco <= 800000) liq += 10; else if (f.preco > 2500000) liq -= 12;
+  if (f.area >= 35 && f.area <= 120) liq += 5;
+  const condoM2 = f.condo / f.area;
+  if (condoM2 > 20) liq -= 6;
+  liq = clamp(Math.round(liq), 5, 95);
+
+  // pontuação final
+  const ref10 = f.objetivo === "morar" ? morar[1].comprar / morar[1].alugar - 1 : proj[1].melhor.patrimonio / proj[1].aplicMelhor - 1;
+  let nota = 50 + clamp(ref10 * 200, -35, 35) + (difSim != null ? clamp(-difSim * 60, -10, 10) : 0) + (liq - 50) * 0.15;
+  nota = clamp(Math.round(nota), 0, 100);
+
+  const R = { f, P, ref, ests, trad, medio, curta, melhor, m2, sims, medSim, difSim, proj, morar, breakeven, liq, condoM2, nota, alugMes, custoCompra, investBase, mobilia, aplicLiq, manutAno, fixoMes };
+  desenhar(R);
+  salvarNoLink(f);
+  $("resultado").classList.add("on");
+  if (rolar) $("veredito").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+function mediana(a) { const s = [...a].sort((x, y) => x - y), m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+function taxaEmpate(trad, f, inv, n, v, P) {
+  const pat = (r) => { let a = 0; for (let t = 1; t <= n; t++) a = a * (1 + r) + trad.liq * Math.pow(1 + v, t - 1); const val = f.preco * Math.pow(1 + v, n); return val * (1 - P.custoVenda / 100) - Math.max(0, val * (1 - P.custoVenda / 100) - inv) * 0.15 + a; };
+  let lo = -0.05, hi = 0.4;
+  for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (inv * Math.pow(1 + mid, n) > pat(mid)) hi = mid; else lo = mid; }
+  return (lo + hi) / 2 / (1 - P.irAplic / 100);
+}
+
+// ================= desenho =================
+function desenhar(R) {
+  const { f, ref, ests, melhor, proj, morar } = R;
+  const investir = f.objetivo !== "morar";
+  const ident = [f.tipo, f.area && f.area.toLocaleString("pt-BR") + " m²", f.quartos != null && f.quartos + (f.quartos === 1 ? " quarto" : " quartos"), f.bairro, IMOVEL.ref && "Ref. " + IMOVEL.ref].filter(Boolean).join(", ");
+  $("v-ident").textContent = ident + " · " + brl(f.preco);
+  const cls = R.nota >= 68 ? "bom" : R.nota >= 45 ? "medio" : "fraco";
+  $("veredito").className = "veredito " + cls;
+  const p10 = proj[1], m10 = morar[1];
+  if (investir) {
+    $("v-titulo").textContent = cls === "bom" ? "Faz sentido como investimento" : cls === "medio" ? "Pode fazer sentido, com condições" : "Como investimento, há opções melhores";
+    const dif = p10.melhor.patrimonio - p10.aplicMelhor;
+    $("v-frase").textContent = `Em 10 anos, comprando e alugando como ${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}, o patrimônio estimado é ${brl(p10.melhor.patrimonio)}, ${dif >= 0 ? brl(dif) + " a mais" : brl(-dif) + " a menos"} do que deixar o mesmo dinheiro aplicado.`;
+  } else {
+    $("v-titulo").textContent = cls === "bom" ? "Comprar para morar compensa" : cls === "medio" ? "Comprar ou alugar dá quase no mesmo" : "Alugar e investir a diferença rende mais";
+    const dif = m10.comprar - m10.alugar;
+    $("v-frase").textContent = `Em 10 anos, comprar deixa um patrimônio estimado de ${brl(m10.comprar)}; alugar um imóvel igual e aplicar o dinheiro deixaria ${brl(m10.alugar)}. Diferença de ${brl(Math.abs(dif))} ${dif >= 0 ? "a favor da compra" : "a favor do aluguel"}.`;
+  }
+  $("v-ponteiro").style.left = R.nota + "%";
+
+  const pros = [], contras = [];
+  if (R.difSim != null) (R.difSim <= -0.03 ? pros : R.difSim >= 0.08 ? contras : pros).push(R.difSim <= -0.03 ? `Preço por m² ${pct(-R.difSim, 0)} abaixo dos imóveis parecidos anunciados.` : R.difSim >= 0.08 ? `Preço por m² ${pct(R.difSim, 0)} acima dos imóveis parecidos anunciados.` : "Preço por m² em linha com imóveis parecidos anunciados.");
+  if (melhor.yield >= R.aplicLiq * 0.75) pros.push(`Renda líquida de ${pct(melhor.yield)} ao ano em ${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}, perto do que rende a aplicação.`);
+  else contras.push(`Renda líquida de ${pct(melhor.yield)} ao ano, abaixo dos ${pct(R.aplicLiq)} líquidos da aplicação alternativa.`);
+  if (R.f.metro != null && R.f.metro <= 600) pros.push(`A ${R.f.metro} m do metrô: ajuda a alugar e a revender.`);
+  if (R.liq >= 65) pros.push("Perfil fácil de revender (tipo, tamanho, preço e localização)."); else if (R.liq < 45) contras.push("Revenda pode demorar mais que a média.");
+  pros.push(`Valorização de ${String(R.P.valoriza).replace(".", ",")}% ao ano no cenário base e proteção contra inflação, já que aluguel e preço tendem a acompanhar os índices.`);
+  if (R.condoM2 > 18) contras.push(`Condomínio alto para o tamanho (${brl(R.condoM2, 2)} por m²), pesa na renda e na revenda.`);
+  if (R.breakeven != null && isFinite(R.breakeven)) contras.push(`O aluguel tradicional só empata com uma aplicação que renda até ${pct(R.breakeven)} ao ano bruto; hoje a referência é ${String(R.P.aplicacao).replace(".", ",")}%.`);
+  if (melhor.id === "curta") contras.push("A melhor renda depende de curta temporada: confirme se o condomínio permite.");
+  $("v-pros").innerHTML = pros.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("") || "<li>Nenhum ponto forte claro com as premissas atuais.</li>";
+  $("v-contras").innerHTML = contras.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("") || "<li>Nenhum ponto fraco relevante com as premissas atuais.</li>";
+
+  // preço
+  $("preco-sub").textContent = R.sims.length ? `Comparação com ${R.sims.length} imóveis parecidos que o próprio site da Nova São Paulo mostra no anúncio. São preços pedidos, não preços de venda fechados.` : "Sem imóveis parecidos para comparar (dados preenchidos à mão ou anúncio sem sugestões). Os números abaixo usam só o próprio imóvel.";
+  $("preco-num").innerHTML = [
+    [brl(R.m2), "preço pedido por m²"],
+    [R.medSim ? brl(R.medSim) : "—", "mediana dos parecidos por m²"],
+    [R.difSim != null ? (R.difSim > 0 ? "+" : "") + pct(R.difSim, 0) : "—", "diferença"],
+  ].map(([b, s]) => `<div class="num"><b>${b}</b><span>${s}</span></div>`).join("");
+  const maxM2 = Math.max(R.m2, ...R.sims.map((s) => s.precoM2));
+  $("preco-barras").innerHTML = [{ rot: "Este imóvel", v: R.m2, cls: "" }, ...R.sims.map((s) => ({ rot: `Ref. ${s.ref}, ${s.bairro.replace(/\(Zona Sul\)/, "")}, ${s.area} m²`, v: s.precoM2, cls: "cinza" }))]
+    .map((b) => `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${brl(b.v)}/m²</b></div><div class="trilho"><i class="${b.cls}" style="width:${(b.v / maxM2) * 100}%"></i></div></div>`).join("");
+  $("preco-nota").textContent = "Na prática, o preço fechado costuma ficar abaixo do pedido. Para saber quanto se pagou de verdade no prédio ou na rua, consulte as transações registradas na Prefeitura (ITBI) ou o guia Foca na Zona Sul.";
+
+  // estratégias
+  $("estrategias").innerHTML = ests.map((e) => {
+    const tag = e === melhor ? '<span class="etiqueta">Melhor retorno</span>' : e.yield < 0 ? '<span class="etiqueta ver">Dá prejuízo</span>' : e.yield < R.aplicLiq * 0.6 ? '<span class="etiqueta amb">Retorno baixo</span>' : "";
+    return `<div class="estr ${e === melhor ? "melhor" : ""}"><h3><span>${esc(e.nome)}</span>${tag}</h3>
+      <dl><dt>Sobra no bolso por mês</dt><dd class="forte">${brl(e.liq / 12)}</dd>
+      <dt>Rentabilidade líquida ao ano</dt><dd>${pct(e.yield)}</dd>
+      ${e.linhas.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}
+      ${e.extra ? `<dt>Investimento extra em mobília</dt><dd>${brl(e.extra)}</dd>` : ""}</dl>
+      <p class="nota">${esc(e.nota)}</p></div>`;
+  }).join("") + `<div class="barras" aria-label="Comparação de rentabilidade">${[...ests.map((e) => ({ rot: e.nome.split(" (")[0], v: e.yield, cls: e === melhor ? "verde" : "" })), { rot: "Aplicação alternativa (líquida)", v: R.aplicLiq, cls: "cinza" }]
+    .map((b, _, arr) => { const mx = Math.max(...arr.map((x) => x.v), 0.01); return `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${pct(b.v)} ao ano</b></div><div class="trilho"><i class="${b.cls}" style="width:${Math.max(0, b.v / mx) * 100}%"></i></div></div>`; }).join("")}</div>`;
+
+  // futuro
+  if (investir) {
+    $("futuro-sub").textContent = `Comparação entre comprar e alugar (${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}) e aplicar o mesmo valor a ${String(R.P.aplicacao).replace(".", ",")}% ao ano bruto. Inclui venda do imóvel no fim, corretagem e imposto sobre o ganho.`;
+    const mx = Math.max(...proj.map((p) => Math.max(p.ot.patrimonio, p.aplicMelhor)));
+    $("futuro-barras").innerHTML = proj.map((p) => `<p style="margin:12px 0 4px;font-weight:700">Em ${p.n} anos</p><div class="barras" style="margin:0">
+      <div class="barra"><div class="rot"><span>Comprar e alugar</span><b>${brl(p.melhor.patrimonio)}</b></div><div class="trilho"><i class="verde" style="width:${(p.melhor.patrimonio / mx) * 100}%"></i></div></div>
+      <div class="barra"><div class="rot"><span>Deixar aplicado</span><b>${brl(p.aplicMelhor)}</b></div><div class="trilho"><i class="cinza" style="width:${(p.aplicMelhor / mx) * 100}%"></i></div></div></div>`).join("");
+    $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${proj.map((p) => `<th>${p.n} anos</th>`).join("")}</tr></thead><tbody>
+      <tr><td>Valor do imóvel (base)</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, valorização baixa (${pct(Math.max(0, R.P.valoriza / 100 - 0.03))})</td>${proj.map((p) => `<td>${brl(p.pess.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, cenário base</td>${proj.map((p) => `<td>${brl(p.melhor.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, valorização alta (${pct(R.P.valoriza / 100 + 0.02)})</td>${proj.map((p) => `<td>${brl(p.ot.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Só aluguel tradicional</td>${proj.map((p) => `<td>${brl(p.trad.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Dinheiro aplicado</td>${proj.map((p) => `<td>${brl(p.aplicMelhor)}</td>`).join("")}</tr></tbody>`;
+  } else {
+    $("futuro-sub").textContent = `Comprar para morar contra alugar um imóvel igual (≈ ${brl(R.alugMes)}/mês) e aplicar o dinheiro da compra a ${String(R.P.aplicacao).replace(".", ",")}% ao ano bruto.`;
+    const mx = Math.max(...morar.map((m) => Math.max(m.comprar, m.alugar, 1)));
+    $("futuro-barras").innerHTML = morar.map((m) => `<p style="margin:12px 0 4px;font-weight:700">Em ${m.n} anos</p><div class="barras" style="margin:0">
+      <div class="barra"><div class="rot"><span>Comprar e morar</span><b>${brl(m.comprar)}</b></div><div class="trilho"><i class="verde" style="width:${Math.max(0, m.comprar / mx) * 100}%"></i></div></div>
+      <div class="barra"><div class="rot"><span>Alugar e aplicar</span><b>${brl(m.alugar)}</b></div><div class="trilho"><i class="cinza" style="width:${Math.max(0, m.alugar / mx) * 100}%"></i></div></div></div>`).join("");
+    $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${morar.map((m) => `<th>${m.n} anos</th>`).join("")}</tr></thead><tbody>
+      <tr><td>Valor do imóvel</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
+      <tr><td>Comprar (líquido de venda)</td>${morar.map((m) => `<td>${brl(m.comprar)}</td>`).join("")}</tr>
+      <tr><td>Alugar e aplicar</td>${morar.map((m) => `<td>${brl(m.alugar)}</td>`).join("")}</tr></tbody>`;
+  }
+  $("futuro-nota").textContent = "Projeção com premissas fixas; o futuro real varia. Juros, valorização e aluguel podem ser bem diferentes. Ajuste em “Ajustar premissas”. Imposto sobre ganho de capital a 15% sem considerar isenções e fatores de redução a que você pode ter direito.";
+
+  // custos
+  $("custos-tabela").innerHTML = `<tbody>
+    <tr><td>Preço pedido</td><td>${brl(f.preco)}</td></tr>
+    <tr><td>ITBI (${String(R.P.itbi).replace(".", ",")}%)</td><td>${brl(f.preco * R.P.itbi / 100)}</td></tr>
+    <tr><td>Escritura e registro (estimativa)</td><td>${brl(f.preco * R.P.cartorio / 100)}</td></tr>
+    <tr><td><b>Total para comprar</b></td><td><b>${brl(R.investBase)}</b></td></tr>
+    <tr><td>Mobiliar e equipar (se for temporada ou médio prazo)</td><td>${f.mobiliado ? "já mobiliado" : brl(R.mobilia)}</td></tr>
+    <tr><td>Condomínio + IPTU por mês</td><td>${brl(R.fixoMes)}</td></tr>
+    <tr><td>Manutenção estimada por mês</td><td>${brl(R.manutAno / 12)}</td></tr></tbody>`;
+
+  // riscos
+  $("liq-num").innerHTML = `<div class="num"><b>${R.liq} de 100</b><span>facilidade de revenda (indicativo)</span></div><div class="num"><b>${pct(R.trad.recMes * 12 / f.preco)}</b><span>aluguel bruto ao ano sobre o preço</span></div><div class="num"><b>${R.ref.n ? R.ref.n : "—"}</b><span>anúncios de temporada usados na comparação</span></div>`;
+  const riscos = [];
+  riscos.push(["medio", "Curta temporada: condomínios podem proibir aluguel por aplicativo (decisões do STJ permitem). Peça a convenção e o regimento antes da proposta."]);
+  if (R.condoM2 > 18) riscos.push(["alto", `Condomínio de ${brl(R.condoM2, 2)}/m² é alto: reduz a renda e afasta compradores na revenda.`]);
+  if (R.ref.n != null && R.ref.n < 30) riscos.push(["medio", `Poucos anúncios de temporada na comparação (${R.ref.n}); a estimativa é menos confiável.`]);
+  if (!R.ref.n) riscos.push(["medio", "Dados de temporada da região ainda não carregados; usei a média da cidade."]);
+  if (R.difSim != null && R.difSim > 0.08) riscos.push(["alto", "Preço acima dos parecidos: risco de pagar caro e demorar a recuperar na revenda."]);
+  if (R.melhor.yield < R.aplicLiq * 0.6) riscos.push(["alto", "Renda baixa em relação aos juros atuais; o retorno depende muito da valorização."]);
+  if (R.f.metro == null) riscos.push(["baixo", "Distância do metrô não informada; ela influencia muito aluguel e liquidez."]);
+  riscos.push(["baixo", "Vacância e inadimplência podem ser maiores que o previsto. Seguro-fiança ou garantia ajudam no aluguel tradicional."]);
+  riscos.push(["baixo", "Confira matrícula atualizada, certidões do vendedor e débitos de condomínio e IPTU antes de assinar."]);
+  $("riscos").innerHTML = riscos.map(([n, t]) => `<li><span class="nivel ${n}" aria-hidden="true"></span><span class="oculto">${n === "alto" ? "Risco alto: " : n === "medio" ? "Risco médio: " : "Risco baixo: "}</span>${esc(t)}</li>`).join("");
+
+  // corretor
+  const args = [];
+  if (R.difSim != null && R.difSim < 0) args.push(`Preço por m² ${pct(-R.difSim, 0)} abaixo dos parecidos da própria carteira.`);
+  if (R.f.metro != null && R.f.metro <= 800) args.push(`${R.f.metro} m do metrô: demanda constante para aluguel.`);
+  args.push(`Pode render ${brl(R.melhor.liq / 12)} por mês líquidos em ${R.melhor.nome.split(" (")[0].toLowerCase()}.`);
+  args.push(`Em 10 anos, cenário base: imóvel vale ${brl(proj[1].valorImovel)}.`);
+  if (R.liq >= 60) args.push("Perfil de alta liquidez: fácil de revender se o cliente precisar.");
+  $("c-args").innerHTML = args.map((x) => `<li>${esc(x)}</li>`).join("");
+  const obj = [
+    ["“A poupança ou o CDI rende mais.”", `Hoje a aplicação líquida rende ${pct(R.aplicLiq)} ao ano. O imóvel soma renda (${pct(R.melhor.yield)}) e valorização; no cenário base, em 10 anos o patrimônio fica ${proj[1].melhor.patrimonio >= proj[1].aplicMelhor ? "acima" : "abaixo"} da aplicação. Mostre a tabela e ajuste a taxa com o cliente.`],
+    ["“O condomínio é caro.”", `São ${brl(R.fixoMes)} por mês com IPTU; no aluguel tradicional quem paga é o inquilino. ${R.condoM2 > 18 ? "É acima da média por m², vale negociar preço por isso." : "Por m², está dentro do comum."}`],
+    ["“Será que alugo rápido?”", `Use a distância do metrô e o aluguel estimado de ${brl(R.alugMes)}; a premissa já considera ${R.P.vacancia} mês vazio por ano.`],
+  ];
+  $("c-obj").innerHTML = obj.map(([q, a]) => `<li><b>${esc(q)}</b> ${esc(a)}</li>`).join("");
+  const alvo = R.medSim ? Math.min(f.preco, R.medSim * f.area) : f.preco;
+  const abertura = Math.round(Math.min(f.preco * 0.94, alvo * 0.98) / 1000) * 1000;
+  const teto = Math.round(Math.min(f.preco, Math.max(alvo, f.preco * 0.97)) / 1000) * 1000;
+  $("c-proposta").innerHTML = `<div class="num"><b>${brl(abertura)}</b><span>proposta de abertura</span></div><div class="num"><b>${brl(teto)}</b><span>teto sugerido</span></div><div class="num"><b>${brl(f.preco)}</b><span>preço pedido</span></div>`;
+
+  window.__ULTIMA = R;
+}
+
+// ================= status das bases =================
+function mostrarStatus() {
+  const L = BASES.log, A = BASES.airbnb, I = BASES.indicadores || {};
+  const linhas = [];
+  linhas.push(`<p style="margin:0 0 6px"><b>Temporada (Inside Airbnb):</b> ${A?.versao ? `coleta de ${dataBR(A.versao)}, carregada em ${dataHoraBR(A.processado_em)}, ${A.anuncios_no_arquivo.toLocaleString("pt-BR")} anúncios de São Paulo.` : "base detalhada ainda não carregada. Usando média da cidade de jun/2026."}</p>`);
+  linhas.push(`<p style="margin:0 0 6px"><b>Juros:</b> Selic ${String(I.selic?.valor ?? "—").replace(".", ",")}% (${esc(I.selic?.data || "—")}). <b>IPCA 12 meses:</b> ${I.ipca12m ? String(I.ipca12m.valor).replace(".", ",") + "% (" + esc(I.ipca12m.data) + ")" : "aguardando primeira atualização"}.</p>`);
+  linhas.push(`<p style="margin:0 0 6px"><b>Aluguel e venda:</b> ${esc(I.aluguel_m2_sp?.fonte || "FipeZAP")}, ${esc(I.aluguel_m2_sp?.data || "")}.</p>`);
+  linhas.push(`<p style="margin:0" class="sub">Última verificação automática: ${dataHoraBR(L?.ultima_execucao)}. Próxima prevista: ${dataHoraBR(L?.proxima_execucao_prevista)}.</p>`);
+  const s = BASES.serie?.pontos || [];
+  if (s.length >= 2) linhas.push(`<p class="sub" style="margin-top:6px">Evolução da diária mediana na cidade: ${s.map((p) => `${dataBR(p.versao)} ${brl(p.diaria_p50)}`).join("; ")}.</p>`);
+  $("status-resumo").innerHTML = linhas.join("");
+  const ex = (L?.execucoes || []).slice(0, 6);
+  const rot = { atualizado: ["Atualizado", ""], sem_novidade: ["Sem novidade", "az"], erro: ["Erro", "ver"], monitorado: ["Monitorado", "amb"], pulado: ["Pulado", "amb"] };
+  $("status-lista").innerHTML = ex.length ? ex.map((e) => `<li><b>${dataHoraBR(e.inicio)}</b> (${e.gatilho === "agendado" ? "automática" : "manual"}): ${esc(e.resumo)}
+      ${e.fontes.map((fo) => `<div class="fonte-linha"><span class="etiqueta ${rot[fo.status]?.[1] ?? ""}">${rot[fo.status]?.[0] ?? fo.status}</span><span>${esc(fo.fonte)}: ${esc(fo.mensagem)}</span></div>`).join("")}</li>`).join("")
+    : "<li>Nenhuma execução registrada ainda. A primeira acontece no próximo dia 1 ou 16, ou quando alguém rodar manualmente.</li>";
+}
+
+// ================= compartilhar =================
+function salvarNoLink(f) {
+  const dados = { ...f, ref: IMOVEL.ref, url: IMOVEL.url, sim: IMOVEL.similares, lat: IMOVEL.lat, lng: IMOVEL.lng };
+  try { history.replaceState(null, "", "#a=" + btoa(unescape(encodeURIComponent(JSON.stringify(dados))))); } catch {}
+}
+function lerDoLink() {
+  const m = location.hash.match(/^#a=(.+)$/); if (!m) return false;
+  try {
+    const d = JSON.parse(decodeURIComponent(escape(atob(m[1]))));
+    Object.assign(IMOVEL, { ref: d.ref || "", url: d.url || "", similares: d.sim || [], lat: d.lat ?? null, lng: d.lng ?? null, fonte: "link" });
+    abrirFormulario({ preco: d.preco, area: d.area, quartos: d.quartos, vagas: d.vagas, condominio: d.condo, iptu: d.iptu, bairro: d.bairro, metroDistancia: d.metro, tipo: d.tipo, mobiliado: d.mobiliado });
+    if (d.distrito) $("f-distrito").value = d.distrito;
+    if (d.objetivo) $("f-objetivo").value = d.objetivo;
+    if (IMOVEL.url) $("link").value = IMOVEL.url;
+    calcular(false); return true;
+  } catch { return false; }
+}
+$("btn-copiar").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(location.href); aviso("Link copiado. Quem abrir verá esta mesma análise.", "ok"); }
+  catch { prompt("Copie o link:", location.href); }
+});
+$("btn-whats").addEventListener("click", () => {
+  const R = window.__ULTIMA; if (!R) return;
+  const txt = `${$("v-titulo").textContent}\n${$("v-ident").textContent}\nMelhor estratégia: ${R.melhor.nome.split(" (")[0]}, ${brl(R.melhor.liq / 12)}/mês líquidos (${pct(R.melhor.yield)} ao ano)\nVeja a análise completa: ${location.href}`;
+  window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank", "noopener");
+});
+$("btn-imprimir").addEventListener("click", () => window.print());
+$("btn-restaurar").addEventListener("click", () => { PREMISSAS = {}; montarPremissas(false); calcular(); });
+
+// ================= modo comprador / corretor =================
+function modo(corretor) {
+  document.body.classList.toggle("corretor", corretor);
+  $("modo-corretor").setAttribute("aria-pressed", corretor); $("modo-cliente").setAttribute("aria-pressed", !corretor);
+  try { localStorage.setItem("radar-modo", corretor ? "corretor" : "cliente"); } catch {}
+}
+$("modo-corretor").addEventListener("click", () => modo(true));
+$("modo-cliente").addEventListener("click", () => modo(false));
+try { if (localStorage.getItem("radar-modo") === "corretor") modo(true); } catch {}
+
+// ================= início =================
+carregarBases().then(() => {
+  if (!lerDoLink()) {
+    const q = new URLSearchParams(location.search).get("url");
+    if (q) { $("link").value = q; $("form-link").requestSubmit(); }
+  }
+});
+</script>
+</body>
+</html>

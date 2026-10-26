@@ -1,0 +1,11 @@
+Radar do Imóvel - Nova São Paulo
+
+Pastas e arquivos:
+- index.html ........................ o site (tudo em um arquivo)
+- netlify/functions/ler-imovel.mjs .. lê o anúncio do novasaopaulo.com.br
+- scripts/atualizar.mjs ............. rotina que atualiza as bases
+- .github/workflows/atualizar-dados.yml  agendamento: dias 1 e 16, 06:00 de Brasília
+- data/ ............................. bases e relatório das atualizações
+- netlify.toml ...................... configuração do Netlify
+
+Fontes: Inside Airbnb (CC BY 4.0), Índice FipeZAP, Banco Central do Brasil.
