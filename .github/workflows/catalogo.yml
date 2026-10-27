@@ -16,7 +16,7 @@ concurrency:
 jobs:
   catalogo:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 90
     steps:
       - name: Baixar o projeto
         uses: actions/checkout@v4
