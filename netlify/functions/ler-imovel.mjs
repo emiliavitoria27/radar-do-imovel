@@ -82,6 +82,18 @@ export function extrair(html, url) {
   const lazer = ["Piscina", "Academia", "Portaria 24h", "Churrasqueira", "Playground", "Salão de Festas"].filter((x) => principal.includes(x));
   const endereco = achar(/São Paulo - SP\s*\|\s*(.+?)\s+(?:Condom[ií]nio:|Venda\b|Loca[çc][ãa]o\b)/i) || "";
 
+  // pontos de interesse que o próprio anúncio mostra (fonte: GeoSampa/OpenStreetMap)
+  const pois = [];
+  const iniPoi = principal.search(/PONTOS DE INTERESSE/i);
+  if (iniPoi >= 0) {
+    const trecho = principal.slice(iniPoi, iniPoi + 1500);
+    const reP = /(Metr[ôo]|Ônibus|Onibus|Ciclovia|Parque|Clube|Hospital|Escola|Feira|Supermercado|Farm[áa]cia|Shopping|Trem)\s+(.+?)\s+([\d.]+)\s*metros/g;
+    let p;
+    while ((p = reP.exec(trecho)) && pois.length < 12) pois.push({ tipo: p[1], nome: titleCase(p[2].replace(/\s*,\s*/g, ", ").trim()).slice(0, 60), metros: num(p[3]) });
+  }
+  const foto = meta("og:image") || null;
+  const condominioNome = achar(/Condom[ií]nio:\s*(.+?)\s+(?:Venda|Loca[çc][ãa]o)\s+R\$/i);
+
   // coordenadas, se a página tiver (mapa)
   let lat = null, lng = null;
   const mc = html.match(/(-2[34]\.\d{3,})[^0-9-]{1,40}(-4[67]\.\d{3,})/);
@@ -101,7 +113,7 @@ export function extrair(html, url) {
     bairro: bairroBruto.replace(/\s*\(Zona Sul\)\s*/i, "").trim(), bairroOriginal: bairroBruto,
     preco, aluguelAnunciado, area, areaTipo, quartos, suites, banheiros, vagas, condominio, iptu,
     metroEstacao: metro ? titleCase(metro[1].trim()) : null, metroDistancia: metro ? num(metro[2]) : null,
-    mobiliado, lazer, endereco: endereco.trim(), lat, lng, similares, lidoEm: new Date().toISOString(),
+    mobiliado, lazer, endereco: endereco.trim(), lat, lng, similares, foto: foto && !/no-image|logo/i.test(foto) ? foto : null, pois, condominioNome: condominioNome ? condominioNome.slice(0, 60) : null, lidoEm: new Date().toISOString(),
   };
 }
 
