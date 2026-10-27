@@ -4,283 +4,588 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Radar do Imóvel · Nova São Paulo</title>
-<meta name="description" content="Cole o link de um imóvel da Nova São Paulo e veja se a compra faz sentido: preço, aluguel, temporada, valorização, custos e riscos.">
-<meta name="theme-color" content="#0455A1">
+<meta name="description" content="Inteligência imobiliária da Nova São Paulo: análise de moradia e investimento, busca de oportunidades no portfólio e alertas.">
+<meta name="theme-color" content="#0E2A47">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230455A1'/%3E%3Cpath d='M7 22l9-10 9 10' stroke='white' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230E2A47'/%3E%3Cpath d='M7 22l9-10 9 10' stroke='%235B9BFF' stroke-width='3.2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
 :root{
-  --fundo:#ECEEEF; --superficie:#FFFFFF; --tinta:#1A2230; --suave:#566173; --linha:#D3D8DE;
-  --azul:#0455A1; --azul-claro:#DCE8F5; --verde:#1C7A4A; --verde-claro:#DDF0E5;
-  --ambar:#9A5B00; --ambar-claro:#F7EAD2; --vermelho:#B3261E; --vermelho-claro:#F7DEDC;
-  --mosaico:#1A2230; --raio:14px;
+  --fundo:#F4F6F9; --superficie:#FFFFFF; --superficie-2:#F7F9FC; --tinta:#0F1B2D; --suave:#5B6B80; --linha:#E1E6ED;
+  --marinho:#0E2A47; --marinho-tinta:#DCE6F2; --marinho-ativo:#1B3E66;
+  --azul:#1F6FEB; --azul-claro:#E6F0FE; --verde:#138A52; --verde-claro:#E3F4EB;
+  --ambar:#B26A00; --ambar-claro:#FCF1DF; --vermelho:#C62828; --vermelho-claro:#FBE7E6; --roxo:#6B4FD8; --roxo-claro:#EEEAFC;
+  --raio:12px; --raio-p:8px; --sombra:0 1px 2px rgba(15,27,45,.06);
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --fundo:#13171D; --superficie:#1C222B; --tinta:#E7EAEE; --suave:#A3ADBA; --linha:#2F3742;
-    --azul:#76AEFF; --azul-claro:#1D3350; --verde:#5CCB8E; --verde-claro:#163326;
-    --ambar:#F0B556; --ambar-claro:#3A2C14; --vermelho:#FF8A80; --vermelho-claro:#3D1E1C;
-    --mosaico:#E7EAEE; color-scheme: dark;
+    --fundo:#0D1520; --superficie:#142030; --superficie-2:#18263A; --tinta:#E6EDF5; --suave:#9AAABD; --linha:#24364D;
+    --marinho:#0A1A2C; --marinho-tinta:#C9D6E6; --marinho-ativo:#1A3352;
+    --azul:#5B9BFF; --azul-claro:#17304F; --verde:#3FC481; --verde-claro:#143425; --ambar:#F2B04A; --ambar-claro:#3A2C12;
+    --vermelho:#FF7B72; --vermelho-claro:#3D1C1B; --roxo:#A08BFF; --roxo-claro:#2A2350; --sombra:none; color-scheme: dark;
   }
 }
 :root[data-theme="dark"]{
-  --fundo:#13171D; --superficie:#1C222B; --tinta:#E7EAEE; --suave:#A3ADBA; --linha:#2F3742;
-  --azul:#76AEFF; --azul-claro:#1D3350; --verde:#5CCB8E; --verde-claro:#163326;
-  --ambar:#F0B556; --ambar-claro:#3A2C14; --vermelho:#FF8A80; --vermelho-claro:#3D1E1C;
-  --mosaico:#E7EAEE; color-scheme: dark;
+  --fundo:#0D1520; --superficie:#142030; --superficie-2:#18263A; --tinta:#E6EDF5; --suave:#9AAABD; --linha:#24364D;
+  --marinho:#0A1A2C; --marinho-tinta:#C9D6E6; --marinho-ativo:#1A3352;
+  --azul:#5B9BFF; --azul-claro:#17304F; --verde:#3FC481; --verde-claro:#143425; --ambar:#F2B04A; --ambar-claro:#3A2C12;
+  --vermelho:#FF7B72; --vermelho-claro:#3D1C1B; --roxo:#A08BFF; --roxo-claro:#2A2350; --sombra:none; color-scheme: dark;
 }
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 *,*::before,*::after{box-sizing:inherit}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--fundo);color:var(--tinta);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:17px;line-height:1.5;font-variant-numeric:tabular-nums}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:"Archivo",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.5;font-variant-numeric:tabular-nums}
 a{color:var(--azul)}
 :focus-visible{outline:3px solid var(--azul);outline-offset:2px;border-radius:6px}
-.mosaico{height:22px;background-color:var(--fundo);color:var(--mosaico)}
-.mosaico svg{display:block;width:100%;height:22px}
-.envelope{max-width:760px;margin:0 auto;padding:0 18px}
-header.topo{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 6px}
-.marca{font-weight:800;font-stretch:112%;letter-spacing:-.01em;font-size:1.05rem}
-.marca small{display:block;font-weight:500;font-stretch:100%;color:var(--suave);font-size:.8rem;letter-spacing:0}
-.modo{display:flex;background:var(--superficie);border:1px solid var(--linha);border-radius:999px;padding:3px}
-.modo button{border:0;background:transparent;color:var(--suave);font:inherit;font-size:.85rem;padding:6px 12px;border-radius:999px;cursor:pointer}
-.modo button[aria-pressed="true"]{background:var(--tinta);color:var(--fundo)}
-h1{font-size:clamp(2rem,7vw,3.1rem);line-height:1.02;font-stretch:118%;font-weight:800;letter-spacing:-.02em;margin:28px 0 12px}
-.intro{color:var(--suave);max-width:60ch;margin:0 0 22px}
-.busca{display:flex;gap:8px;flex-wrap:wrap}
-.busca input{flex:1 1 260px;min-width:0;font:inherit;font-size:1rem;padding:14px 16px;border-radius:12px;border:1.5px solid var(--linha);background:var(--superficie);color:var(--tinta)}
-.busca input:focus{border-color:var(--azul);outline:none;box-shadow:0 0 0 3px var(--azul-claro)}
-.botao{font:inherit;font-weight:700;font-size:1rem;padding:14px 20px;border-radius:12px;border:0;background:var(--azul);color:#fff;cursor:pointer}
-:root[data-theme="dark"] .botao{color:#0D1B2E}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .botao{color:#0D1B2E}}
-.botao:disabled{opacity:.6;cursor:wait}
-.botao.sec{background:transparent;color:var(--azul);border:1.5px solid var(--azul)}
+svg.ic{width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- menu lateral ---------- */
+.lateral{position:fixed;inset:0 auto 0 0;width:236px;background:var(--marinho);color:var(--marinho-tinta);display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) 12px 16px;z-index:20}
+.marca{display:flex;gap:10px;align-items:center;padding:4px 8px 22px;color:#fff}
+.marca b{display:block;font-size:1.05rem;font-weight:750;font-stretch:108%;letter-spacing:-.01em}
+.marca small{display:block;font-size:.78rem;color:var(--marinho-tinta);opacity:.8}
+.marca .logo{width:34px;height:34px;border-radius:9px;background:var(--azul);display:grid;place-items:center}
+.marca .logo svg{stroke:#fff}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--raio-p);color:var(--marinho-tinta);text-decoration:none;font-weight:550;font-size:.95rem;position:relative}
+.nav a:hover{background:var(--marinho-ativo)}
+.nav a[aria-current="page"]{background:var(--marinho-ativo);color:#fff}
+.nav a[aria-current="page"]::before{content:"";position:absolute;left:-12px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--azul)}
+.badge{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:99px;background:var(--vermelho);color:#fff;font-size:.72rem;font-weight:700;display:inline-grid;place-items:center}
+.badge.oculto{display:none}
+.lateral .rodape{margin-top:auto;padding:12px 8px 0;border-top:1px solid var(--marinho-ativo)}
+.lateral .rodape p{margin:0 0 8px;font-size:.78rem;opacity:.8}
+.alternar{display:flex;background:var(--marinho-ativo);border-radius:99px;padding:3px}
+.alternar button{flex:1;border:0;background:transparent;color:var(--marinho-tinta);font:inherit;font-size:.82rem;padding:6px 8px;border-radius:99px;cursor:pointer}
+.alternar button[aria-pressed="true"]{background:#fff;color:var(--marinho);font-weight:650}
+main{margin-left:236px;min-height:100vh;padding:28px 32px 60px}
+.conteudo{max-width:1120px;margin:0 auto}
+@media (max-width:899px){
+  .lateral{inset:auto 0 0 0;width:auto;height:auto;flex-direction:row;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--marinho-ativo)}
+  .marca,.lateral .rodape{display:none}
+  .nav{flex-direction:row;width:100%;gap:2px}
+  .nav a{flex:1;flex-direction:column;gap:2px;font-size:.7rem;padding:7px 2px;text-align:center}
+  .nav a[aria-current="page"]::before{left:20%;right:20%;top:-6px;bottom:auto;width:auto;height:3px;border-radius:0 0 3px 3px}
+  .badge{position:absolute;top:2px;right:18%;margin:0}
+  main{margin-left:0;padding:18px 14px calc(90px + env(safe-area-inset-bottom,0px))}
+  .topo-movel{display:flex!important}
+}
+.topo-movel{display:none;justify-content:space-between;align-items:center;margin-bottom:14px}
+.topo-movel b{font-weight:750;font-stretch:108%}
+
+/* ---------- tipografia e blocos ---------- */
+h1{font-size:clamp(1.55rem,3.6vw,2rem);line-height:1.15;font-weight:750;letter-spacing:-.015em;margin:0 0 6px}
+h2{font-size:1.12rem;font-weight:700;margin:0 0 4px;letter-spacing:-.005em}
+h3{font-size:.98rem;font-weight:650;margin:0 0 6px}
+.sub{color:var(--suave);font-size:.92rem;margin:0 0 14px;max-width:72ch}
+.cabeca{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.card{background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);padding:20px;box-shadow:var(--sombra)}
+.pilha{display:grid;gap:16px}
+.grade-2{display:grid;gap:16px;grid-template-columns:1fr}
+@media(min-width:980px){.grade-2{grid-template-columns:1fr 1fr}.grade-score{grid-template-columns:340px 1fr}}
+.grade-score{display:grid;gap:16px;grid-template-columns:1fr}
+.campos{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+label.campo{display:flex;flex-direction:column;gap:5px;font-size:.82rem;color:var(--suave);font-weight:550}
+label.campo input,label.campo select{font:inherit;font-size:.98rem;color:var(--tinta);background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio-p);padding:9px 11px;width:100%;min-height:42px}
+label.campo input:focus,label.campo select:focus{border-color:var(--azul);outline:none;box-shadow:0 0 0 3px var(--azul-claro)}
+label.campo .ajuda{font-size:.74rem;font-weight:400}
+.botao{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:inherit;font-weight:650;font-size:.95rem;padding:10px 16px;min-height:42px;border-radius:var(--raio-p);border:1px solid var(--azul);background:var(--azul);color:#fff;cursor:pointer;text-decoration:none}
+:root[data-theme="dark"] .botao{color:#0B1626}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .botao{color:#0B1626}}
+.botao.sec{background:var(--superficie);color:var(--azul);border-color:var(--linha)}
+.botao.fantasma{background:transparent;border-color:transparent;color:var(--azul);padding:8px 10px}
+.botao.perigo{background:var(--superficie);color:var(--vermelho);border-color:var(--linha)}
+.botao.pequeno{min-height:34px;padding:6px 10px;font-size:.85rem}
+.botao:disabled{opacity:.55;cursor:wait}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:16px}
 .link-btn{background:none;border:0;padding:0;font:inherit;color:var(--azul);text-decoration:underline;cursor:pointer}
-.aviso{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:.95rem;display:none}
+.aviso{padding:12px 14px;border-radius:var(--raio-p);font-size:.92rem;display:none;margin-top:12px;border:1px solid transparent}
 .aviso.on{display:block}
-.aviso.erro{background:var(--vermelho-claro);color:var(--vermelho)}
+.aviso.erro{background:var(--vermelho-claro);color:var(--vermelho);border-color:color-mix(in srgb,var(--vermelho) 25%,transparent)}
 .aviso.info{background:var(--azul-claro);color:var(--tinta)}
 .aviso.ok{background:var(--verde-claro);color:var(--tinta)}
-.selo-dados{margin-top:14px;font-size:.85rem;color:var(--suave)}
-section.bloco{background:var(--superficie);border-radius:var(--raio);padding:20px 18px;margin:16px 0;border:1px solid var(--linha)}
-section.bloco>h2{font-size:1.25rem;font-stretch:108%;font-weight:750;margin:0 0 4px;letter-spacing:-.01em}
-.sub{color:var(--suave);font-size:.92rem;margin:0 0 14px}
-.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
-label.campo{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--suave)}
-label.campo input,label.campo select{font:inherit;font-size:1rem;color:var(--tinta);background:var(--fundo);border:1.5px solid var(--linha);border-radius:10px;padding:10px 12px;width:100%}
-label.campo input:focus,label.campo select:focus{border-color:var(--azul);outline:none}
-.acoes{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-#resultado{display:none}
-#resultado.on{display:block}
-.veredito{border-radius:var(--raio);padding:24px 18px 20px;margin:20px 0 16px;color:var(--tinta)}
-.veredito.bom{background:var(--verde-claro)} .veredito.medio{background:var(--ambar-claro)} .veredito.fraco{background:var(--vermelho-claro)}
-.veredito .ident{font-size:.9rem;color:var(--suave);margin:0 0 6px}
-.veredito h2{font-size:clamp(1.7rem,6vw,2.5rem);line-height:1.05;font-stretch:120%;font-weight:800;letter-spacing:-.02em;margin:0 0 10px}
-.medidor{height:10px;border-radius:99px;background:linear-gradient(90deg,var(--vermelho),var(--ambar),var(--verde));position:relative;margin:16px 0 6px;opacity:.9}
-.medidor i{position:absolute;top:-6px;width:4px;height:22px;background:var(--tinta);border-radius:2px;transform:translateX(-2px);transition:left .6s ease}
-.medidor-leg{display:flex;justify-content:space-between;font-size:.78rem;color:var(--suave)}
-.duas{display:grid;grid-template-columns:1fr;gap:14px;margin-top:16px}
-@media(min-width:640px){.duas{grid-template-columns:1fr 1fr}}
-.duas h3{font-size:1rem;margin:0 0 6px}
-.duas ul{margin:0;padding-left:20px} .duas li{margin:4px 0}
-.numeros{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:8px 0 4px}
-.num{background:var(--fundo);border-radius:12px;padding:12px}
-.num b{display:block;font-size:1.25rem;font-stretch:105%}
-.num span{font-size:.82rem;color:var(--suave)}
-.barras{display:flex;flex-direction:column;gap:12px;margin:10px 0}
-.barra .rot{display:flex;justify-content:space-between;gap:10px;font-size:.92rem;margin-bottom:4px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.75rem;font-weight:650;padding:3px 9px;border-radius:99px;background:var(--superficie-2);color:var(--suave);border:1px solid var(--linha);white-space:nowrap}
+.chip.verde{background:var(--verde-claro);color:var(--verde);border-color:transparent}
+.chip.ambar{background:var(--ambar-claro);color:var(--ambar);border-color:transparent}
+.chip.vermelho{background:var(--vermelho-claro);color:var(--vermelho);border-color:transparent}
+.chip.azul{background:var(--azul-claro);color:var(--azul);border-color:transparent}
+.chip.roxo{background:var(--roxo-claro);color:var(--roxo);border-color:transparent}
+.view{display:none}
+.view.on{display:block}
+.oculto{display:none!important}
+.segmento{display:inline-flex;background:var(--superficie);border:1px solid var(--linha);border-radius:10px;padding:4px;gap:4px}
+.segmento button{border:0;background:transparent;font:inherit;font-weight:650;font-size:.95rem;color:var(--suave);padding:9px 18px;border-radius:7px;cursor:pointer;display:flex;align-items:center;gap:8px}
+.segmento button[aria-pressed="true"]{background:var(--marinho);color:#fff}
+:root[data-theme="dark"] .segmento button[aria-pressed="true"]{background:var(--azul);color:#0B1626}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .segmento button[aria-pressed="true"]{background:var(--azul);color:#0B1626}}
+
+/* ---------- análise ---------- */
+.busca{display:flex;gap:8px;flex-wrap:wrap}
+.busca input{flex:1 1 280px;min-width:0;font:inherit;padding:11px 14px;min-height:46px;border-radius:var(--raio-p);border:1px solid var(--linha);background:var(--superficie);color:var(--tinta)}
+.busca input:focus{border-color:var(--azul);outline:none;box-shadow:0 0 0 3px var(--azul-claro)}
+.selo{margin:10px 0 0;font-size:.82rem;color:var(--suave)}
+.resumo{display:grid;grid-template-columns:1fr;gap:0;padding:0;overflow:hidden}
+@media(min-width:760px){.resumo{grid-template-columns:300px 1fr}}
+.resumo .foto{background:var(--superficie-2);min-height:200px;position:relative;display:grid;place-items:center;color:var(--suave)}
+.resumo .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.resumo .foto .vazio{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.82rem}
+.resumo .foto .vazio svg{width:40px;height:40px;stroke-width:1.4}
+.resumo .info{padding:20px}
+.resumo .linha1{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.resumo h2{font-size:1.3rem;margin:4px 0 2px}
+.resumo .local{color:var(--suave);margin:0 0 14px}
+.preco-grande{font-size:clamp(1.7rem,4vw,2.2rem);font-weight:780;letter-spacing:-.02em;font-stretch:104%;line-height:1.1}
+.carac{display:flex;flex-wrap:wrap;gap:8px 18px;margin:14px 0 0;padding:0;list-style:none;color:var(--suave);font-size:.92rem}
+.carac b{color:var(--tinta);font-weight:650}
+.anel{display:flex;gap:18px;align-items:center}
+.anel svg{width:118px;height:118px;flex:none}
+.anel .valor{font-size:1.9rem;font-weight:780}
+.anel .rot{font-size:.78rem;color:var(--suave)}
+.veredito-t{font-size:1.2rem;font-weight:720;margin:0 0 4px}
+.fatores{list-style:none;padding:0;margin:14px 0 0;display:grid;gap:8px}
+.fatores li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:.9rem;padding:9px 11px;border-radius:var(--raio-p);background:var(--superficie-2)}
+.fatores li b{font-weight:650}
+.fatores li span.pts{font-weight:700}
+.fatores li small{grid-column:1/-1;color:var(--suave);font-size:.8rem}
+.pos{color:var(--verde)} .neg{color:var(--vermelho)} .neu{color:var(--suave)}
+.limites{margin:12px 0 0;padding:10px 12px;border-radius:var(--raio-p);background:var(--ambar-claro);font-size:.84rem}
+.limites ul{margin:4px 0 0;padding-left:18px}
+.lista-pc{margin:0;padding-left:20px} .lista-pc li{margin:6px 0}
+.indicadores{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:8px 0 4px}
+.ind{background:var(--superficie-2);border:1px solid var(--linha);border-radius:var(--raio-p);padding:12px}
+.ind b{display:block;font-size:1.2rem;font-weight:720}
+.ind span{font-size:.8rem;color:var(--suave)}
+.barras{display:flex;flex-direction:column;gap:12px;margin:12px 0}
+.barra .rot{display:flex;justify-content:space-between;gap:10px;font-size:.88rem;margin-bottom:4px}
 .barra .rot b{white-space:nowrap}
-.trilho{height:14px;background:var(--fundo);border-radius:99px;overflow:hidden}
+.trilho{height:10px;background:var(--superficie-2);border:1px solid var(--linha);border-radius:99px;overflow:hidden}
 .trilho i{display:block;height:100%;border-radius:99px;background:var(--azul);transition:width .5s ease}
-.trilho i.verde{background:var(--verde)} .trilho i.ambar{background:var(--ambar)} .trilho i.cinza{background:var(--suave)}
-.estrategias{display:grid;gap:12px}
-.estr{border:1.5px solid var(--linha);border-radius:12px;padding:14px}
-.estr.melhor{border-color:var(--verde)}
-.estr h3{margin:0 0 2px;font-size:1.05rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.etiqueta{font-size:.75rem;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--verde-claro);color:var(--verde);white-space:nowrap}
-.etiqueta.amb{background:var(--ambar-claro);color:var(--ambar)} .etiqueta.ver{background:var(--vermelho-claro);color:var(--vermelho)} .etiqueta.az{background:var(--azul-claro);color:var(--azul)}
-.estr dl{display:grid;grid-template-columns:1fr auto;gap:2px 12px;margin:10px 0 0;font-size:.92rem}
+.trilho i.verde{background:var(--verde)} .trilho i.cinza{background:var(--suave)} .trilho i.roxo{background:var(--roxo)}
+.estrategias{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.estr{border:1px solid var(--linha);border-radius:var(--raio);padding:16px;background:var(--superficie)}
+.estr.melhor{border-color:var(--verde);box-shadow:inset 0 0 0 1px var(--verde)}
+.estr h3{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 6px}
+.estr dl{display:grid;grid-template-columns:1fr auto;gap:3px 12px;margin:8px 0 0;font-size:.88rem}
 .estr dt{color:var(--suave)} .estr dd{margin:0;text-align:right;font-weight:600}
-.estr dd.forte{font-size:1.05rem}
-.estr .nota{font-size:.82rem;color:var(--suave);margin:8px 0 0}
+.estr dd.forte{font-size:1.1rem;font-weight:750}
+.estr .nota{font-size:.8rem;color:var(--suave);margin:10px 0 0}
 .tabela{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.92rem}
-th,td{padding:8px 6px;border-bottom:1px solid var(--linha);text-align:right;white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-th{font-weight:600;color:var(--suave);font-size:.82rem}
-.riscos li{margin:6px 0}
-.nivel{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
-.nivel.alto{background:var(--vermelho)} .nivel.medio{background:var(--ambar)} .nivel.baixo{background:var(--verde)}
-details.premissas summary{cursor:pointer;font-weight:700;font-size:1.05rem}
-details.premissas .grade{margin-top:14px}
-.corretor-only{display:none}
-body.corretor .corretor-only{display:block}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:9px 8px;border-bottom:1px solid var(--linha);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+th{font-weight:600;color:var(--suave);font-size:.8rem;background:var(--superficie-2)}
+.riscos{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:8px}
+.riscos li{display:flex;gap:10px;align-items:flex-start;font-size:.92rem}
+.ponto{width:9px;height:9px;border-radius:50%;margin-top:7px;flex:none}
+.ponto.alto{background:var(--vermelho)} .ponto.medio{background:var(--ambar)} .ponto.baixo{background:var(--verde)}
+.pois{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:8px}
+.poi{display:flex;justify-content:space-between;gap:8px;padding:9px 11px;border-radius:var(--raio-p);background:var(--superficie-2);font-size:.88rem}
+.poi span{color:var(--suave)}
+details.premissas summary{cursor:pointer;font-weight:650}
+details.premissas .campos{margin-top:14px}
+body:not(.corretor) .corretor-only{display:none!important}
+body.f-moradia .so-inv{display:none!important}
+body.f-investimento .so-mor{display:none!important}
+#form-imovel summary{cursor:pointer;font-weight:650}
+
+/* ---------- oportunidades ---------- */
+.filtros fieldset{border:0;padding:0;margin:0 0 14px}
+.filtros legend{font-weight:650;font-size:.9rem;margin-bottom:8px;padding:0}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.checks label{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border:1px solid var(--linha);border-radius:99px;font-size:.85rem;cursor:pointer;background:var(--superficie)}
+.checks input{accent-color:var(--azul)}
+.resultados{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));margin-top:14px}
+.im{background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--sombra)}
+.im .foto{aspect-ratio:16/10;background:var(--superficie-2);position:relative;display:grid;place-items:center;color:var(--suave)}
+.im .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.im .foto .selos{position:absolute;left:10px;top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.im .corpo{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.im .preco{font-size:1.3rem;font-weight:760}
+.im .meta{color:var(--suave);font-size:.85rem}
+.im .compat{margin-top:4px;padding:9px 10px;border-radius:var(--raio-p);background:var(--superficie-2);font-size:.82rem}
+.im .compat ul{margin:4px 0 0;padding-left:16px}
+.im .rodape{display:flex;gap:6px;flex-wrap:wrap;padding:10px 14px 14px;border-top:1px solid var(--linha)}
+.im .rodape label{display:inline-flex;align-items:center;gap:6px;font-size:.85rem;margin-left:auto;cursor:pointer}
+.barra-comparar{position:sticky;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:10;display:flex;justify-content:space-between;align-items:center;gap:10px;background:var(--marinho);color:#fff;padding:10px 14px;border-radius:var(--raio);margin-top:14px}
+@media (max-width:899px){.barra-comparar{bottom:calc(76px + env(safe-area-inset-bottom,0px))}}
+.vazio-estado{text-align:center;padding:36px 16px;color:var(--suave)}
+.vazio-estado svg{width:42px;height:42px;stroke-width:1.4;margin-bottom:6px}
+.carregando{display:flex;align-items:center;gap:10px;color:var(--suave);padding:20px 0}
+.carregando::before{content:"";width:18px;height:18px;border-radius:50%;border:2px solid var(--linha);border-top-color:var(--azul);animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+/* ---------- alertas ---------- */
+.alerta{border:1px solid var(--linha);border-radius:var(--raio);padding:16px;background:var(--superficie)}
+.alerta.pausado{opacity:.75}
+.alerta .topo{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.alerta dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 16px;margin:12px 0 0;font-size:.85rem}
+.alerta dt{color:var(--suave)} .alerta dd{margin:0;font-weight:600}
+.notif{display:grid;grid-template-columns:72px 1fr;gap:12px;padding:12px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--superficie)}
+.notif.nao-lida{border-left:4px solid var(--azul)}
+.notif .mini{width:72px;height:72px;border-radius:var(--raio-p);background:var(--superficie-2);overflow:hidden;display:grid;place-items:center;color:var(--suave)}
+.notif .mini img{width:100%;height:100%;object-fit:cover}
+.notif ul{margin:4px 0 0;padding-left:18px;font-size:.84rem;color:var(--suave)}
+dialog{border:1px solid var(--linha);border-radius:var(--raio);padding:0;max-width:560px;width:calc(100% - 28px);background:var(--superficie);color:var(--tinta)}
+dialog::backdrop{background:rgba(8,18,32,.55)}
+dialog .cab{padding:18px 20px 0} dialog .corpo{padding:14px 20px} dialog .pe{padding:0 20px 18px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
 .status-lista{list-style:none;padding:0;margin:0}
-.status-lista li{padding:10px 0;border-bottom:1px solid var(--linha);font-size:.9rem}
+.status-lista li{padding:10px 0;border-bottom:1px solid var(--linha);font-size:.88rem}
 .status-lista li:last-child{border-bottom:0}
 .fonte-linha{display:flex;gap:8px;align-items:baseline;margin-top:4px}
-.fonte-linha .etiqueta{flex:none}
-footer{color:var(--suave);font-size:.82rem;padding:24px 0 40px}
-.oculto{display:none!important}
+footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
-@media print{.busca,.acoes,.modo,#form-imovel,details.premissas,.mosaico{display:none!important} body{background:#fff} section.bloco{break-inside:avoid}}
+@media print{.lateral,.busca,.acoes,#form-imovel,details.premissas,.topo-movel,#voltar-busca,.segmento{display:none!important} main{margin:0;padding:0} body{background:#fff} .card{break-inside:avoid;box-shadow:none}}
 </style>
 </head>
-<body>
-<div class="mosaico" aria-hidden="true">
-  <svg preserveAspectRatio="none"><defs><pattern id="pm" width="44" height="22" patternUnits="userSpaceOnUse">
-    <path d="M0 11 C6 2 16 2 22 11 C28 20 38 20 44 11 L44 22 L0 22Z" fill="currentColor"/>
-    <circle cx="11" cy="6" r="2.2" fill="currentColor"/><circle cx="33" cy="17" r="2.2" fill="var(--fundo)"/>
-  </pattern></defs><rect width="100%" height="100%" fill="url(#pm)"/></svg>
-</div>
-<div class="envelope">
-  <header class="topo">
-    <div class="marca">Radar do Imóvel<small>Nova São Paulo</small></div>
-    <div class="modo" role="group" aria-label="Quem está usando">
+<body class="f-investimento">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-sino" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-dados" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+  <symbol id="i-foto" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-8 8"/></symbol>
+  <symbol id="i-chave" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M6 9v11h12V9"/></symbol>
+  <symbol id="i-moradia" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M10 21v-5h4v5"/></symbol>
+  <symbol id="i-invest" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-externo" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-estrela" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+</svg>
+
+<nav class="lateral" aria-label="Menu principal">
+  <div class="marca"><span class="logo"><svg class="ic"><use href="#i-invest"/></svg></span><span><b>Radar do Imóvel</b><small>Nova São Paulo</small></span></div>
+  <div class="nav">
+    <a href="#analise" data-view="analise"><svg class="ic"><use href="#i-casa"/></svg><span>Analisar imóvel</span></a>
+    <a href="#oportunidades" data-view="oportunidades"><svg class="ic"><use href="#i-busca"/></svg><span>Oportunidades</span></a>
+    <a href="#alertas" data-view="alertas"><svg class="ic"><use href="#i-sino"/></svg><span>Meus alertas</span><span class="badge oculto" id="badge-alertas">0</span></a>
+    <a href="#dados" data-view="dados"><svg class="ic"><use href="#i-dados"/></svg><span>Dados</span></a>
+  </div>
+  <div class="rodape">
+    <p>Quem está usando</p>
+    <div class="alternar" role="group" aria-label="Quem está usando">
       <button type="button" id="modo-cliente" aria-pressed="true">Comprador</button>
       <button type="button" id="modo-corretor" aria-pressed="false">Corretor</button>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <h1>Esse imóvel é um bom negócio?</h1>
-  <p class="intro">Cole o link de um anúncio da Nova São Paulo. Em segundos você vê se o preço está coerente, quanto ele pode render de aluguel ou temporada, quanto pode valer no futuro e como se compara a deixar o dinheiro aplicado.</p>
-
-  <form class="busca" id="form-link" autocomplete="off">
-    <input id="link" type="url" inputmode="url" placeholder="https://www.novasaopaulo.com.br/imovel/…" aria-label="Link do anúncio">
-    <button class="botao" id="btn-analisar" type="submit">Analisar imóvel</button>
-  </form>
-  <p style="margin:10px 0 0;font-size:.92rem">Sem link? <button class="link-btn" id="btn-manual" type="button">Preencha os dados à mão</button></p>
-  <div class="aviso" id="aviso" role="status"></div>
-  <p class="selo-dados" id="selo-dados">Carregando bases de dados…</p>
-
-  <section class="bloco oculto" id="form-imovel" aria-labelledby="t-dados">
-    <h2 id="t-dados">Confira os dados do imóvel</h2>
-    <p class="sub">Tudo que veio do anúncio pode ser corrigido. A análise muda na hora.</p>
-    <div class="grade">
-      <label class="campo">Preço pedido (R$)<input id="f-preco" inputmode="numeric" data-moeda></label>
-      <label class="campo">Área útil (m²)<input id="f-area" inputmode="decimal"></label>
-      <label class="campo">Quartos<input id="f-quartos" inputmode="numeric"></label>
-      <label class="campo">Vagas<input id="f-vagas" inputmode="numeric"></label>
-      <label class="campo">Condomínio por mês (R$)<input id="f-condo" inputmode="numeric" data-moeda></label>
-      <label class="campo">IPTU por mês (R$)<input id="f-iptu" inputmode="numeric" data-moeda></label>
-      <label class="campo">Tipo
-        <select id="f-tipo"><option>Apartamento</option><option>Studio</option><option>Cobertura</option><option>Casa</option><option>Sobrado</option><option>Flat</option><option>Outro</option></select></label>
-      <label class="campo">Bairro do anúncio<input id="f-bairro"></label>
-      <label class="campo">Distrito (para dados de temporada)<select id="f-distrito"><option value="">Escolha</option></select></label>
-      <label class="campo">Metrô mais perto (metros)<input id="f-metro" inputmode="numeric" placeholder="ex.: 500"></label>
-      <label class="campo">Objetivo do comprador
-        <select id="f-objetivo"><option value="investir">Investir (alugar)</option><option value="morar">Morar</option></select></label>
-      <label class="campo">Já vem mobiliado?
-        <select id="f-mobiliado"><option value="nao">Não</option><option value="sim">Sim</option></select></label>
-    </div>
-    <div class="acoes"><button class="botao" type="button" id="btn-calcular">Ver análise</button></div>
-  </section>
-
-  <div id="resultado" aria-live="polite">
-    <div class="veredito" id="veredito">
-      <p class="ident" id="v-ident"></p>
-      <h2 id="v-titulo"></h2>
-      <p id="v-frase" style="margin:0"></p>
-      <div class="medidor"><i id="v-ponteiro" style="left:50%"></i></div>
-      <div class="medidor-leg"><span>Há opções melhores</span><span>Faz sentido</span></div>
-      <div class="duas">
-        <div><h3>Por que pode fazer sentido</h3><ul id="v-pros"></ul></div>
-        <div><h3>Por que talvez não seja a melhor opção</h3><ul id="v-contras"></ul></div>
-      </div>
-    </div>
-
-    <section class="bloco" aria-labelledby="t-preco">
-      <h2 id="t-preco">O preço pedido está coerente?</h2>
-      <p class="sub" id="preco-sub"></p>
-      <div class="numeros" id="preco-num"></div>
-      <div class="barras" id="preco-barras"></div>
-      <p class="sub" id="preco-nota" style="margin-top:10px"></p>
-    </section>
-
-    <section class="bloco" aria-labelledby="t-renda">
-      <h2 id="t-renda">Quanto pode render por mês</h2>
-      <p class="sub">Três formas de alugar, já descontando custos, taxas e imposto estimado.</p>
-      <div class="estrategias" id="estrategias"></div>
-    </section>
-
-    <section class="bloco" aria-labelledby="t-futuro">
-      <h2 id="t-futuro">Patrimônio em 5, 10 e 15 anos</h2>
-      <p class="sub" id="futuro-sub"></p>
-      <div id="futuro-barras"></div>
-      <div class="tabela" style="margin-top:14px"><table id="futuro-tabela"></table></div>
-      <p class="sub" id="futuro-nota" style="margin-top:10px"></p>
-    </section>
-
-    <section class="bloco" aria-labelledby="t-custos">
-      <h2 id="t-custos">Quanto custa comprar e manter</h2>
-      <div class="tabela"><table id="custos-tabela"></table></div>
-    </section>
-
-    <section class="bloco" aria-labelledby="t-riscos">
-      <h2 id="t-riscos">Riscos e facilidade de revenda</h2>
-      <div class="numeros" id="liq-num"></div>
-      <ul class="riscos" id="riscos"></ul>
-    </section>
-
-    <section class="bloco corretor-only" aria-labelledby="t-corretor">
-      <h2 id="t-corretor">Para o corretor</h2>
-      <p class="sub">Argumentos baseados nos números acima e como conduzir até a proposta.</p>
-      <h3 style="font-size:1rem;margin:14px 0 6px">Argumentos de venda</h3><ul id="c-args"></ul>
-      <h3 style="font-size:1rem;margin:14px 0 6px">Objeções prováveis e como responder</h3><ul id="c-obj"></ul>
-      <h3 style="font-size:1rem;margin:14px 0 6px">Faixa de proposta sugerida</h3><div class="numeros" id="c-proposta"></div>
-      <p class="sub" style="margin-top:8px">Sugestão de negociação com base nos números do anúncio, não é avaliação técnica. Para um valor formal, use um Parecer Técnico de Avaliação Mercadológica (PTAM) feito por corretor avaliador.</p>
-    </section>
-
-    <section class="bloco">
-      <details class="premissas" id="premissas">
-        <summary>Ajustar premissas do cálculo</summary>
-        <p class="sub" style="margin-top:10px">Valores de referência com fonte. Mude o que quiser; tudo é recalculado.</p>
-        <div class="grade" id="grade-premissas"></div>
-        <div class="acoes"><button class="botao sec" type="button" id="btn-restaurar">Voltar aos valores de referência</button></div>
-      </details>
-    </section>
-
-    <div class="acoes" style="margin:6px 0 10px">
-      <button class="botao" type="button" id="btn-whats">Enviar no WhatsApp</button>
-      <button class="botao sec" type="button" id="btn-copiar">Copiar link desta análise</button>
-      <button class="botao sec" type="button" id="btn-imprimir">Salvar em PDF</button>
+<main>
+<div class="conteudo">
+  <div class="topo-movel"><b>Radar do Imóvel</b>
+    <div class="alternar" role="group" aria-label="Quem está usando" style="background:var(--superficie);border:1px solid var(--linha)">
+      <button type="button" id="modo-cliente-m" aria-pressed="true" style="color:var(--suave)">Comprador</button>
+      <button type="button" id="modo-corretor-m" aria-pressed="false" style="color:var(--suave)">Corretor</button>
     </div>
   </div>
 
-  <section class="bloco" id="status" aria-labelledby="t-status">
-    <h2 id="t-status">De onde vêm os dados e quando foram atualizados</h2>
-    <p class="sub">As bases são conferidas automaticamente nos dias 1 e 16 de cada mês. Só entram dados novos depois de validados.</p>
-    <div id="status-resumo"></div>
-    <h3 style="font-size:1rem;margin:16px 0 4px">Últimas execuções da atualização</h3>
-    <ul class="status-lista" id="status-lista"></ul>
+  <!-- ================= ANALISAR IMÓVEL ================= -->
+  <section class="view" id="v-analise" aria-labelledby="t-analise">
+    <div class="cabeca"><div><h1 id="t-analise">Analisar imóvel</h1><p class="sub" style="margin:0">Cole o link de um anúncio da Nova São Paulo para ver a análise de moradia e de investimento.</p></div>
+      <button class="botao sec oculto" id="voltar-busca" type="button">← Voltar aos resultados da busca</button></div>
+    <div class="card">
+      <form class="busca" id="form-link" autocomplete="off">
+        <input id="link" type="url" inputmode="url" placeholder="https://www.novasaopaulo.com.br/imovel/…" aria-label="Link do anúncio">
+        <button class="botao" id="btn-analisar" type="submit">Analisar imóvel</button>
+      </form>
+      <p class="selo">Sem link? <button class="link-btn" id="btn-manual" type="button">Preencha os dados à mão</button>. <span id="selo-dados">Carregando bases de dados…</span></p>
+      <div class="aviso" id="aviso" role="status"></div>
+    </div>
+
+    <details class="card oculto" id="form-imovel" style="margin-top:16px" open>
+      <summary>Dados do imóvel <span class="sub" style="font-weight:400">(confira e corrija o que for preciso; a análise muda na hora)</span></summary>
+      <div class="campos" style="margin-top:14px">
+        <label class="campo">Preço pedido (R$)<input id="f-preco" inputmode="numeric"></label>
+        <label class="campo">Área útil (m²)<input id="f-area" inputmode="decimal"></label>
+        <label class="campo">Quartos<input id="f-quartos" inputmode="numeric"></label>
+        <label class="campo">Banheiros<input id="f-banheiros" inputmode="numeric"></label>
+        <label class="campo">Vagas<input id="f-vagas" inputmode="numeric"></label>
+        <label class="campo">Condomínio por mês (R$)<input id="f-condo" inputmode="numeric"></label>
+        <label class="campo">IPTU por mês (R$)<input id="f-iptu" inputmode="numeric"></label>
+        <label class="campo">Tipo
+          <select id="f-tipo"><option>Apartamento</option><option>Studio</option><option>Cobertura</option><option>Casa</option><option>Sobrado</option><option>Flat</option><option>Outro</option></select></label>
+        <label class="campo">Bairro do anúncio<input id="f-bairro"></label>
+        <label class="campo">Distrito (dados de temporada)<select id="f-distrito"><option value="">Escolha</option></select></label>
+        <label class="campo">Metrô mais perto (metros)<input id="f-metro" inputmode="numeric" placeholder="ex.: 500"></label>
+        <label class="campo">Já vem mobiliado?<select id="f-mobiliado"><option value="nao">Não</option><option value="sim">Sim</option></select></label>
+      </div>
+      <div class="acoes"><button class="botao" type="button" id="btn-calcular">Atualizar análise</button></div>
+    </details>
+
+    <div id="resultado" class="pilha oculto" aria-live="polite" style="margin-top:16px">
+      <article class="card resumo" id="resumo">
+        <div class="foto" id="r-foto"></div>
+        <div class="info">
+          <div class="linha1" id="r-chips"></div>
+          <h2 id="r-titulo"></h2>
+          <p class="local" id="r-local"></p>
+          <div class="preco-grande" id="r-preco"></div>
+          <div class="sub" style="margin:2px 0 0" id="r-m2"></div>
+          <ul class="carac" id="r-carac"></ul>
+          <div class="acoes" style="margin-top:14px" id="r-acoes"></div>
+        </div>
+      </article>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div class="segmento" role="group" aria-label="Finalidade da análise">
+          <button type="button" id="fin-moradia" aria-pressed="false"><svg class="ic"><use href="#i-moradia"/></svg>Moradia</button>
+          <button type="button" id="fin-investimento" aria-pressed="true"><svg class="ic"><use href="#i-invest"/></svg>Investimento</button>
+        </div>
+        <span class="sub" style="margin:0" id="fin-explica"></span>
+      </div>
+
+      <div class="grade-score">
+        <section class="card" aria-labelledby="t-score">
+          <h2 id="t-score">Score de oportunidade</h2>
+          <div class="anel" style="margin-top:10px">
+            <svg viewBox="0 0 120 120" role="img" aria-labelledby="score-txt"><circle cx="60" cy="60" r="50" stroke="var(--linha)" stroke-width="11" fill="none"/><circle id="score-arco" cx="60" cy="60" r="50" stroke="var(--verde)" stroke-width="11" fill="none" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="314.16" stroke-dashoffset="314.16" style="transition:stroke-dashoffset .6s ease"/><text x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="780" fill="var(--tinta)" font-family="Archivo, system-ui, sans-serif" id="score-num">–</text></svg>
+            <div><p class="veredito-t" id="v-titulo"></p><p class="sub" style="margin:0" id="score-txt"></p></div>
+          </div>
+          <ul class="fatores" id="score-fatores"></ul>
+          <div class="limites oculto" id="score-limites"></div>
+          <p class="sub" style="margin:10px 0 0;font-size:.8rem">Como o score é calculado: começa em 50 e soma o resultado financeiro em 10 anos (até ±35), o preço comparado aos parecidos (até ±10) e a facilidade de revenda (até ±7). Preço baixo sozinho não torna o imóvel um bom negócio.</p>
+        </section>
+        <section class="card" aria-labelledby="t-pc">
+          <h2 id="t-pc">Resumo</h2>
+          <p class="sub" id="v-frase"></p>
+          <div class="grade-2">
+            <div><h3 class="pos">Pontos a favor</h3><ul class="lista-pc" id="v-pros"></ul></div>
+            <div><h3 class="neg">Pontos de atenção</h3><ul class="lista-pc" id="v-contras"></ul></div>
+          </div>
+        </section>
+      </div>
+
+      <section class="card" aria-labelledby="t-preco">
+        <h2 id="t-preco">O preço pedido está coerente?</h2>
+        <p class="sub" id="preco-sub"></p>
+        <div class="indicadores" id="preco-num"></div>
+        <div class="barras" id="preco-barras"></div>
+        <p class="sub" id="preco-nota" style="margin:10px 0 0"></p>
+      </section>
+
+      <div class="grade-2 so-mor">
+        <section class="card" aria-labelledby="t-local">
+          <h2 id="t-local">Localização e infraestrutura</h2>
+          <p class="sub" id="local-sub"></p>
+          <div class="pois" id="pois"></div>
+        </section>
+        <section class="card" aria-labelledby="t-carac">
+          <h2 id="t-carac">Características</h2>
+          <div class="indicadores" id="carac-num"></div>
+          <p class="sub" id="carac-lazer" style="margin-top:10px"></p>
+        </section>
+      </div>
+
+      <section class="card so-mor" aria-labelledby="t-fin">
+        <h2 id="t-fin">Financiamento e custo mensal para morar</h2>
+        <p class="sub" id="fin-sub"></p>
+        <div class="indicadores" id="fin-num"></div>
+        <div class="tabela" style="margin-top:12px"><table id="fin-tabela"></table></div>
+        <p class="sub" id="fin-nota" style="margin:10px 0 0"></p>
+      </section>
+
+      <section class="card so-inv" aria-labelledby="t-renda">
+        <h2 id="t-renda">Quanto pode render por mês</h2>
+        <p class="sub">Três formas de alugar, já descontando custos, taxas e imposto estimado.</p>
+        <div class="estrategias" id="estrategias"></div>
+        <div class="barras" id="estrategias-barras"></div>
+      </section>
+
+      <section class="card" aria-labelledby="t-futuro">
+        <h2 id="t-futuro"></h2>
+        <p class="sub" id="futuro-sub"></p>
+        <div id="futuro-barras"></div>
+        <div class="tabela" style="margin-top:14px"><table id="futuro-tabela"></table></div>
+        <p class="sub" id="futuro-nota" style="margin:10px 0 0"></p>
+      </section>
+
+      <div class="grade-2">
+        <section class="card" aria-labelledby="t-custos">
+          <h2 id="t-custos">Custos de compra e manutenção</h2>
+          <div class="tabela"><table id="custos-tabela"></table></div>
+        </section>
+        <section class="card" aria-labelledby="t-riscos">
+          <h2 id="t-riscos">Riscos e facilidade de revenda</h2>
+          <div class="indicadores" id="liq-num"></div>
+          <ul class="riscos" id="riscos"></ul>
+        </section>
+      </div>
+
+      <section class="card corretor-only" aria-labelledby="t-corretor">
+        <h2 id="t-corretor">Para o corretor</h2>
+        <p class="sub">Argumentos baseados nos números acima e como conduzir até a proposta.</p>
+        <div class="grade-2">
+          <div><h3>Argumentos</h3><ul class="lista-pc" id="c-args"></ul></div>
+          <div><h3>Objeções prováveis e como responder</h3><ul class="lista-pc" id="c-obj"></ul></div>
+        </div>
+        <h3 style="margin-top:16px">Faixa de proposta sugerida</h3><div class="indicadores" id="c-proposta"></div>
+        <p class="sub" style="margin-top:8px">Sugestão de negociação com base nos números do anúncio, não é avaliação técnica. Para um valor formal, use um Parecer Técnico de Avaliação Mercadológica (PTAM) feito por corretor avaliador.</p>
+      </section>
+
+      <section class="card">
+        <details class="premissas" id="premissas">
+          <summary>Ajustar premissas do cálculo</summary>
+          <p class="sub" style="margin-top:10px">Valores de referência com fonte. Mude o que quiser; tudo é recalculado.</p>
+          <div class="campos" id="grade-premissas"></div>
+          <div class="acoes"><button class="botao sec" type="button" id="btn-restaurar">Voltar aos valores de referência</button></div>
+        </details>
+      </section>
+
+      <div class="acoes" style="margin-top:0">
+        <button class="botao" type="button" id="btn-whats">Enviar no WhatsApp</button>
+        <button class="botao sec" type="button" id="btn-copiar">Copiar link desta análise</button>
+        <button class="botao sec" type="button" id="btn-imprimir">Salvar em PDF</button>
+      </div>
+    </div>
   </section>
 
-  <footer>
-    <p>Esta análise é uma estimativa educativa com dados públicos e premissas editáveis. Não é recomendação de investimento, avaliação técnica nem garantia de renda. Confirme regras do condomínio, documentação e tributação com profissionais antes de decidir.</p>
-    <p>Dados de temporada: <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">Inside Airbnb</a>, licença CC BY 4.0. Índices de aluguel e venda: Índice FipeZAP. Juros e inflação: Banco Central do Brasil. Dados do imóvel: anúncio em novasaopaulo.com.br.</p>
-  </footer>
-</div>
+  <!-- ================= OPORTUNIDADES ================= -->
+  <section class="view" id="v-oportunidades" aria-labelledby="t-oport">
+    <div class="cabeca"><div><h1 id="t-oport">Encontrar oportunidades</h1><p class="sub" style="margin:0">Preencha só o que você já sabe do cliente. A busca usa os imóveis publicados no site da Nova São Paulo.</p></div>
+      <span class="chip" id="catalogo-info">Carregando catálogo…</span></div>
 
-<script>
+    <form class="card filtros" id="form-filtros" autocomplete="off">
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+        <div class="segmento" role="group" aria-label="Finalidade">
+          <button type="button" data-fin="moradia" aria-pressed="true"><svg class="ic"><use href="#i-moradia"/></svg>Moradia</button>
+          <button type="button" data-fin="investimento" aria-pressed="false"><svg class="ic"><use href="#i-invest"/></svg>Investimento</button>
+        </div>
+        <div class="segmento" role="group" aria-label="Negociação">
+          <button type="button" data-neg="venda" aria-pressed="true">Comprar</button>
+          <button type="button" data-neg="locacao" aria-pressed="false">Alugar</button>
+        </div>
+      </div>
+      <fieldset><legend>Imóvel</legend>
+        <div class="campos">
+          <label class="campo">Tipo<select id="b-tipo"><option value="">Qualquer</option><option value="apartamento">Apartamento e similares</option><option value="casa">Casa e sobrado</option><option value="comercial">Comercial</option><option value="terreno">Terreno</option><option value="rural">Rural</option></select></label>
+          <label class="campo">Bairros<input id="b-bairros" list="lista-bairros" placeholder="ex.: Saúde, Moema"><span class="ajuda">Separe por vírgula</span></label>
+          <label class="campo">Cidade<select id="b-cidade"><option>São Paulo</option></select></label>
+          <label class="campo">Valor mínimo (R$)<input id="b-pmin" inputmode="numeric"></label>
+          <label class="campo">Valor máximo (R$)<input id="b-pmax" inputmode="numeric"></label>
+          <label class="campo">Área mínima (m²)<input id="b-amin" inputmode="numeric"></label>
+          <label class="campo">Área máxima (m²)<input id="b-amax" inputmode="numeric"></label>
+          <label class="campo">Quartos (mínimo)<input id="b-quartos" inputmode="numeric"></label>
+          <label class="campo">Banheiros (mínimo)<input id="b-banh" inputmode="numeric"><span class="ajuda">Nem toda listagem informa</span></label>
+          <label class="campo">Vagas (mínimo)<input id="b-vagas" inputmode="numeric"></label>
+        </div>
+        <datalist id="lista-bairros"></datalist>
+      </fieldset>
+      <fieldset><legend>Características desejadas</legend>
+        <div class="checks" id="b-carac">
+          <label><input type="checkbox" value="Metrô próximo"> Metrô próximo</label>
+          <label><input type="checkbox" value="Mobiliado"> Mobiliado</label>
+          <label><input type="checkbox" value="Aceita permuta"> Aceita permuta</label>
+          <label><input type="checkbox" value="Tour 360º"> Tour 360º</label>
+          <label><input type="checkbox" value="Com renda"> Com renda</label>
+        </div>
+      </fieldset>
+      <fieldset class="so-busca-inv"><legend>Critérios de investimento</legend>
+        <div class="campos">
+          <label class="campo">Renda bruta mínima (% ao ano)<input id="b-renda" inputmode="decimal" placeholder="ex.: 5"><span class="ajuda">Aluguel estimado ÷ preço</span></label>
+          <label class="campo">Preço máximo por m² (R$)<input id="b-m2max" inputmode="numeric"></label>
+          <label class="campo">Priorizar<select id="b-ordem"><option value="compat">Maior compatibilidade</option><option value="renda">Maior renda estimada</option><option value="desconto">Mais abaixo da mediana do bairro</option><option value="preco">Menor preço</option></select></label>
+        </div>
+        <p class="sub" style="margin:8px 0 0">Não há filtro de valorização porque não temos dados confiáveis por bairro; a projeção aparece na análise individual.</p>
+      </fieldset>
+      <div class="acoes">
+        <button class="botao" type="submit" id="btn-buscar"><svg class="ic"><use href="#i-busca"/></svg>Encontrar imóveis</button>
+        <button class="botao sec" type="button" id="btn-criar-alerta"><svg class="ic"><use href="#i-sino"/></svg>Salvar busca e criar alerta</button>
+        <button class="botao fantasma" type="button" id="btn-limpar">Limpar filtros</button>
+        <span class="sub oculto" style="margin:0" id="editando-alerta"></span>
+      </div>
+      <p class="sub" style="margin:14px 0 0;font-size:.8rem">Compatibilidade alta: atende a todos os critérios informados. Parcial: no máximo um critério essencial diferente e a maioria atendida. Baixa: diferenças importantes. Essenciais: tipo, bairro, valor máximo, quartos e vagas.</p>
+    </form>
+
+    <div id="b-resultado" style="margin-top:16px"></div>
+    <div class="barra-comparar oculto" id="barra-comparar"><span id="comparar-txt"></span><span style="display:flex;gap:8px"><button class="botao pequeno sec" type="button" id="btn-limpar-comp">Limpar</button><button class="botao pequeno" type="button" id="btn-comparar">Comparar</button></span></div>
+    <section class="card oculto" id="comparacao" style="margin-top:16px" aria-labelledby="t-comp"><h2 id="t-comp">Comparação</h2><div class="tabela"><table id="comp-tabela"></table></div></section>
+    <section class="card" id="salvos" style="margin-top:16px" aria-labelledby="t-salvos"><h2 id="t-salvos">Imóveis salvos neste aparelho</h2><div id="salvos-lista" class="sub">Nenhum imóvel salvo ainda. Use “Salvar” nos resultados.</div></section>
+  </section>
+
+  <!-- ================= MEUS ALERTAS ================= -->
+  <section class="view" id="v-alertas" aria-labelledby="t-alertas">
+    <div class="cabeca"><div><h1 id="t-alertas">Meus alertas</h1><p class="sub" style="margin:0">Buscas salvas são conferidas automaticamente todo dia às 8h. Quando surge um imóvel compatível, ele aparece aqui.</p></div>
+      <button class="botao" type="button" id="btn-novo-alerta"><svg class="ic"><use href="#i-sino"/></svg>Novo alerta</button></div>
+    <section class="card" id="identidade" aria-labelledby="t-ident"></section>
+    <div class="aviso" id="aviso-alertas" role="status"></div>
+    <section class="card" style="margin-top:16px" aria-labelledby="t-notifs">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 id="t-notifs">Novas oportunidades</h2><button class="botao pequeno sec" id="btn-ler-todas" type="button">Marcar todas como lidas</button></div>
+      <div class="pilha" id="notificacoes" style="margin-top:12px"></div>
+    </section>
+    <section style="margin-top:16px" aria-labelledby="t-lista-alertas"><h2 id="t-lista-alertas" style="margin-bottom:10px">Alertas cadastrados</h2><div class="pilha" id="lista-alertas"></div></section>
+  </section>
+
+  <!-- ================= DADOS ================= -->
+  <section class="view" id="v-dados" aria-labelledby="t-dados">
+    <div class="cabeca"><div><h1 id="t-dados">Dados e atualizações</h1><p class="sub" style="margin:0">De onde vêm os números e quando cada base foi atualizada pela última vez.</p></div></div>
+    <div class="grade-2">
+      <section class="card"><h2>Mercado (a cada 15 dias)</h2><p class="sub">Inside Airbnb, Banco Central e FipeZAP. Conferido nos dias 1 e 16.</p><div id="status-resumo"></div>
+        <h3 style="margin-top:14px">Últimas execuções</h3><ul class="status-lista" id="status-lista"></ul></section>
+      <section class="card"><h2>Catálogo da Nova São Paulo (todo dia)</h2><p class="sub">Imóveis publicados no site, lidos todo dia às 7h. Os alertas são conferidos às 8h.</p><div id="catalogo-status"></div>
+        <h3 style="margin-top:14px">Verificações automáticas de alertas</h3><ul class="status-lista" id="alertas-status"></ul></section>
+    </div>
+    <footer>
+      <p>As análises são estimativas educativas com dados públicos e premissas editáveis. Não são recomendação de investimento, avaliação técnica nem garantia de renda. Confirme regras do condomínio, documentação, crédito e tributação com profissionais antes de decidir.</p>
+      <p>Fontes: <a href="https://insideairbnb.com/get-the-data/" target="_blank" rel="noopener">Inside Airbnb</a> (CC BY 4.0), Índice FipeZAP, Banco Central do Brasil e anúncios publicados em novasaopaulo.com.br.</p>
+    </footer>
+  </section>
+</div>
+</main>
+
+<dialog id="dlg-alerta" aria-labelledby="dlg-titulo">
+  <form method="dialog" id="form-alerta">
+    <div class="cab"><h2 id="dlg-titulo">Salvar busca e criar alerta</h2><p class="sub" style="margin:4px 0 0" id="dlg-resumo"></p></div>
+    <div class="corpo campos" style="grid-template-columns:1fr 1fr">
+      <label class="campo" style="grid-column:1/-1">Nome do alerta<input id="a-nome" required maxlength="100" placeholder="Cliente procurando apartamento de 2 quartos na Saúde"></label>
+      <label class="campo" style="grid-column:1/-1">Referência interna do cliente<input id="a-cliente" maxlength="60" placeholder="ex.: código do CRM ou iniciais"><span class="ajuda">Não use nome completo, telefone ou e-mail do cliente.</span></label>
+      <label class="campo">Compatibilidade mínima<select id="a-nivel"><option value="alta">Só alta</option><option value="parcial">Alta e parcial</option></select></label>
+      <label class="campo">Verificar<select id="a-freq"><option value="diaria">Todo dia</option><option value="semanal">Uma vez por semana</option></select></label>
+      <label class="campo">Situação<select id="a-status"><option value="ativo">Ativo</option><option value="pausado">Pausado</option></select></label>
+    </div>
+    <div class="pe"><button class="botao sec" value="cancelar" type="submit" formnovalidate>Cancelar</button><button class="botao" value="salvar" type="submit" id="a-salvar">Salvar alerta</button></div>
+  </form>
+</dialog>
+
+<script type="module">
+import * as C from "./compat.mjs";
 "use strict";
 // ================= utilidades =================
 const $ = (id) => document.getElementById(id);
 const brl = (v, casas = 0) => v == null || !isFinite(v) ? "—" : v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: casas, minimumFractionDigits: casas });
 const pct = (v, casas = 1) => v == null || !isFinite(v) ? "—" : (v * 100).toLocaleString("pt-BR", { maximumFractionDigits: casas, minimumFractionDigits: casas }) + "%";
-const num = (v) => { if (v == null) return null; const s = String(v).replace(/[R$\s]/g, "").replace(/\./g, "").replace(",", "."); const n = Number(s); return s === "" || !isFinite(n) ? null : n; };
-const normal = (s) => (s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const num = (v) => { if (v == null) return null; const s = String(v).replace(/[R$\s%]/g, "").replace(/\./g, "").replace(",", "."); const n = Number(s); return s === "" || !isFinite(n) ? null : n; };
+const normal = C.normal;
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const virg = (v) => String(v).replace(".", ",");
 const dataBR = (iso) => { if (!iso) return "—"; const d = new Date(iso.length === 10 ? iso + "T12:00:00" : iso); return isNaN(d) ? iso : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" }); };
 const dataHoraBR = (iso) => { if (!iso) return "—"; const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleString("pt-BR", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" }); };
-const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-function aviso(msg, tipo = "info") { const a = $("aviso"); a.className = "aviso on " + tipo; a.textContent = msg; }
-function semAviso() { $("aviso").className = "aviso"; }
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const urlSegura = (u) => { try { const x = new URL(u); return /^https?:$/.test(x.protocol) ? x.toString() : "#"; } catch { return "#"; } };
+const ls = { get(k, p) { try { const v = localStorage.getItem(k); return v == null ? p : JSON.parse(v); } catch { return p; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+const ss = { get(k, p) { try { const v = sessionStorage.getItem(k); return v == null ? p : JSON.parse(v); } catch { return p; } }, set(k, v) { try { sessionStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+function aviso(msg, tipo = "info", id = "aviso") { const a = $(id); a.className = "aviso on " + tipo; a.textContent = msg; }
+function semAviso(id = "aviso") { $(id).className = "aviso"; }
+const iconeFoto = '<div class="vazio"><svg class="ic"><use href="#i-foto"/></svg><span>Foto não disponível</span></div>';
+
+// ================= navegação =================
+const VIEWS = ["analise", "oportunidades", "alertas", "dados"];
+function irPara(v, empurrar = true) {
+  if (!VIEWS.includes(v)) v = "analise";
+  VIEWS.forEach((x) => $("v-" + x).classList.toggle("on", x === v));
+  document.querySelectorAll(".nav a").forEach((a) => { if (a.dataset.view === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  if (empurrar && location.hash !== "#" + v) history.replaceState(null, "", location.pathname + location.search + "#" + v);
+  if (v === "oportunidades") garantirCatalogo().catch(() => {});
+  if (v === "alertas") carregarAlertas();
+  if (v === "dados") mostrarStatus();
+  window.scrollTo({ top: 0 });
+}
+document.querySelectorAll(".nav a").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); irPara(a.dataset.view); }));
+window.addEventListener("hashchange", () => irPara(location.hash.slice(1), false));
 
 // ================= dados =================
 const BASES = { airbnb: null, indicadores: null, log: null, serie: null };
-const IMOVEL = { similares: [], lat: null, lng: null, ref: "", url: "", fonte: "manual" };
+const IMOVEL = { similares: [], lat: null, lng: null, ref: "", url: "", foto: null, pois: [], lazer: [], tags: [], fonte: "manual" };
+let FINALIDADE = "investimento";
 
 async function carregarBases() {
   const pega = (u) => fetch(u, { cache: "no-cache" }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
@@ -290,17 +595,15 @@ async function carregarBases() {
   BASES.indicadores ||= {};
   preencherDistritos();
   montarPremissas();
-  mostrarStatus();
   const a = BASES.airbnb;
   $("selo-dados").textContent = a?.versao
-    ? `Temporada: dados do Inside Airbnb coletados em ${dataBR(a.versao)}, carregados no sistema em ${dataBR(a.processado_em)}. Veja detalhes no fim da página.`
-    : "Temporada: a base detalhada ainda não foi carregada. Por enquanto uso a média da cidade (Inside Airbnb, jun/2026). Veja o status no fim da página.";
+    ? `Temporada: Inside Airbnb, coleta de ${dataBR(a.versao)}.`
+    : "Temporada: base detalhada ainda não carregada; usando a média da cidade (jun/2026).";
 }
-
 function preencherDistritos() {
   const sel = $("f-distrito");
   const lista = Object.keys(BASES.airbnb?.distritos || {}).sort((a, b) => a.localeCompare(b, "pt-BR"));
-  sel.innerHTML = '<option value="">' + (lista.length ? "Escolha" : "Base de distritos ainda não carregada") + "</option>" + lista.map((d) => `<option>${esc(d)}</option>`).join("");
+  sel.innerHTML = '<option value="">' + (lista.length ? "Escolha" : "Base ainda não carregada") + "</option>" + lista.map((d) => `<option>${esc(d)}</option>`).join("");
 }
 const BAIRRO_DISTRITO = { "vila guarani": "Jabaquara", "vila olimpia": "Itaim Bibi", "jardim paulista": "Jardim Paulista", "paraiso": "Vila Mariana" };
 function acharDistrito(bairro) {
@@ -309,7 +612,25 @@ function acharDistrito(bairro) {
   if (!b || !lista.length) return "";
   const exato = lista.find((d) => normal(d) === b); if (exato) return exato;
   const map = BAIRRO_DISTRITO[b]; if (map && lista.includes(map)) return map;
-  const contem = lista.find((d) => b.includes(normal(d)) || normal(d).includes(b)); return contem || "";
+  return lista.find((d) => b.includes(normal(d)) || normal(d).includes(b)) || "";
+}
+
+// catálogo da Nova SP (ramo "dados" no GitHub)
+const CAT = { dados: null, stats: null, carregando: null, erro: null };
+function garantirCatalogo() {
+  if (CAT.dados || CAT.carregando) return CAT.carregando || Promise.resolve(CAT.dados);
+  $("catalogo-info").textContent = "Carregando catálogo…";
+  CAT.carregando = C.carregarPortfolio().then((p) => {
+    CAT.dados = p; CAT.stats = C.estatisticasPortfolio(p); CAT.erro = null;
+    const ativos = p.imoveis.filter((i) => i.ativo !== false);
+    $("catalogo-info").textContent = `${ativos.length.toLocaleString("pt-BR")} imóveis no catálogo · atualizado ${dataHoraBR(p.atualizado_em)}`;
+    $("catalogo-info").className = "chip azul";
+    const bairros = [...new Set(ativos.map((i) => i.bairro).filter(Boolean))].sort((a, b) => a.localeCompare(b, "pt-BR"));
+    $("lista-bairros").innerHTML = bairros.map((b) => `<option value="${esc(b)}">`).join("");
+    return p;
+  }).catch((e) => { CAT.erro = e.message; $("catalogo-info").textContent = "Catálogo indisponível"; $("catalogo-info").className = "chip vermelho"; throw e; })
+    .finally(() => { CAT.carregando = null; });
+  return CAT.carregando;
 }
 
 // ================= premissas =================
@@ -325,7 +646,7 @@ function premissasPadrao() {
     { id: "itbi", rot: "ITBI (%)", v: 3, fonte: "Prefeitura de São Paulo, alíquota geral" },
     { id: "cartorio", rot: "Escritura e registro (%)", v: 1.5, fonte: "Estimativa; confirme no cartório" },
     { id: "valoriza", rot: "Valorização do imóvel por ano (%)", v: I.venda_var12m?.valor ?? 5.5, fonte: I.venda_var12m ? `${I.venda_var12m.fonte}, 12 meses até ${I.venda_var12m.data}` : "FipeZAP" },
-    { id: "aplicacao", rot: "Rendimento da aplicação alternativa (% ao ano, bruto)", v: selic, fonte: I.selic ? `${I.selic.fonte} (${I.selic.data}). Taxa de hoje; pode cair nos próximos anos` : "Selic" },
+    { id: "aplicacao", rot: "Rendimento da aplicação alternativa (% ao ano, bruto)", v: selic, fonte: I.selic ? `${I.selic.fonte} (${I.selic.data}). Taxa de hoje; pode cair` : "Selic" },
     { id: "irAplic", rot: "IR sobre a aplicação (%)", v: 15, fonte: "Renda fixa acima de 2 anos" },
     { id: "custoVenda", rot: "Custo para vender no futuro (% corretagem)", v: 6, fonte: "Tabela usual do CRECI-SP" },
     { id: "mpPremio", rot: "Médio prazo: aluguel acima do tradicional (%)", v: 35, fonte: "Hipótese, mobiliado 1 a 6 meses" },
@@ -337,15 +658,18 @@ function premissasPadrao() {
     { id: "contas", rot: "Contas pagas pelo dono em temporada (R$/mês)", v: 450, fonte: "Hipótese: luz, internet, reposição" },
     { id: "mobiliaBase", rot: "Mobiliar e equipar: valor fixo (R$)", v: 30000, fonte: "Hipótese" },
     { id: "mobiliaM2", rot: "Mobiliar e equipar: por m² (R$)", v: 350, fonte: "Hipótese" },
+    { id: "entrada", rot: "Financiamento: entrada (%)", v: 20, fonte: "Mínimo usual dos bancos para imóvel usado" },
+    { id: "jurosFin", rot: "Financiamento: juros (% ao ano + TR)", v: 11.7, fonte: "Referência de grandes bancos (levantamento MySide/Exame). Use a taxa da proposta do banco" },
+    { id: "prazoFin", rot: "Financiamento: prazo (meses)", v: 360, fonte: "Prazo comum; máximo de 420" },
   ];
 }
 let PREMISSAS = {};
 function montarPremissas(manter) {
   const lista = premissasPadrao();
-  $("grade-premissas").innerHTML = lista.map((p) => `<label class="campo" title="${esc(p.fonte)}">${esc(p.rot)}<input id="p-${p.id}" inputmode="decimal" value="${String(manter && PREMISSAS[p.id] != null ? PREMISSAS[p.id] : p.v).replace(".", ",")}"><span style="font-size:.75rem">${esc(p.fonte)}</span></label>`).join("");
+  $("grade-premissas").innerHTML = lista.map((p) => `<label class="campo" title="${esc(p.fonte)}">${esc(p.rot)}<input id="p-${p.id}" inputmode="decimal" value="${virg(manter && PREMISSAS[p.id] != null ? PREMISSAS[p.id] : p.v)}"><span class="ajuda">${esc(p.fonte)}</span></label>`).join("");
   lista.forEach((p) => { PREMISSAS[p.id] = manter && PREMISSAS[p.id] != null ? PREMISSAS[p.id] : p.v; });
   $("grade-premissas").querySelectorAll("input").forEach((el) => el.addEventListener("input", () => {
-    PREMISSAS[el.id.slice(2)] = num(el.value) ?? 0; if ($("resultado").classList.contains("on")) calcular();
+    PREMISSAS[el.id.slice(2)] = num(el.value) ?? 0; if (!$("resultado").classList.contains("oculto")) calcular();
   }));
 }
 
@@ -379,47 +703,66 @@ function temporadaRef(distrito, quartos, lat, lng) {
 }
 
 // ================= leitura do link =================
+async function lerAnuncio(link) {
+  const r = await fetch("/api/ler-imovel?url=" + encodeURIComponent(link));
+  return r.json().catch(() => ({ ok: false, erro: "Resposta inválida do servidor." }));
+}
 $("form-link").addEventListener("submit", async (e) => {
   e.preventDefault();
   const link = $("link").value.trim();
   if (!link) { aviso("Cole o link do anúncio no campo acima.", "erro"); return; }
+  $("voltar-busca").classList.add("oculto");
   const btn = $("btn-analisar"); btn.disabled = true; btn.textContent = "Lendo anúncio…"; semAviso();
   try {
-    const r = await fetch("/api/ler-imovel?url=" + encodeURIComponent(link));
-    const j = await r.json().catch(() => ({ ok: false, erro: "Resposta inválida do servidor." }));
-    if (!j.ok) { aviso(j.erro + " ", "erro"); abrirFormulario({}); return; }
-    Object.assign(IMOVEL, j.dados, { fonte: "anuncio" });
+    const j = await lerAnuncio(link);
+    if (!j.ok) { aviso(j.erro, "erro"); limparImovel(); abrirFormulario({}); return; }
+    limparImovel(); Object.assign(IMOVEL, j.dados, { fonte: "anuncio" });
     abrirFormulario(j.dados);
-    if (j.parcial) aviso(j.aviso, "info"); else aviso(`Anúncio ${j.dados.ref || ""} lido. Confira os dados e veja a análise abaixo.`, "ok");
+    if (j.parcial) aviso(j.aviso, "info"); else aviso(`Anúncio ${j.dados.ref || ""} lido. Confira os dados e veja a análise.`, "ok");
     calcular(true);
   } catch {
-    aviso("Não consegui falar com o servidor. Se estiver abrindo o arquivo direto do computador, a leitura do link só funciona no site publicado. Preencha os dados à mão.", "erro");
+    aviso("Não consegui falar com o servidor. A leitura do link só funciona no site publicado. Preencha os dados à mão.", "erro");
     abrirFormulario({});
   } finally { btn.disabled = false; btn.textContent = "Analisar imóvel"; }
 });
-$("btn-manual").addEventListener("click", () => { Object.assign(IMOVEL, { similares: [], lat: null, lng: null, ref: "", url: "", fonte: "manual" }); abrirFormulario({}); $("f-preco").focus(); });
+function limparImovel() { Object.assign(IMOVEL, { similares: [], lat: null, lng: null, ref: "", url: "", foto: null, pois: [], lazer: [], tags: [], fonte: "manual", tipo: "", bairro: "", cidade: "São Paulo", suites: null, condominioNome: null, metroEstacao: null }); }
+$("btn-manual").addEventListener("click", () => { limparImovel(); $("voltar-busca").classList.add("oculto"); abrirFormulario({}); $("f-preco").focus(); });
 $("btn-calcular").addEventListener("click", () => calcular(true));
 
 function abrirFormulario(d) {
   $("form-imovel").classList.remove("oculto");
-  const set = (id, v) => { if (v != null && v !== "") $(id).value = typeof v === "number" ? v.toLocaleString("pt-BR") : v; };
-  set("f-preco", d.preco); set("f-area", d.area); set("f-quartos", d.quartos); set("f-vagas", d.vagas);
+  const set = (id, v) => { $(id).value = v != null && v !== "" ? (typeof v === "number" ? v.toLocaleString("pt-BR") : v) : ""; };
+  set("f-preco", d.preco); set("f-area", d.area); set("f-quartos", d.quartos); set("f-banheiros", d.banheiros); set("f-vagas", d.vagas);
   set("f-condo", d.condominio); set("f-iptu", d.iptu); set("f-bairro", d.bairro); set("f-metro", d.metroDistancia);
   if (d.tipo) { const t = [...$("f-tipo").options].find((o) => normal(d.tipo).startsWith(normal(o.text))); $("f-tipo").value = t ? t.text : (/casa|sobrado/i.test(d.tipo) ? "Casa" : "Outro"); }
-  if (d.mobiliado != null) $("f-mobiliado").value = d.mobiliado ? "sim" : "nao";
-  if (d.bairro) { const dist = acharDistrito(d.bairro); if (dist) $("f-distrito").value = dist; }
+  $("f-mobiliado").value = d.mobiliado ? "sim" : "nao";
+  $("f-distrito").value = d.bairro ? acharDistrito(d.bairro) : "";
 }
-document.querySelectorAll("#form-imovel input, #form-imovel select").forEach((el) => el.addEventListener("change", () => { if ($("resultado").classList.contains("on")) calcular(); }));
+document.querySelectorAll("#form-imovel input, #form-imovel select").forEach((el) => el.addEventListener("change", () => { if (!$("resultado").classList.contains("oculto")) calcular(); }));
 
 function lerFormulario() {
   return {
-    preco: num($("f-preco").value), area: num($("f-area").value), quartos: num($("f-quartos").value), vagas: num($("f-vagas").value) ?? 0,
+    preco: num($("f-preco").value), area: num($("f-area").value), quartos: num($("f-quartos").value), banheiros: num($("f-banheiros").value), vagas: num($("f-vagas").value) ?? 0,
     condo: num($("f-condo").value) ?? 0, iptu: num($("f-iptu").value) ?? 0, tipo: $("f-tipo").value, bairro: $("f-bairro").value.trim(),
-    distrito: $("f-distrito").value, metro: num($("f-metro").value), objetivo: $("f-objetivo").value, mobiliado: $("f-mobiliado").value === "sim",
+    distrito: $("f-distrito").value, metro: num($("f-metro").value), objetivo: FINALIDADE === "moradia" ? "morar" : "investir", mobiliado: $("f-mobiliado").value === "sim",
+    condoInformado: $("f-condo").value.trim() !== "", iptuInformado: $("f-iptu").value.trim() !== "",
   };
 }
 
-// ================= cálculo =================
+// ================= finalidade =================
+function definirFinalidade(f, recalcular = true) {
+  FINALIDADE = f === "moradia" ? "moradia" : "investimento";
+  document.body.classList.toggle("f-moradia", FINALIDADE === "moradia");
+  document.body.classList.toggle("f-investimento", FINALIDADE === "investimento");
+  $("fin-moradia").setAttribute("aria-pressed", FINALIDADE === "moradia");
+  $("fin-investimento").setAttribute("aria-pressed", FINALIDADE === "investimento");
+  $("fin-explica").textContent = FINALIDADE === "moradia" ? "Prioriza preço, localização, custo mensal, financiamento e comprar x alugar." : "Prioriza renda líquida, custos, patrimônio, alternativas e riscos.";
+  if (recalcular && !$("resultado").classList.contains("oculto")) calcular();
+}
+$("fin-moradia").addEventListener("click", () => definirFinalidade("moradia"));
+$("fin-investimento").addEventListener("click", () => definirFinalidade("investimento"));
+
+// ================= cálculo (fórmulas da versão anterior preservadas) =================
 function calcular(rolar) {
   const f = lerFormulario();
   if (!f.preco || !f.area) { aviso("Preencha pelo menos o preço e a área para ver a análise.", "erro"); return; }
@@ -441,10 +784,10 @@ function calcular(rolar) {
   const tIR = Math.max(0, tRec - tAdm - tFixoVazio) * pc(P.ir);
   const tLiq = tRec - tAdm - tFixoVazio - manutAno - tIR;
   const trad = { id: "trad", nome: "Aluguel tradicional (contrato de 30 meses)", recMes: alugMes, rec: tRec, custos: tAdm + tFixoVazio + manutAno + tIR, liq: tLiq, invest: investBase, extra: 0,
-    linhas: [["Aluguel estimado", brl(alugMes) + "/mês"], ["Meses vazio por ano", String(P.vacancia).replace(".", ",")], ["Administração", brl(tAdm / 12) + "/mês"], ["Condomínio e IPTU nos meses vazios", brl(tFixoVazio / 12) + "/mês"], ["Manutenção", brl(manutAno / 12) + "/mês"], ["Imposto de renda estimado", brl(tIR / 12) + "/mês"]],
-    nota: `Inquilino paga condomínio e IPTU. Aluguel pela média de ${String(P.aluguelM2).replace(".", ",")} R$/m² da cidade (FipeZAP); o bairro pode estar acima ou abaixo.` };
+    linhas: [["Aluguel estimado", brl(alugMes) + "/mês"], ["Meses vazio por ano", virg(P.vacancia)], ["Administração", brl(tAdm / 12) + "/mês"], ["Condomínio e IPTU nos meses vazios", brl(tFixoVazio / 12) + "/mês"], ["Manutenção", brl(manutAno / 12) + "/mês"], ["Imposto de renda estimado", brl(tIR / 12) + "/mês"]],
+    nota: `Inquilino paga condomínio e IPTU. Aluguel pela média de ${virg(P.aluguelM2)} R$/m² da cidade (FipeZAP); o bairro pode estar acima ou abaixo.` };
 
-  // 2) médio prazo (mobiliado, 1 a 6 meses)
+  // 2) médio prazo
   const mpMesRef = ref.diariaMP ? Math.round(ref.diariaMP * 30) : null;
   const mpMes = Math.round(mpMesRef || alugMes * (1 + pc(P.mpPremio)));
   const mRec = mpMes * 12 * pc(P.mpOcup);
@@ -473,11 +816,13 @@ function calcular(rolar) {
   ests.forEach((e) => { e.yield = e.liq / e.invest; });
   const melhor = ests.reduce((a, b) => (b.yield > a.yield ? b : a));
 
-  // preço x similares
+  // preço x similares do anúncio
   const sims = (IMOVEL.similares || []).filter((s) => s.precoM2 > 1000 && s.precoM2 < 60000);
   const m2 = f.preco / f.area;
   const medSim = sims.length ? mediana(sims.map((s) => s.precoM2)) : null;
   const difSim = medSim ? m2 / medSim - 1 : null;
+  // informação extra: mediana do portfólio no bairro (não entra no score)
+  const estBairro = CAT.stats ? C.estimativas({ bairro: f.bairro, tipo: f.tipo, area: f.area, preco_venda: f.preco }, CAT.stats) : null;
 
   // futuro
   const anos = [5, 10, 15];
@@ -488,21 +833,29 @@ function calcular(rolar) {
     const valor = f.preco * Math.pow(1 + val, n);
     const venda = valor * pc(P.custoVenda);
     const ganho = Math.max(0, valor - venda - investBase);
-    const irGanho = ganho * 0.15;
-    return { valor, patrimonio: valor - venda - irGanho + acum, acum };
+    return { valor, patrimonio: valor - venda - ganho * 0.15 + acum, acum };
   };
   const aplic = (inv, n) => inv * Math.pow(1 + aplicLiq, n);
   const proj = anos.map((n) => ({
     n, trad: projeta(trad, n, v), melhor: projeta(melhor, n, v), pess: projeta(melhor, n, vPess), ot: projeta(melhor, n, vOt),
     aplicTrad: aplic(trad.invest, n), aplicMelhor: aplic(melhor.invest, n), valorImovel: f.preco * Math.pow(1 + v, n),
   }));
-  // morar: comprar x alugar e investir a diferença
   const morar = anos.map((n) => {
     let saldo = investBase; for (let t = 1; t <= n; t++) saldo = saldo * (1 + aplicLiq) - alugMes * 12 * Math.pow(1 + v, t - 1);
     const valor = f.preco * Math.pow(1 + v, n);
     return { n, comprar: valor * (1 - pc(P.custoVenda)) - manutAno * n, alugar: saldo };
   });
   const breakeven = taxaEmpate(trad, f, investBase, 10, v, P);
+
+  // financiamento (moradia): SAC e Price
+  const fin = (() => {
+    const entrada = f.preco * clamp(pc(P.entrada), 0, 1), valorFin = f.preco - entrada, nm = Math.max(12, Math.round(P.prazoFin || 360));
+    const im = Math.pow(1 + pc(P.jurosFin), 1 / 12) - 1;
+    const amort = valorFin / nm;
+    const sac1 = amort + valorFin * im, sacN = amort + amort * im, sacJuros = im * valorFin * (nm + 1) / 2;
+    const price = im > 0 ? valorFin * im / (1 - Math.pow(1 + im, -nm)) : valorFin / nm;
+    return { entrada, valorFin, nm, im, sac1, sacN, sacJuros, price, priceJuros: price * nm - valorFin, rendaMin: sac1 / 0.3, desembolsoInicial: entrada + custoCompra };
+  })();
 
   // liquidez
   let liq = 40;
@@ -515,16 +868,18 @@ function calcular(rolar) {
   if (condoM2 > 20) liq -= 6;
   liq = clamp(Math.round(liq), 5, 95);
 
-  // pontuação final
+  // score (mesma metodologia da versão anterior, agora com cada parcela exposta)
   const ref10 = f.objetivo === "morar" ? morar[1].comprar / morar[1].alugar - 1 : proj[1].melhor.patrimonio / proj[1].aplicMelhor - 1;
-  let nota = 50 + clamp(ref10 * 200, -35, 35) + (difSim != null ? clamp(-difSim * 60, -10, 10) : 0) + (liq - 50) * 0.15;
-  nota = clamp(Math.round(nota), 0, 100);
+  const ptsFin = clamp(ref10 * 200, -35, 35);
+  const ptsPreco = difSim != null ? clamp(-difSim * 60, -10, 10) : 0;
+  const ptsLiq = (liq - 50) * 0.15;
+  const nota = clamp(Math.round(50 + ptsFin + ptsPreco + ptsLiq), 0, 100);
 
-  const R = { f, P, ref, ests, trad, medio, curta, melhor, m2, sims, medSim, difSim, proj, morar, breakeven, liq, condoM2, nota, alugMes, custoCompra, investBase, mobilia, aplicLiq, manutAno, fixoMes };
+  const R = { f, P, ref, ests, trad, medio, curta, melhor, m2, sims, medSim, difSim, estBairro, proj, morar, breakeven, liq, condoM2, nota, ptsFin, ptsPreco, ptsLiq, ref10, alugMes, custoCompra, investBase, mobilia, aplicLiq, manutAno, fixoMes, fin };
   desenhar(R);
   salvarNoLink(f);
-  $("resultado").classList.add("on");
-  if (rolar) $("veredito").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+  $("resultado").classList.remove("oculto");
+  if (rolar) $("resumo").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
 }
 function mediana(a) { const s = [...a].sort((x, y) => x - y), m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
 function taxaEmpate(trad, f, inv, n, v, P) {
@@ -533,71 +888,133 @@ function taxaEmpate(trad, f, inv, n, v, P) {
   for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2; if (inv * Math.pow(1 + mid, n) > pat(mid)) hi = mid; else lo = mid; }
   return (lo + hi) / 2 / (1 - P.irAplic / 100);
 }
+const nomeEstr = (e) => (e.id === "trad" ? "aluguel tradicional" : e.id === "medio" ? "médio prazo" : "curta temporada");
 
 // ================= desenho =================
 function desenhar(R) {
-  const { f, ref, ests, melhor, proj, morar } = R;
-  const investir = f.objetivo !== "morar";
-  const ident = [f.tipo, f.area && f.area.toLocaleString("pt-BR") + " m²", f.quartos != null && f.quartos + (f.quartos === 1 ? " quarto" : " quartos"), f.bairro, IMOVEL.ref && "Ref. " + IMOVEL.ref].filter(Boolean).join(", ");
-  $("v-ident").textContent = ident + " · " + brl(f.preco);
+  const { f, ref, ests, melhor, proj, morar, fin } = R;
+  const investir = FINALIDADE === "investimento";
+
+  // resumo do imóvel
+  $("r-foto").innerHTML = IMOVEL.foto ? `<img src="${esc(urlSegura(IMOVEL.foto))}" alt="Foto principal do imóvel${IMOVEL.ref ? " " + esc(IMOVEL.ref) : ""}" loading="lazy">` : iconeFoto;
+  $("r-chips").innerHTML = [IMOVEL.ref && `<span class="chip">Ref. ${esc(IMOVEL.ref)}</span>`, `<span class="chip azul">${esc(f.tipo)}</span>`, IMOVEL.fonte === "manual" && '<span class="chip">Preenchido à mão</span>', f.mobiliado && '<span class="chip roxo">Mobiliado</span>'].filter(Boolean).join("");
+  $("r-titulo").textContent = `${f.tipo}${f.quartos != null ? `, ${f.quartos} ${f.quartos === 1 ? "quarto" : "quartos"}` : ""}${f.area ? `, ${f.area.toLocaleString("pt-BR")} m²` : ""}`;
+  $("r-local").textContent = [f.bairro, IMOVEL.cidade || "São Paulo", IMOVEL.endereco].filter(Boolean).join(" · ");
+  $("r-preco").textContent = brl(f.preco);
+  $("r-m2").textContent = `${brl(R.m2)} por m²`;
+  $("r-carac").innerHTML = [["Área útil", f.area && f.area.toLocaleString("pt-BR") + " m²"], ["Quartos", f.quartos], ["Suítes", IMOVEL.suites], ["Banheiros", f.banheiros], ["Vagas", f.vagas], ["Condomínio", f.condoInformado ? brl(f.condo) : "não informado"], ["IPTU/mês", f.iptuInformado ? brl(f.iptu) : "não informado"]]
+    .filter(([, v]) => v != null && v !== "").map(([k, v]) => `<li>${esc(k)}: <b>${esc(v)}</b></li>`).join("");
+  $("r-acoes").innerHTML = IMOVEL.url ? `<a class="botao sec pequeno" href="${esc(urlSegura(IMOVEL.url))}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-externo"/></svg>Abrir anúncio original</a>` : "";
+
+  // score
   const cls = R.nota >= 68 ? "bom" : R.nota >= 45 ? "medio" : "fraco";
-  $("veredito").className = "veredito " + cls;
+  const cor = cls === "bom" ? "var(--verde)" : cls === "medio" ? "var(--ambar)" : "var(--vermelho)";
+  $("score-arco").style.stroke = cor; $("score-arco").style.strokeDashoffset = String(314.16 * (1 - R.nota / 100));
+  $("score-num").textContent = R.nota;
   const p10 = proj[1], m10 = morar[1];
   if (investir) {
     $("v-titulo").textContent = cls === "bom" ? "Faz sentido como investimento" : cls === "medio" ? "Pode fazer sentido, com condições" : "Como investimento, há opções melhores";
     const dif = p10.melhor.patrimonio - p10.aplicMelhor;
-    $("v-frase").textContent = `Em 10 anos, comprando e alugando como ${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}, o patrimônio estimado é ${brl(p10.melhor.patrimonio)}, ${dif >= 0 ? brl(dif) + " a mais" : brl(-dif) + " a menos"} do que deixar o mesmo dinheiro aplicado.`;
+    $("v-frase").textContent = `Em 10 anos, comprando e alugando como ${nomeEstr(melhor)}, o patrimônio estimado é ${brl(p10.melhor.patrimonio)}, ${dif >= 0 ? brl(dif) + " a mais" : brl(-dif) + " a menos"} do que deixar o mesmo dinheiro aplicado.`;
   } else {
     $("v-titulo").textContent = cls === "bom" ? "Comprar para morar compensa" : cls === "medio" ? "Comprar ou alugar dá quase no mesmo" : "Alugar e investir a diferença rende mais";
     const dif = m10.comprar - m10.alugar;
-    $("v-frase").textContent = `Em 10 anos, comprar deixa um patrimônio estimado de ${brl(m10.comprar)}; alugar um imóvel igual e aplicar o dinheiro deixaria ${brl(m10.alugar)}. Diferença de ${brl(Math.abs(dif))} ${dif >= 0 ? "a favor da compra" : "a favor do aluguel"}.`;
+    $("v-frase").textContent = `Em 10 anos, comprar deixa um patrimônio estimado de ${brl(m10.comprar)}; alugar um imóvel parecido e aplicar o dinheiro deixaria ${brl(m10.alugar)}. Diferença de ${brl(Math.abs(dif))} ${dif >= 0 ? "a favor da compra" : "a favor do aluguel"}.`;
   }
-  $("v-ponteiro").style.left = R.nota + "%";
+  $("score-txt").textContent = `${R.nota} de 100 na visão de ${investir ? "investimento" : "moradia"}.`;
+  const sinal = (x) => (x > 0.5 ? "pos" : x < -0.5 ? "neg" : "neu");
+  const ptsTxt = (x) => (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(0).replace(".", ",");
+  $("score-fatores").innerHTML = [
+    { n: "Ponto de partida", p: 50, t: "Todo imóvel começa no meio da escala.", neutro: true },
+    { n: investir ? "Patrimônio em 10 anos x aplicação" : "Comprar x alugar em 10 anos", p: R.ptsFin, t: `${R.ref10 >= 0 ? "+" : ""}${pct(R.ref10)} de diferença no cenário base.` },
+    { n: "Preço x parecidos anunciados", p: R.ptsPreco, t: R.difSim != null ? `Preço por m² ${R.difSim > 0 ? pct(R.difSim, 0) + " acima" : pct(-R.difSim, 0) + " abaixo"} da mediana de ${R.sims.length} parecidos.` : "Sem parecidos para comparar; parcela não aplicada." },
+    { n: "Facilidade de revenda", p: R.ptsLiq, t: `Índice indicativo de ${R.liq} de 100 (tipo, metrô, vaga, faixa de preço e tamanho).` },
+  ].map((x) => `<li><b>${esc(x.n)}</b><span class="pts ${x.neutro ? "neu" : sinal(x.p)}">${x.neutro ? x.p : ptsTxt(x.p)}</span><small>${esc(x.t)}</small></li>`).join("");
+  const lim = [];
+  if (R.difSim == null) lim.push("Sem imóveis parecidos para comparar o preço.");
+  if (!f.condoInformado) lim.push("Condomínio não informado: custos podem estar subestimados.");
+  if (!f.iptuInformado) lim.push("IPTU não informado.");
+  if (f.metro == null) lim.push("Distância do metrô não informada.");
+  if (investir && !ref.n) lim.push("Dados de temporada da região ainda não carregados; usada a média da cidade.");
+  $("score-limites").classList.toggle("oculto", !lim.length);
+  $("score-limites").innerHTML = lim.length ? `<b>Limitações desta análise</b><ul>${lim.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
 
+  // prós e contras por finalidade
   const pros = [], contras = [];
   if (R.difSim != null) (R.difSim <= -0.03 ? pros : R.difSim >= 0.08 ? contras : pros).push(R.difSim <= -0.03 ? `Preço por m² ${pct(-R.difSim, 0)} abaixo dos imóveis parecidos anunciados.` : R.difSim >= 0.08 ? `Preço por m² ${pct(R.difSim, 0)} acima dos imóveis parecidos anunciados.` : "Preço por m² em linha com imóveis parecidos anunciados.");
-  if (melhor.yield >= R.aplicLiq * 0.75) pros.push(`Renda líquida de ${pct(melhor.yield)} ao ano em ${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}, perto do que rende a aplicação.`);
-  else contras.push(`Renda líquida de ${pct(melhor.yield)} ao ano, abaixo dos ${pct(R.aplicLiq)} líquidos da aplicação alternativa.`);
-  if (R.f.metro != null && R.f.metro <= 600) pros.push(`A ${R.f.metro} m do metrô: ajuda a alugar e a revender.`);
-  if (R.liq >= 65) pros.push("Perfil fácil de revender (tipo, tamanho, preço e localização)."); else if (R.liq < 45) contras.push("Revenda pode demorar mais que a média.");
-  pros.push(`Valorização de ${String(R.P.valoriza).replace(".", ",")}% ao ano no cenário base e proteção contra inflação, já que aluguel e preço tendem a acompanhar os índices.`);
-  if (R.condoM2 > 18) contras.push(`Condomínio alto para o tamanho (${brl(R.condoM2, 2)} por m²), pesa na renda e na revenda.`);
-  if (R.breakeven != null && isFinite(R.breakeven)) contras.push(`O aluguel tradicional só empata com uma aplicação que renda até ${pct(R.breakeven)} ao ano bruto; hoje a referência é ${String(R.P.aplicacao).replace(".", ",")}%.`);
-  if (melhor.id === "curta") contras.push("A melhor renda depende de curta temporada: confirme se o condomínio permite.");
+  if (f.metro != null && f.metro <= 600) pros.push(`A ${f.metro} m do metrô${IMOVEL.metroEstacao ? " " + IMOVEL.metroEstacao : ""}.`);
+  if (R.condoM2 > 18) contras.push(`Condomínio alto para o tamanho (${brl(R.condoM2, 2)} por m²).`);
+  if (investir) {
+    if (melhor.yield >= R.aplicLiq * 0.75) pros.push(`Renda líquida de ${pct(melhor.yield)} ao ano em ${nomeEstr(melhor)}, perto do que rende a aplicação.`);
+    else contras.push(`Renda líquida de ${pct(melhor.yield)} ao ano, abaixo dos ${pct(R.aplicLiq)} líquidos da aplicação alternativa.`);
+    if (R.liq >= 65) pros.push("Perfil fácil de revender (tipo, tamanho, preço e localização)."); else if (R.liq < 45) contras.push("Revenda pode demorar mais que a média.");
+    pros.push(`Valorização de ${virg(R.P.valoriza)}% ao ano no cenário base; aluguel e preço tendem a acompanhar a inflação.`);
+    if (R.breakeven != null && isFinite(R.breakeven)) contras.push(`O aluguel tradicional só empata com uma aplicação que renda até ${pct(R.breakeven)} ao ano bruto; hoje a referência é ${virg(R.P.aplicacao)}%.`);
+    if (melhor.id === "curta") contras.push("A melhor renda depende de curta temporada: confirme se o condomínio permite.");
+  } else {
+    const perto = (IMOVEL.pois || []).filter((p) => p.metros <= 600 && !/metr/i.test(p.tipo));
+    if (perto.length) pros.push(`Perto de ${perto.slice(0, 3).map((p) => `${p.tipo.toLowerCase()} (${p.metros} m)`).join(", ")}.`);
+    if (f.vagas >= 1) pros.push(`${f.vagas} ${f.vagas === 1 ? "vaga" : "vagas"} de garagem.`); else contras.push("Sem vaga de garagem informada.");
+    const custoMor = fin.sac1 + R.fixoMes;
+    if (custoMor > R.alugMes * 1.6) contras.push(`Financiando, o custo mensal inicial (${brl(custoMor)}) fica bem acima do aluguel de um imóvel parecido (≈ ${brl(R.alugMes)} + condomínio).`);
+    else pros.push(`Financiando, o custo mensal inicial fica em ${brl(custoMor)} com condomínio e IPTU.`);
+    if (m10.comprar >= m10.alugar) pros.push("Em 10 anos, comprar deixa mais patrimônio do que alugar e aplicar."); else contras.push("Em 10 anos, alugar e aplicar o dinheiro deixa mais patrimônio.");
+    if (f.quartos && f.area / f.quartos < 22) contras.push("Ambientes compactos para o número de quartos.");
+  }
   $("v-pros").innerHTML = pros.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("") || "<li>Nenhum ponto forte claro com as premissas atuais.</li>";
-  $("v-contras").innerHTML = contras.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("") || "<li>Nenhum ponto fraco relevante com as premissas atuais.</li>";
+  $("v-contras").innerHTML = contras.slice(0, 5).map((x) => `<li>${esc(x)}</li>`).join("") || "<li>Nenhum ponto de atenção relevante com as premissas atuais.</li>";
 
   // preço
-  $("preco-sub").textContent = R.sims.length ? `Comparação com ${R.sims.length} imóveis parecidos que o próprio site da Nova São Paulo mostra no anúncio. São preços pedidos, não preços de venda fechados.` : "Sem imóveis parecidos para comparar (dados preenchidos à mão ou anúncio sem sugestões). Os números abaixo usam só o próprio imóvel.";
+  $("preco-sub").textContent = R.sims.length ? `Comparação com ${R.sims.length} imóveis parecidos que o próprio anúncio sugere. São preços pedidos, não preços de venda fechados.` : "O anúncio não trouxe imóveis parecidos para comparar.";
+  const eb = R.estBairro;
   $("preco-num").innerHTML = [
     [brl(R.m2), "preço pedido por m²"],
     [R.medSim ? brl(R.medSim) : "—", "mediana dos parecidos por m²"],
     [R.difSim != null ? (R.difSim > 0 ? "+" : "") + pct(R.difSim, 0) : "—", "diferença"],
-  ].map(([b, s]) => `<div class="num"><b>${b}</b><span>${s}</span></div>`).join("");
-  const maxM2 = Math.max(R.m2, ...R.sims.map((s) => s.precoM2));
-  $("preco-barras").innerHTML = [{ rot: "Este imóvel", v: R.m2, cls: "" }, ...R.sims.map((s) => ({ rot: `Ref. ${s.ref}, ${s.bairro.replace(/\(Zona Sul\)/, "")}, ${s.area} m²`, v: s.precoM2, cls: "cinza" }))]
+    [eb?.medianaBairroM2 ? brl(eb.medianaBairroM2) : "—", eb?.medianaBairroM2 ? `mediana de ${eb.nBairro} imóveis da Nova SP no bairro` : "portfólio no bairro: amostra insuficiente"],
+  ].map(([b, s]) => `<div class="ind"><b>${b}</b><span>${esc(s)}</span></div>`).join("");
+  const maxM2 = Math.max(R.m2, ...R.sims.map((s) => s.precoM2), eb?.medianaBairroM2 || 0);
+  $("preco-barras").innerHTML = [{ rot: "Este imóvel", v: R.m2, cls: "" }, ...R.sims.map((s) => ({ rot: `Ref. ${s.ref}, ${s.bairro.replace(/\(Zona Sul\)/, "")}, ${s.area} m²`, v: s.precoM2, cls: "cinza" })), ...(eb?.medianaBairroM2 ? [{ rot: "Mediana do portfólio no bairro", v: eb.medianaBairroM2, cls: "roxo" }] : [])]
     .map((b) => `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${brl(b.v)}/m²</b></div><div class="trilho"><i class="${b.cls}" style="width:${(b.v / maxM2) * 100}%"></i></div></div>`).join("");
-  $("preco-nota").textContent = "Na prática, o preço fechado costuma ficar abaixo do pedido. Para saber quanto se pagou de verdade no prédio ou na rua, consulte as transações registradas na Prefeitura (ITBI) ou o guia Foca na Zona Sul.";
+  $("preco-nota").textContent = "O preço fechado costuma ficar abaixo do pedido. Para saber quanto se pagou de verdade no prédio ou na rua, consulte as transações registradas na Prefeitura (ITBI) ou o guia Foca na Zona Sul.";
 
-  // estratégias
+  // moradia: localização, características, financiamento
+  const pois = IMOVEL.pois || [];
+  $("local-sub").textContent = pois.length ? "Pontos mais próximos informados no anúncio (fonte: GeoSampa e OpenStreetMap)." : f.metro != null ? `Metrô a ${f.metro} m. O anúncio não trouxe outros pontos de interesse.` : "O anúncio não trouxe pontos de interesse. Abra pelo link para ver o mapa.";
+  $("pois").innerHTML = pois.map((p) => `<div class="poi"><span>${esc(p.tipo)}</span><b title="${esc(p.nome)}">${p.metros.toLocaleString("pt-BR")} m</b></div>`).join("");
+  $("carac-num").innerHTML = [[f.area ? f.area.toLocaleString("pt-BR") + " m²" : "—", "área útil"], [f.quartos ?? "—", "quartos"], [IMOVEL.suites ?? "—", "suítes"], [f.banheiros ?? "—", "banheiros"], [f.vagas ?? "—", "vagas"], [f.quartos ? Math.round(f.area / f.quartos) + " m²" : "—", "área por quarto"]]
+    .map(([b, s]) => `<div class="ind"><b>${esc(b)}</b><span>${esc(s)}</span></div>`).join("");
+  $("carac-lazer").textContent = (IMOVEL.lazer || []).length ? "No condomínio: " + IMOVEL.lazer.join(", ") + "." : "Itens de lazer não informados.";
+  $("fin-sub").textContent = `Entrada de ${virg(R.P.entrada)}%, ${fin.nm} meses, ${virg(R.P.jurosFin)}% ao ano + TR. Ajuste em “Ajustar premissas” com a proposta do seu banco.`;
+  $("fin-num").innerHTML = [[brl(fin.desembolsoInicial), "entrada + ITBI e cartório"], [brl(fin.sac1), "1ª parcela (SAC)"], [brl(fin.sac1 + R.fixoMes), "custo mensal inicial com condomínio e IPTU"], [brl(fin.rendaMin), "renda familiar sugerida (parcela até 30%)"]]
+    .map(([b, s]) => `<div class="ind"><b>${b}</b><span>${esc(s)}</span></div>`).join("");
+  $("fin-tabela").innerHTML = `<thead><tr><th>Sistema</th><th>1ª parcela</th><th>Última parcela</th><th>Juros no total</th></tr></thead><tbody>
+    <tr><td>SAC (parcela cai com o tempo)</td><td>${brl(fin.sac1)}</td><td>${brl(fin.sacN)}</td><td>${brl(fin.sacJuros)}</td></tr>
+    <tr><td>Price (parcela fixa)</td><td>${brl(fin.price)}</td><td>${brl(fin.price)}</td><td>${brl(fin.priceJuros)}</td></tr>
+    <tr><td>Aluguel de imóvel parecido (referência)</td><td>${brl(R.alugMes)}</td><td colspan="2" style="text-align:left">+ condomínio e IPTU, que o inquilino também paga</td></tr></tbody>`;
+  $("fin-nota").textContent = "Valores sem seguros obrigatórios (MIP e DFI), tarifas e correção pela TR, que entram no Custo Efetivo Total (CET). O banco aprova crédito pela avaliação dele e pela sua renda.";
+
+  // investimento: estratégias
   $("estrategias").innerHTML = ests.map((e) => {
-    const tag = e === melhor ? '<span class="etiqueta">Melhor retorno</span>' : e.yield < 0 ? '<span class="etiqueta ver">Dá prejuízo</span>' : e.yield < R.aplicLiq * 0.6 ? '<span class="etiqueta amb">Retorno baixo</span>' : "";
+    const tag = e === melhor ? '<span class="chip verde">Melhor retorno</span>' : e.yield < 0 ? '<span class="chip vermelho">Dá prejuízo</span>' : e.yield < R.aplicLiq * 0.6 ? '<span class="chip ambar">Retorno baixo</span>' : "";
     return `<div class="estr ${e === melhor ? "melhor" : ""}"><h3><span>${esc(e.nome)}</span>${tag}</h3>
       <dl><dt>Sobra no bolso por mês</dt><dd class="forte">${brl(e.liq / 12)}</dd>
       <dt>Rentabilidade líquida ao ano</dt><dd>${pct(e.yield)}</dd>
       ${e.linhas.map(([a, b]) => `<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join("")}
       ${e.extra ? `<dt>Investimento extra em mobília</dt><dd>${brl(e.extra)}</dd>` : ""}</dl>
       <p class="nota">${esc(e.nota)}</p></div>`;
-  }).join("") + `<div class="barras" aria-label="Comparação de rentabilidade">${[...ests.map((e) => ({ rot: e.nome.split(" (")[0], v: e.yield, cls: e === melhor ? "verde" : "" })), { rot: "Aplicação alternativa (líquida)", v: R.aplicLiq, cls: "cinza" }]
-    .map((b, _, arr) => { const mx = Math.max(...arr.map((x) => x.v), 0.01); return `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${pct(b.v)} ao ano</b></div><div class="trilho"><i class="${b.cls}" style="width:${Math.max(0, b.v / mx) * 100}%"></i></div></div>`; }).join("")}</div>`;
+  }).join("");
+  const itensB = [...ests.map((e) => ({ rot: e.nome.split(" (")[0], v: e.yield, cls: e === melhor ? "verde" : "" })), { rot: "Aplicação alternativa (líquida)", v: R.aplicLiq, cls: "cinza" }];
+  const mxB = Math.max(...itensB.map((x) => x.v), 0.01);
+  $("estrategias-barras").innerHTML = itensB.map((b) => `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${pct(b.v)} ao ano</b></div><div class="trilho"><i class="${b.cls}" style="width:${Math.max(0, b.v / mxB) * 100}%"></i></div></div>`).join("");
 
   // futuro
+  const barra = (rot, val, mx, c) => `<div class="barra"><div class="rot"><span>${rot}</span><b>${brl(val)}</b></div><div class="trilho"><i class="${c}" style="width:${Math.max(0, val / mx) * 100}%"></i></div></div>`;
   if (investir) {
-    $("futuro-sub").textContent = `Comparação entre comprar e alugar (${melhor.id === "trad" ? "aluguel tradicional" : melhor.id === "medio" ? "médio prazo" : "curta temporada"}) e aplicar o mesmo valor a ${String(R.P.aplicacao).replace(".", ",")}% ao ano bruto. Inclui venda do imóvel no fim, corretagem e imposto sobre o ganho.`;
+    $("t-futuro").textContent = "Patrimônio em 5, 10 e 15 anos";
+    $("futuro-sub").textContent = `Comprar e alugar (${nomeEstr(melhor)}) contra aplicar o mesmo valor a ${virg(R.P.aplicacao)}% ao ano bruto. Inclui venda no fim, corretagem e imposto sobre o ganho.`;
     const mx = Math.max(...proj.map((p) => Math.max(p.ot.patrimonio, p.aplicMelhor)));
-    $("futuro-barras").innerHTML = proj.map((p) => `<p style="margin:12px 0 4px;font-weight:700">Em ${p.n} anos</p><div class="barras" style="margin:0">
-      <div class="barra"><div class="rot"><span>Comprar e alugar</span><b>${brl(p.melhor.patrimonio)}</b></div><div class="trilho"><i class="verde" style="width:${(p.melhor.patrimonio / mx) * 100}%"></i></div></div>
-      <div class="barra"><div class="rot"><span>Deixar aplicado</span><b>${brl(p.aplicMelhor)}</b></div><div class="trilho"><i class="cinza" style="width:${(p.aplicMelhor / mx) * 100}%"></i></div></div></div>`).join("");
+    $("futuro-barras").innerHTML = proj.map((p) => `<h3 style="margin:14px 0 6px">Em ${p.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e alugar", p.melhor.patrimonio, mx, "verde")}${barra("Deixar aplicado", p.aplicMelhor, mx, "cinza")}</div>`).join("");
     $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${proj.map((p) => `<th>${p.n} anos</th>`).join("")}</tr></thead><tbody>
       <tr><td>Valor do imóvel (base)</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
       <tr><td>Patrimônio, valorização baixa (${pct(Math.max(0, R.P.valoriza / 100 - 0.03))})</td>${proj.map((p) => `<td>${brl(p.pess.patrimonio)}</td>`).join("")}</tr>
@@ -606,106 +1023,94 @@ function desenhar(R) {
       <tr><td>Só aluguel tradicional</td>${proj.map((p) => `<td>${brl(p.trad.patrimonio)}</td>`).join("")}</tr>
       <tr><td>Dinheiro aplicado</td>${proj.map((p) => `<td>${brl(p.aplicMelhor)}</td>`).join("")}</tr></tbody>`;
   } else {
-    $("futuro-sub").textContent = `Comprar para morar contra alugar um imóvel igual (≈ ${brl(R.alugMes)}/mês) e aplicar o dinheiro da compra a ${String(R.P.aplicacao).replace(".", ",")}% ao ano bruto.`;
+    $("t-futuro").textContent = "Comprar ou continuar pagando aluguel?";
+    $("futuro-sub").textContent = `Comprar para morar (pagando à vista) contra alugar um imóvel parecido (≈ ${brl(R.alugMes)}/mês) e aplicar o dinheiro da compra a ${virg(R.P.aplicacao)}% ao ano bruto.`;
     const mx = Math.max(...morar.map((m) => Math.max(m.comprar, m.alugar, 1)));
-    $("futuro-barras").innerHTML = morar.map((m) => `<p style="margin:12px 0 4px;font-weight:700">Em ${m.n} anos</p><div class="barras" style="margin:0">
-      <div class="barra"><div class="rot"><span>Comprar e morar</span><b>${brl(m.comprar)}</b></div><div class="trilho"><i class="verde" style="width:${Math.max(0, m.comprar / mx) * 100}%"></i></div></div>
-      <div class="barra"><div class="rot"><span>Alugar e aplicar</span><b>${brl(m.alugar)}</b></div><div class="trilho"><i class="cinza" style="width:${Math.max(0, m.alugar / mx) * 100}%"></i></div></div></div>`).join("");
+    $("futuro-barras").innerHTML = morar.map((m) => `<h3 style="margin:14px 0 6px">Em ${m.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e morar", m.comprar, mx, "verde")}${barra("Alugar e aplicar", m.alugar, mx, "cinza")}</div>`).join("");
     $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${morar.map((m) => `<th>${m.n} anos</th>`).join("")}</tr></thead><tbody>
       <tr><td>Valor do imóvel</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
       <tr><td>Comprar (líquido de venda)</td>${morar.map((m) => `<td>${brl(m.comprar)}</td>`).join("")}</tr>
       <tr><td>Alugar e aplicar</td>${morar.map((m) => `<td>${brl(m.alugar)}</td>`).join("")}</tr></tbody>`;
   }
-  $("futuro-nota").textContent = "Projeção com premissas fixas; o futuro real varia. Juros, valorização e aluguel podem ser bem diferentes. Ajuste em “Ajustar premissas”. Imposto sobre ganho de capital a 15% sem considerar isenções e fatores de redução a que você pode ter direito.";
+  $("futuro-nota").textContent = "Projeção com premissas fixas; o futuro real varia. Ajuste em “Ajustar premissas”. Imposto sobre ganho de capital a 15% sem considerar isenções e fatores de redução.";
 
   // custos
   $("custos-tabela").innerHTML = `<tbody>
     <tr><td>Preço pedido</td><td>${brl(f.preco)}</td></tr>
-    <tr><td>ITBI (${String(R.P.itbi).replace(".", ",")}%)</td><td>${brl(f.preco * R.P.itbi / 100)}</td></tr>
+    <tr><td>ITBI (${virg(R.P.itbi)}%)</td><td>${brl(f.preco * R.P.itbi / 100)}</td></tr>
     <tr><td>Escritura e registro (estimativa)</td><td>${brl(f.preco * R.P.cartorio / 100)}</td></tr>
     <tr><td><b>Total para comprar</b></td><td><b>${brl(R.investBase)}</b></td></tr>
-    <tr><td>Mobiliar e equipar (se for temporada ou médio prazo)</td><td>${f.mobiliado ? "já mobiliado" : brl(R.mobilia)}</td></tr>
-    <tr><td>Condomínio + IPTU por mês</td><td>${brl(R.fixoMes)}</td></tr>
+    <tr class="so-inv"><td>Mobiliar e equipar (temporada ou médio prazo)</td><td>${f.mobiliado ? "já mobiliado" : brl(R.mobilia)}</td></tr>
+    <tr><td>Condomínio + IPTU por mês</td><td>${f.condoInformado || f.iptuInformado ? brl(R.fixoMes) : "não informado"}</td></tr>
     <tr><td>Manutenção estimada por mês</td><td>${brl(R.manutAno / 12)}</td></tr></tbody>`;
 
   // riscos
-  $("liq-num").innerHTML = `<div class="num"><b>${R.liq} de 100</b><span>facilidade de revenda (indicativo)</span></div><div class="num"><b>${pct(R.trad.recMes * 12 / f.preco)}</b><span>aluguel bruto ao ano sobre o preço</span></div><div class="num"><b>${R.ref.n ? R.ref.n : "—"}</b><span>anúncios de temporada usados na comparação</span></div>`;
+  $("liq-num").innerHTML = `<div class="ind"><b>${R.liq} de 100</b><span>facilidade de revenda (indicativo)</span></div><div class="ind"><b>${pct(R.trad.recMes * 12 / f.preco)}</b><span>aluguel bruto ao ano sobre o preço</span></div>`;
   const riscos = [];
-  riscos.push(["medio", "Curta temporada: condomínios podem proibir aluguel por aplicativo (decisões do STJ permitem). Peça a convenção e o regimento antes da proposta."]);
-  if (R.condoM2 > 18) riscos.push(["alto", `Condomínio de ${brl(R.condoM2, 2)}/m² é alto: reduz a renda e afasta compradores na revenda.`]);
-  if (R.ref.n != null && R.ref.n < 30) riscos.push(["medio", `Poucos anúncios de temporada na comparação (${R.ref.n}); a estimativa é menos confiável.`]);
-  if (!R.ref.n) riscos.push(["medio", "Dados de temporada da região ainda não carregados; usei a média da cidade."]);
+  if (investir) riscos.push(["medio", "Curta temporada: condomínios podem proibir aluguel por aplicativo (decisões do STJ permitem). Peça a convenção e o regimento."]);
+  if (R.condoM2 > 18) riscos.push(["alto", `Condomínio de ${brl(R.condoM2, 2)}/m² é alto: pesa no orçamento e na revenda.`]);
+  if (investir && R.ref.n != null && R.ref.n < 30) riscos.push(["medio", `Poucos anúncios de temporada na comparação (${R.ref.n}); estimativa menos confiável.`]);
   if (R.difSim != null && R.difSim > 0.08) riscos.push(["alto", "Preço acima dos parecidos: risco de pagar caro e demorar a recuperar na revenda."]);
-  if (R.melhor.yield < R.aplicLiq * 0.6) riscos.push(["alto", "Renda baixa em relação aos juros atuais; o retorno depende muito da valorização."]);
-  if (R.f.metro == null) riscos.push(["baixo", "Distância do metrô não informada; ela influencia muito aluguel e liquidez."]);
-  riscos.push(["baixo", "Vacância e inadimplência podem ser maiores que o previsto. Seguro-fiança ou garantia ajudam no aluguel tradicional."]);
+  if (investir && R.melhor.yield < R.aplicLiq * 0.6) riscos.push(["alto", "Renda baixa em relação aos juros atuais; o retorno depende muito da valorização."]);
+  if (!investir && fin.sac1 / fin.rendaMin > 0) riscos.push(["medio", `Para financiar, os bancos costumam exigir renda familiar de cerca de ${brl(fin.rendaMin)} por mês.`]);
+  if (f.metro == null) riscos.push(["baixo", "Distância do metrô não informada; ela influencia muito aluguel e revenda."]);
+  if (investir) riscos.push(["baixo", "Vacância e inadimplência podem ser maiores que o previsto. Seguro-fiança ou garantia ajudam no aluguel tradicional."]);
   riscos.push(["baixo", "Confira matrícula atualizada, certidões do vendedor e débitos de condomínio e IPTU antes de assinar."]);
-  $("riscos").innerHTML = riscos.map(([n, t]) => `<li><span class="nivel ${n}" aria-hidden="true"></span><span class="oculto">${n === "alto" ? "Risco alto: " : n === "medio" ? "Risco médio: " : "Risco baixo: "}</span>${esc(t)}</li>`).join("");
+  $("riscos").innerHTML = riscos.map(([n, t]) => `<li><span class="ponto ${n}" aria-hidden="true"></span><span><span class="oculto">${n === "alto" ? "Risco alto: " : n === "medio" ? "Risco médio: " : "Risco baixo: "}</span>${esc(t)}</span></li>`).join("");
 
   // corretor
   const args = [];
   if (R.difSim != null && R.difSim < 0) args.push(`Preço por m² ${pct(-R.difSim, 0)} abaixo dos parecidos da própria carteira.`);
-  if (R.f.metro != null && R.f.metro <= 800) args.push(`${R.f.metro} m do metrô: demanda constante para aluguel.`);
-  args.push(`Pode render ${brl(R.melhor.liq / 12)} por mês líquidos em ${R.melhor.nome.split(" (")[0].toLowerCase()}.`);
+  if (f.metro != null && f.metro <= 800) args.push(`${f.metro} m do metrô: demanda constante para morar e para alugar.`);
+  if (investir) args.push(`Pode render ${brl(melhor.liq / 12)} por mês líquidos em ${nomeEstr(melhor)}.`);
+  else args.push(`Parcela inicial de ${brl(fin.sac1)} no SAC com ${virg(R.P.entrada)}% de entrada.`);
   args.push(`Em 10 anos, cenário base: imóvel vale ${brl(proj[1].valorImovel)}.`);
   if (R.liq >= 60) args.push("Perfil de alta liquidez: fácil de revender se o cliente precisar.");
   $("c-args").innerHTML = args.map((x) => `<li>${esc(x)}</li>`).join("");
-  const obj = [
-    ["“A poupança ou o CDI rende mais.”", `Hoje a aplicação líquida rende ${pct(R.aplicLiq)} ao ano. O imóvel soma renda (${pct(R.melhor.yield)}) e valorização; no cenário base, em 10 anos o patrimônio fica ${proj[1].melhor.patrimonio >= proj[1].aplicMelhor ? "acima" : "abaixo"} da aplicação. Mostre a tabela e ajuste a taxa com o cliente.`],
-    ["“O condomínio é caro.”", `São ${brl(R.fixoMes)} por mês com IPTU; no aluguel tradicional quem paga é o inquilino. ${R.condoM2 > 18 ? "É acima da média por m², vale negociar preço por isso." : "Por m², está dentro do comum."}`],
+  const obj = investir ? [
+    ["“O CDI rende mais.”", `Hoje a aplicação líquida rende ${pct(R.aplicLiq)} ao ano. O imóvel soma renda (${pct(melhor.yield)}) e valorização; no cenário base, em 10 anos o patrimônio fica ${proj[1].melhor.patrimonio >= proj[1].aplicMelhor ? "acima" : "abaixo"} da aplicação.`],
+    ["“O condomínio é caro.”", `São ${brl(R.fixoMes)} por mês com IPTU; no aluguel tradicional quem paga é o inquilino. ${R.condoM2 > 18 ? "É acima da média por m², vale negociar preço." : "Por m², está dentro do comum."}`],
     ["“Será que alugo rápido?”", `Use a distância do metrô e o aluguel estimado de ${brl(R.alugMes)}; a premissa já considera ${R.P.vacancia} mês vazio por ano.`],
+  ] : [
+    ["“A parcela pesa no orçamento.”", `No Price a parcela fica fixa em ${brl(fin.price)}; no SAC começa em ${brl(fin.sac1)} e cai até ${brl(fin.sacN)}. Uma entrada maior reduz as duas.`],
+    ["“Prefiro continuar alugando.”", `Em 10 anos: comprar ${brl(m10.comprar)} contra ${brl(m10.alugar)} alugando e aplicando. Mostre a tabela e ajuste as premissas com o cliente.`],
+    ["“O condomínio é caro.”", `São ${brl(R.fixoMes)} por mês com IPTU. ${R.condoM2 > 18 ? "É acima da média por m², vale negociar preço." : "Por m², está dentro do comum."}`],
   ];
   $("c-obj").innerHTML = obj.map(([q, a]) => `<li><b>${esc(q)}</b> ${esc(a)}</li>`).join("");
   const alvo = R.medSim ? Math.min(f.preco, R.medSim * f.area) : f.preco;
   const abertura = Math.round(Math.min(f.preco * 0.94, alvo * 0.98) / 1000) * 1000;
   const teto = Math.round(Math.min(f.preco, Math.max(alvo, f.preco * 0.97)) / 1000) * 1000;
-  $("c-proposta").innerHTML = `<div class="num"><b>${brl(abertura)}</b><span>proposta de abertura</span></div><div class="num"><b>${brl(teto)}</b><span>teto sugerido</span></div><div class="num"><b>${brl(f.preco)}</b><span>preço pedido</span></div>`;
-
+  $("c-proposta").innerHTML = `<div class="ind"><b>${brl(abertura)}</b><span>proposta de abertura</span></div><div class="ind"><b>${brl(teto)}</b><span>teto sugerido</span></div><div class="ind"><b>${brl(f.preco)}</b><span>preço pedido</span></div>`;
   window.__ULTIMA = R;
 }
 
-// ================= status das bases =================
-function mostrarStatus() {
-  const L = BASES.log, A = BASES.airbnb, I = BASES.indicadores || {};
-  const linhas = [];
-  linhas.push(`<p style="margin:0 0 6px"><b>Temporada (Inside Airbnb):</b> ${A?.versao ? `coleta de ${dataBR(A.versao)}, carregada em ${dataHoraBR(A.processado_em)}, ${A.anuncios_no_arquivo.toLocaleString("pt-BR")} anúncios de São Paulo.` : "base detalhada ainda não carregada. Usando média da cidade de jun/2026."}</p>`);
-  linhas.push(`<p style="margin:0 0 6px"><b>Juros:</b> Selic ${String(I.selic?.valor ?? "—").replace(".", ",")}% (${esc(I.selic?.data || "—")}). <b>IPCA 12 meses:</b> ${I.ipca12m ? String(I.ipca12m.valor).replace(".", ",") + "% (" + esc(I.ipca12m.data) + ")" : "aguardando primeira atualização"}.</p>`);
-  linhas.push(`<p style="margin:0 0 6px"><b>Aluguel e venda:</b> ${esc(I.aluguel_m2_sp?.fonte || "FipeZAP")}, ${esc(I.aluguel_m2_sp?.data || "")}.</p>`);
-  linhas.push(`<p style="margin:0" class="sub">Última verificação automática: ${dataHoraBR(L?.ultima_execucao)}. Próxima prevista: ${dataHoraBR(L?.proxima_execucao_prevista)}.</p>`);
-  const s = BASES.serie?.pontos || [];
-  if (s.length >= 2) linhas.push(`<p class="sub" style="margin-top:6px">Evolução da diária mediana na cidade: ${s.map((p) => `${dataBR(p.versao)} ${brl(p.diaria_p50)}`).join("; ")}.</p>`);
-  $("status-resumo").innerHTML = linhas.join("");
-  const ex = (L?.execucoes || []).slice(0, 6);
-  const rot = { atualizado: ["Atualizado", ""], sem_novidade: ["Sem novidade", "az"], erro: ["Erro", "ver"], monitorado: ["Monitorado", "amb"], pulado: ["Pulado", "amb"] };
-  $("status-lista").innerHTML = ex.length ? ex.map((e) => `<li><b>${dataHoraBR(e.inicio)}</b> (${e.gatilho === "agendado" ? "automática" : "manual"}): ${esc(e.resumo)}
-      ${e.fontes.map((fo) => `<div class="fonte-linha"><span class="etiqueta ${rot[fo.status]?.[1] ?? ""}">${rot[fo.status]?.[0] ?? fo.status}</span><span>${esc(fo.fonte)}: ${esc(fo.mensagem)}</span></div>`).join("")}</li>`).join("")
-    : "<li>Nenhuma execução registrada ainda. A primeira acontece no próximo dia 1 ou 16, ou quando alguém rodar manualmente.</li>";
-}
-
-// ================= compartilhar =================
+// ================= compartilhar análise =================
 function salvarNoLink(f) {
-  const dados = { ...f, ref: IMOVEL.ref, url: IMOVEL.url, sim: IMOVEL.similares, lat: IMOVEL.lat, lng: IMOVEL.lng };
-  try { history.replaceState(null, "", "#a=" + btoa(unescape(encodeURIComponent(JSON.stringify(dados))))); } catch {}
+  const dados = { ...f, fin: FINALIDADE, ref: IMOVEL.ref, url: IMOVEL.url, sim: IMOVEL.similares, lat: IMOVEL.lat, lng: IMOVEL.lng, foto: IMOVEL.foto, pois: IMOVEL.pois, suites: IMOVEL.suites, lazer: IMOVEL.lazer, est: IMOVEL.metroEstacao };
+  try { const q = new URLSearchParams(location.search); q.set("a", btoa(unescape(encodeURIComponent(JSON.stringify(dados))))); history.replaceState(null, "", location.pathname + "?" + q.toString() + "#analise"); } catch {}
 }
 function lerDoLink() {
-  const m = location.hash.match(/^#a=(.+)$/); if (!m) return false;
+  const bruto = new URLSearchParams(location.search).get("a") || (location.hash.match(/^#a=(.+)$/) || [])[1];
+  if (!bruto) return false;
   try {
-    const d = JSON.parse(decodeURIComponent(escape(atob(m[1]))));
-    Object.assign(IMOVEL, { ref: d.ref || "", url: d.url || "", similares: d.sim || [], lat: d.lat ?? null, lng: d.lng ?? null, fonte: "link" });
-    abrirFormulario({ preco: d.preco, area: d.area, quartos: d.quartos, vagas: d.vagas, condominio: d.condo, iptu: d.iptu, bairro: d.bairro, metroDistancia: d.metro, tipo: d.tipo, mobiliado: d.mobiliado });
+    const d = JSON.parse(decodeURIComponent(escape(atob(bruto))));
+    limparImovel();
+    Object.assign(IMOVEL, { ref: d.ref || "", url: d.url || "", similares: d.sim || [], lat: d.lat ?? null, lng: d.lng ?? null, foto: d.foto || null, pois: d.pois || [], suites: d.suites ?? null, lazer: d.lazer || [], metroEstacao: d.est || null, fonte: "link" });
+    abrirFormulario({ preco: d.preco, area: d.area, quartos: d.quartos, banheiros: d.banheiros, vagas: d.vagas, condominio: d.condoInformado === false ? null : d.condo, iptu: d.iptuInformado === false ? null : d.iptu, bairro: d.bairro, metroDistancia: d.metro, tipo: d.tipo, mobiliado: d.mobiliado });
     if (d.distrito) $("f-distrito").value = d.distrito;
-    if (d.objetivo) $("f-objetivo").value = d.objetivo;
+    definirFinalidade(d.fin || (d.objetivo === "morar" ? "moradia" : "investimento"), false);
     if (IMOVEL.url) $("link").value = IMOVEL.url;
-    calcular(false); return true;
+    irPara("analise"); calcular(false); return true;
   } catch { return false; }
 }
 $("btn-copiar").addEventListener("click", async () => {
-  try { await navigator.clipboard.writeText(location.href); aviso("Link copiado. Quem abrir verá esta mesma análise.", "ok"); }
+  try { await navigator.clipboard.writeText(location.href); aviso("Link copiado. Quem abrir verá esta mesma análise.", "ok"); $("aviso").scrollIntoView({ block: "center" }); }
   catch { prompt("Copie o link:", location.href); }
 });
 $("btn-whats").addEventListener("click", () => {
   const R = window.__ULTIMA; if (!R) return;
-  const txt = `${$("v-titulo").textContent}\n${$("v-ident").textContent}\nMelhor estratégia: ${R.melhor.nome.split(" (")[0]}, ${brl(R.melhor.liq / 12)}/mês líquidos (${pct(R.melhor.yield)} ao ano)\nVeja a análise completa: ${location.href}`;
+  const linha = FINALIDADE === "investimento" ? `Melhor estratégia: ${R.melhor.nome.split(" (")[0]}, ${brl(R.melhor.liq / 12)}/mês líquidos (${pct(R.melhor.yield)} ao ano)` : `Financiando: 1ª parcela ${brl(R.fin.sac1)} (SAC), entrada de ${brl(R.fin.entrada)}`;
+  const txt = `${$("v-titulo").textContent} (score ${R.nota}/100)\n${$("r-titulo").textContent}, ${R.f.bairro} · ${brl(R.f.preco)}\n${linha}\nAnálise completa: ${location.href}`;
   window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank", "noopener");
 });
 $("btn-imprimir").addEventListener("click", () => window.print());
@@ -714,19 +1119,374 @@ $("btn-restaurar").addEventListener("click", () => { PREMISSAS = {}; montarPremi
 // ================= modo comprador / corretor =================
 function modo(corretor) {
   document.body.classList.toggle("corretor", corretor);
-  $("modo-corretor").setAttribute("aria-pressed", corretor); $("modo-cliente").setAttribute("aria-pressed", !corretor);
-  try { localStorage.setItem("radar-modo", corretor ? "corretor" : "cliente"); } catch {}
+  ["modo-corretor", "modo-corretor-m"].forEach((id) => $(id).setAttribute("aria-pressed", corretor));
+  ["modo-cliente", "modo-cliente-m"].forEach((id) => $(id).setAttribute("aria-pressed", !corretor));
+  ls.set("radar-modo", corretor ? "corretor" : "cliente");
 }
-$("modo-corretor").addEventListener("click", () => modo(true));
-$("modo-cliente").addEventListener("click", () => modo(false));
-try { if (localStorage.getItem("radar-modo") === "corretor") modo(true); } catch {}
+["modo-corretor", "modo-corretor-m"].forEach((id) => $(id).addEventListener("click", () => modo(true)));
+["modo-cliente", "modo-cliente-m"].forEach((id) => $(id).addEventListener("click", () => modo(false)));
+if (ls.get("radar-modo") === "corretor") modo(true);
+
+// ================= OPORTUNIDADES =================
+const BUSCA = { fin: "moradia", neg: "venda", resultados: [], comparar: new Set(), mostrarBaixa: false, editandoId: null };
+document.querySelectorAll("[data-fin]").forEach((b) => b.addEventListener("click", () => { BUSCA.fin = b.dataset.fin; sincronizarSegmentos(); }));
+document.querySelectorAll("[data-neg]").forEach((b) => b.addEventListener("click", () => { BUSCA.neg = b.dataset.neg; sincronizarSegmentos(); }));
+function sincronizarSegmentos() {
+  document.querySelectorAll("[data-fin]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.fin === BUSCA.fin));
+  document.querySelectorAll("[data-neg]").forEach((b) => b.setAttribute("aria-pressed", b.dataset.neg === BUSCA.neg));
+  document.querySelector(".so-busca-inv").classList.toggle("oculto", BUSCA.fin !== "investimento" || BUSCA.neg !== "venda");
+}
+function lerCriterios() {
+  const inv = BUSCA.fin === "investimento" && BUSCA.neg === "venda";
+  return {
+    finalidade: BUSCA.fin, negociacao: BUSCA.neg, tipo: $("b-tipo").value,
+    bairros: $("b-bairros").value.split(",").map((s) => s.trim()).filter(Boolean),
+    precoMin: num($("b-pmin").value), precoMax: num($("b-pmax").value), areaMin: num($("b-amin").value), areaMax: num($("b-amax").value),
+    quartosMin: num($("b-quartos").value), banheirosMin: num($("b-banh").value), vagasMin: num($("b-vagas").value),
+    caracteristicas: [...document.querySelectorAll("#b-carac input:checked")].map((i) => i.value),
+    rendaMin: inv ? num($("b-renda").value) : null, precoM2Max: inv ? num($("b-m2max").value) : null,
+  };
+}
+function aplicarCriterios(c) {
+  BUSCA.fin = c.finalidade || "moradia"; BUSCA.neg = c.negociacao || "venda"; sincronizarSegmentos();
+  const set = (id, v) => { $(id).value = v == null ? "" : typeof v === "number" ? v.toLocaleString("pt-BR") : v; };
+  set("b-tipo", c.tipo || ""); set("b-bairros", (c.bairros || []).join(", ")); set("b-pmin", c.precoMin); set("b-pmax", c.precoMax);
+  set("b-amin", c.areaMin); set("b-amax", c.areaMax); set("b-quartos", c.quartosMin); set("b-banh", c.banheirosMin); set("b-vagas", c.vagasMin);
+  set("b-renda", c.rendaMin); set("b-m2max", c.precoM2Max);
+  document.querySelectorAll("#b-carac input").forEach((i) => { i.checked = (c.caracteristicas || []).includes(i.value); });
+}
+const vazioCrit = (c) => !c.tipo && !c.bairros.length && [c.precoMin, c.precoMax, c.areaMin, c.areaMax, c.quartosMin, c.banheirosMin, c.vagasMin, c.rendaMin, c.precoM2Max].every((x) => x == null) && !c.caracteristicas.length;
+function resumoCriterios(c) {
+  const p = [c.negociacao === "locacao" ? "Alugar" : "Comprar", c.finalidade === "investimento" ? "investimento" : "moradia"];
+  if (c.tipo) p.push($("b-tipo").querySelector(`option[value="${c.tipo}"]`)?.text || c.tipo);
+  if (c.bairros?.length) p.push(c.bairros.join(", "));
+  if (c.precoMin || c.precoMax) p.push(`${c.precoMin ? "de " + brl(c.precoMin) + " " : ""}${c.precoMax ? "até " + brl(c.precoMax) : ""}`.trim());
+  if (c.areaMin || c.areaMax) p.push(`${c.areaMin || 0}–${c.areaMax || "∞"} m²`);
+  if (c.quartosMin) p.push(`${c.quartosMin}+ quartos`);
+  if (c.banheirosMin) p.push(`${c.banheirosMin}+ banheiros`);
+  if (c.vagasMin) p.push(`${c.vagasMin}+ vagas`);
+  if (c.caracteristicas?.length) p.push(c.caracteristicas.join(", "));
+  if (c.rendaMin) p.push(`renda ≥ ${virg(c.rendaMin)}%`);
+  if (c.precoM2Max) p.push(`até ${brl(c.precoM2Max)}/m²`);
+  return p.join(" · ");
+}
+
+$("form-filtros").addEventListener("submit", async (e) => { e.preventDefault(); await buscar(); });
+$("btn-limpar").addEventListener("click", () => { aplicarCriterios({}); BUSCA.editandoId = null; $("editando-alerta").classList.add("oculto"); $("b-resultado").innerHTML = ""; ss.set("radar-busca", null); });
+
+async function buscar(rolar = true) {
+  const c = lerCriterios();
+  ss.set("radar-busca", { c, mostrarBaixa: BUSCA.mostrarBaixa });
+  const alvo = $("b-resultado");
+  alvo.innerHTML = '<div class="carregando">Procurando no catálogo da Nova São Paulo…</div>';
+  $("btn-buscar").disabled = true;
+  try { await garantirCatalogo(); }
+  catch (e) { alvo.innerHTML = `<div class="aviso on erro">Não foi possível consultar o catálogo agora: ${esc(e.message)} Tente de novo em alguns minutos.</div>`; $("btn-buscar").disabled = false; return; }
+  $("btn-buscar").disabled = false;
+  const lista = C.filtrarPortfolio(CAT.dados, c, CAT.stats);
+  const ordem = $("b-ordem").value;
+  const preco = (im) => (c.negociacao === "locacao" ? im.preco_locacao : im.preco_venda);
+  lista.sort((a, b) => {
+    if (ordem === "renda" && BUSCA.fin === "investimento") return (b.r.est.rendaBruta ?? -1) - (a.r.est.rendaBruta ?? -1);
+    if (ordem === "desconto" && BUSCA.fin === "investimento") return (a.r.est.difBairro ?? 9) - (b.r.est.difBairro ?? 9);
+    if (ordem === "preco") return preco(a.im) - preco(b.im);
+    return C.ORDEM_NIVEL[b.r.nivel] - C.ORDEM_NIVEL[a.r.nivel] || b.r.taxa - a.r.taxa || preco(a.im) - preco(b.im);
+  });
+  BUSCA.resultados = lista;
+  desenharResultados(rolar);
+}
+function selosImovel(im) {
+  const s = [];
+  const p = CAT.dados;
+  if (p?.primeira_execucao && im.primeira_vez > p.primeira_execucao && Date.now() - new Date(im.primeira_vez) < 7 * 864e5) s.push('<span class="chip azul">Novo</span>');
+  const h = im.historico_preco || [];
+  if (h.length >= 2 && h[0].venda && h[1].venda && h[0].venda < h[1].venda) s.push(`<span class="chip verde">Preço reduzido ${pct(1 - h[0].venda / h[1].venda, 0)}</span>`);
+  return s.join("");
+}
+const nivelChip = (n) => n === "alta" ? '<span class="chip verde">Alta compatibilidade</span>' : n === "parcial" ? '<span class="chip ambar">Compatibilidade parcial</span>' : '<span class="chip vermelho">Baixa compatibilidade</span>';
+function desenharResultados(rolar) {
+  const c = lerCriterios();
+  const todos = BUSCA.resultados;
+  const cont = { alta: 0, parcial: 0, baixa: 0 }; todos.forEach((x) => cont[x.r.nivel]++);
+  const visiveis = vazioCrit(c) ? todos : todos.filter((x) => BUSCA.mostrarBaixa || x.r.nivel !== "baixa");
+  const LIM = 60;
+  const alvo = $("b-resultado");
+  if (!todos.length) { alvo.innerHTML = `<div class="card vazio-estado"><svg class="ic"><use href="#i-busca"/></svg><p><b>Nenhum imóvel ${c.negociacao === "locacao" ? "para alugar" : "à venda"} no catálogo agora.</b></p><p>Salve a busca como alerta para ser avisado quando surgir.</p></div>`; return; }
+  const cabec = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+    <h2 style="margin:0">${vazioCrit(c) ? `${todos.length} imóveis ${c.negociacao === "locacao" ? "para alugar" : "à venda"}` : `${cont.alta} com alta e ${cont.parcial} com parcial compatibilidade`}</h2>
+    ${vazioCrit(c) ? "" : `<label class="checks"><span><input type="checkbox" id="mostrar-baixa" ${BUSCA.mostrarBaixa ? "checked" : ""}> Mostrar também os ${cont.baixa} de baixa compatibilidade</span></label>`}</div>`;
+  if (!visiveis.length) { alvo.innerHTML = cabec + `<div class="card vazio-estado" style="margin-top:12px"><svg class="ic"><use href="#i-busca"/></svg><p><b>Nenhum imóvel atende ao perfil hoje.</b></p><p>Afrouxe algum critério ou use “Salvar busca e criar alerta” para receber os próximos.</p></div>`; ligarBaixa(); return; }
+  const salvos = ls.get("radar-salvos", {});
+  alvo.innerHTML = cabec + `<div class="resultados">${visiveis.slice(0, LIM).map(({ im, r }) => cartaoImovel(im, r, c, salvos)).join("")}</div>` + (visiveis.length > LIM ? `<p class="sub" style="margin-top:12px">Mostrando ${LIM} de ${visiveis.length}. Refine os filtros para ver os demais.</p>` : "");
+  ligarBaixa();
+  if (rolar) alvo.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+function ligarBaixa() { const m = $("mostrar-baixa"); if (m) m.addEventListener("change", () => { BUSCA.mostrarBaixa = m.checked; ss.set("radar-busca", { c: lerCriterios(), mostrarBaixa: BUSCA.mostrarBaixa }); desenharResultados(false); }); }
+function cartaoImovel(im, r, c, salvos) {
+  const preco = c.negociacao === "locacao" ? im.preco_locacao : im.preco_venda;
+  const e = r.est;
+  const meta = [im.area && `${im.area.toLocaleString("pt-BR")} m²`, im.quartos != null && `${im.quartos} quartos`, im.banheiros != null && `${im.banheiros} banheiros`, im.vagas != null && `${im.vagas} vagas`].filter(Boolean).join(" · ");
+  const extra = c.negociacao === "venda" ? [e.precoM2 && `${brl(e.precoM2)}/m²`, e.difBairro != null && `${e.difBairro > 0 ? "+" : ""}${pct(e.difBairro, 0)} vs. mediana do bairro`, BUSCA.fin === "investimento" && e.rendaBruta != null && `renda bruta ≈ ${pct(e.rendaBruta)} ao ano`].filter(Boolean).join(" · ") : "";
+  const pend = [...r.falhas, ...r.semDado];
+  return `<article class="im" data-ref="${esc(im.ref)}">
+    <div class="foto">${im.foto ? `<img src="${esc(urlSegura(im.foto))}" alt="Foto do imóvel ${esc(im.ref)}" loading="lazy">` : iconeFoto}<div class="selos">${selosImovel(im)}</div></div>
+    <div class="corpo">
+      <div style="display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap">${vazioCrit(c) ? "" : nivelChip(r.nivel)}<span class="chip">Ref. ${esc(im.ref)}</span></div>
+      <div class="preco">${brl(preco)}${c.negociacao === "locacao" ? "<small style='font-size:.8rem;color:var(--suave)'>/mês</small>" : ""}</div>
+      <div><b>${esc(im.tipo || "Imóvel")}</b> em ${esc(im.bairro || "—")}, ${esc(im.cidade || "São Paulo")}</div>
+      <div class="meta">${esc(meta)}</div>
+      ${extra ? `<div class="meta">${esc(extra)}</div>` : ""}
+      ${(im.tags || []).length ? `<div style="display:flex;gap:6px;flex-wrap:wrap">${im.tags.map((t) => `<span class="chip">${esc(t)}</span>`).join("")}</div>` : ""}
+      ${vazioCrit(c) ? "" : `<div class="compat">${r.atendidos.length ? `Atende: ${esc(r.atendidos.map((i) => i.nome).join(", "))}.` : ""}${pend.length ? `<ul>${pend.map((i) => `<li>${i.status === "falha" ? "Não atende" : "Sem dado"}: ${esc(i.nome)} (${esc(i.detalhe)})</li>`).join("")}</ul>` : ""}</div>`}
+    </div>
+    <div class="rodape">
+      <button class="botao pequeno" type="button" data-acao="analisar">Ver análise</button>
+      <a class="botao pequeno sec" href="${esc(urlSegura(im.url))}" target="_blank" rel="noopener">Abrir anúncio</a>
+      <button class="botao pequeno fantasma" type="button" data-acao="salvar" aria-pressed="${!!salvos[im.ref]}">${salvos[im.ref] ? "Salvo ★" : "Salvar"}</button>
+      <button class="botao pequeno fantasma" type="button" data-acao="alerta">Criar alerta</button>
+      <label><input type="checkbox" data-acao="comparar" ${BUSCA.comparar.has(im.ref) ? "checked" : ""}> Comparar</label>
+    </div></article>`;
+}
+const acharNoCatalogo = (ref) => CAT.dados?.imoveis.find((i) => i.ref === ref);
+document.addEventListener("click", (e) => {
+  const b = e.target.closest("[data-acao]"); if (!b || b.tagName === "INPUT") return;
+  const card = b.closest("[data-ref]"); const im = card && acharNoCatalogo(card.dataset.ref); if (!im) return;
+  if (b.dataset.acao === "analisar") abrirAnaliseDe(im, BUSCA.fin);
+  if (b.dataset.acao === "salvar") { const s = ls.get("radar-salvos", {}); if (s[im.ref]) delete s[im.ref]; else s[im.ref] = { ref: im.ref, url: im.url, titulo: `${im.tipo} em ${im.bairro}`, preco: im.preco_venda || im.preco_locacao, foto: im.foto, salvoEm: new Date().toISOString() }; ls.set("radar-salvos", s); b.textContent = s[im.ref] ? "Salvo ★" : "Salvar"; b.setAttribute("aria-pressed", !!s[im.ref]); mostrarSalvos(); }
+  if (b.dataset.acao === "alerta") abrirDialogoAlerta();
+});
+document.addEventListener("change", (e) => {
+  const b = e.target.closest('input[data-acao="comparar"]'); if (!b) return;
+  const ref = b.closest("[data-ref]").dataset.ref;
+  if (b.checked) { if (BUSCA.comparar.size >= 3) { b.checked = false; alert("Compare até 3 imóveis por vez."); return; } BUSCA.comparar.add(ref); } else BUSCA.comparar.delete(ref);
+  atualizarBarraComparar();
+});
+function atualizarBarraComparar() {
+  const n = BUSCA.comparar.size;
+  $("barra-comparar").classList.toggle("oculto", n === 0);
+  $("comparar-txt").textContent = `${n} ${n === 1 ? "imóvel selecionado" : "imóveis selecionados"} para comparar`;
+}
+$("btn-limpar-comp").addEventListener("click", () => { BUSCA.comparar.clear(); document.querySelectorAll('input[data-acao="comparar"]').forEach((i) => (i.checked = false)); atualizarBarraComparar(); $("comparacao").classList.add("oculto"); });
+$("btn-comparar").addEventListener("click", () => {
+  const c = lerCriterios();
+  const itens = [...BUSCA.comparar].map(acharNoCatalogo).filter(Boolean).map((im) => ({ im, r: C.avaliarCompat(im, c, CAT.stats) }));
+  if (itens.length < 2) { alert("Selecione pelo menos 2 imóveis."); return; }
+  const linha = (rot, fn) => `<tr><td>${rot}</td>${itens.map((x) => `<td>${fn(x)}</td>`).join("")}</tr>`;
+  $("comp-tabela").innerHTML = `<thead><tr><th>Item</th>${itens.map(({ im }) => `<th>Ref. ${esc(im.ref)}</th>`).join("")}</tr></thead><tbody>
+    ${linha("Bairro", ({ im }) => esc(im.bairro))}${linha("Tipo", ({ im }) => esc(im.tipo))}
+    ${linha("Preço", ({ im }) => brl(c.negociacao === "locacao" ? im.preco_locacao : im.preco_venda))}
+    ${linha("Área", ({ im }) => (im.area ? im.area + " m²" : "—"))}${linha("Preço por m²", ({ r }) => brl(r.est.precoM2))}
+    ${linha("Vs. mediana do bairro", ({ r }) => (r.est.difBairro != null ? (r.est.difBairro > 0 ? "+" : "") + pct(r.est.difBairro, 0) : "—"))}
+    ${linha("Quartos", ({ im }) => im.quartos ?? "—")}${linha("Vagas", ({ im }) => im.vagas ?? "—")}
+    ${linha("Aluguel estimado", ({ r }) => brl(r.est.aluguelEst))}${linha("Renda bruta estimada", ({ r }) => pct(r.est.rendaBruta))}
+    ${linha("Compatibilidade", ({ r }) => (vazioCrit(c) ? "—" : r.nivel))}
+    ${linha("Análise", ({ im }) => `<button class="botao pequeno sec" type="button" data-analisar="${esc(im.ref)}">Ver análise</button>`)}</tbody>`;
+  $("comparacao").classList.remove("oculto"); $("comparacao").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+$("comparacao").addEventListener("click", (e) => { const b = e.target.closest("[data-analisar]"); if (b) { const im = acharNoCatalogo(b.dataset.analisar); if (im) abrirAnaliseDe(im, BUSCA.fin); } });
+function mostrarSalvos() {
+  const s = Object.values(ls.get("radar-salvos", {}));
+  $("salvos-lista").innerHTML = s.length ? `<ul class="status-lista">${s.map((x) => `<li style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span><b>Ref. ${esc(x.ref)}</b> · ${esc(x.titulo)} · ${brl(x.preco)}</span><span style="display:flex;gap:6px"><a class="botao pequeno sec" href="${esc(urlSegura(x.url))}" target="_blank" rel="noopener">Abrir anúncio</a><button class="botao pequeno" type="button" data-analisar-url="${esc(x.url)}">Ver análise</button></span></li>`).join("")}</ul>` : "Nenhum imóvel salvo ainda. Use “Salvar” nos resultados.";
+}
+$("salvos-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-analisar-url]"); if (b) { $("link").value = b.dataset.analisarUrl; irPara("analise"); $("form-link").requestSubmit(); } });
+
+// Abre a análise individual a partir de um resultado, sem redigitar nada
+async function abrirAnaliseDe(im, finalidade, origem = "oportunidades") {
+  limparImovel();
+  Object.assign(IMOVEL, { ref: im.ref, url: im.url, foto: im.foto, tipo: im.tipo, bairro: im.bairro, suites: im.suites, tags: im.tags || [], fonte: "catalogo" });
+  abrirFormulario({ preco: im.preco_venda, area: im.area, quartos: im.quartos, banheiros: im.banheiros, vagas: im.vagas, bairro: im.bairro, tipo: im.tipo, mobiliado: (im.tags || []).includes("Mobiliado") });
+  definirFinalidade(finalidade === "moradia" ? "moradia" : "investimento", false);
+  $("link").value = im.url || "";
+  $("voltar-busca").classList.remove("oculto"); $("voltar-busca").dataset.origem = origem;
+  irPara("analise");
+  if (!im.preco_venda) { aviso("Este imóvel está só para locação; a análise de compra precisa de um preço de venda. Preencha o campo de preço se souber.", "info"); return; }
+  aviso("Dados do catálogo carregados. Buscando condomínio, IPTU e imóveis parecidos no anúncio…", "info");
+  calcular(false);
+  try {
+    const j = await lerAnuncio(im.url);
+    if (j.ok) { Object.assign(IMOVEL, j.dados, { fonte: "anuncio", foto: j.dados.foto || im.foto }); abrirFormulario({ ...j.dados, preco: j.dados.preco || im.preco_venda }); calcular(false); aviso(`Anúncio ${im.ref} completo. Confira os dados abaixo.`, "ok"); }
+    else aviso("Não consegui ler o anúncio completo agora (" + j.erro + "). A análise usa só os dados do catálogo: condomínio e IPTU ficaram em branco.", "erro");
+  } catch { aviso("Não consegui ler o anúncio completo agora. A análise usa só os dados do catálogo: condomínio e IPTU ficaram em branco.", "erro"); }
+}
+$("voltar-busca").addEventListener("click", () => irPara($("voltar-busca").dataset.origem || "oportunidades"));
+
+// ================= ALERTAS =================
+const ID = { chave: ls.get("radar-chave", null), nome: ls.get("radar-corretor", "") };
+const API = "/api/alertas";
+async function api(corpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chave: ID.chave, ...corpo }) });
+  const j = await r.json().catch(() => ({ ok: false, erro: `Servidor respondeu ${r.status}.` }));
+  if (!j.ok) throw new Error(j.erro || "Erro desconhecido.");
+  return j;
+}
+function novaChave() { const a = new Uint8Array(16); crypto.getRandomValues(a); return [...a].map((b) => b.toString(16).padStart(2, "0")).join("").replace(/(.{8})(.{4})(.{4})(.{4})/, "$1-$2-$3-$4-"); }
+function desenharIdentidade() {
+  const box = $("identidade");
+  if (!ID.chave) {
+    box.innerHTML = `<h2 id="t-ident">Comece identificando o corretor</h2><p class="sub">Os alertas ficam guardados no servidor e ligados a uma chave pessoal criada agora. Não é um login com senha: guarde a chave para usar em outro aparelho.</p>
+      <div class="campos"><label class="campo">Seu nome (como aparece para a equipe)<input id="id-nome" maxlength="60" value="${esc(ID.nome)}"></label></div>
+      <div class="acoes"><button class="botao" type="button" id="id-criar">Criar minha chave</button><span class="sub" style="margin:0">ou</span>
+      <label class="campo" style="flex:1 1 260px">Já tenho uma chave<input id="id-colar" placeholder="cole aqui sua chave"></label><button class="botao sec" type="button" id="id-usar">Usar esta chave</button></div>`;
+    $("id-criar").addEventListener("click", () => { ID.nome = $("id-nome").value.trim(); ID.chave = novaChave(); ls.set("radar-chave", ID.chave); ls.set("radar-corretor", ID.nome); desenharIdentidade(); carregarAlertas(); });
+    $("id-usar").addEventListener("click", () => { const k = $("id-colar").value.trim().toLowerCase(); if (!/^[a-z0-9-]{24,64}$/.test(k)) { aviso("Essa chave não está no formato certo.", "erro", "aviso-alertas"); return; } ID.chave = k; ID.nome = $("id-nome").value.trim(); ls.set("radar-chave", k); ls.set("radar-corretor", ID.nome); desenharIdentidade(); carregarAlertas(); });
+  } else {
+    box.innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><div><h2 id="t-ident" style="margin:0">${esc(ID.nome || "Corretor")}</h2><p class="sub" style="margin:2px 0 0">Sua chave: <code style="user-select:all">${esc(ID.chave)}</code></p></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="botao pequeno sec" type="button" id="id-copiar">Copiar chave</button><button class="botao pequeno fantasma" type="button" id="id-sair">Sair deste aparelho</button></div></div>
+      <p class="sub" style="margin:8px 0 0;font-size:.8rem">Quem tiver a chave vê e altera os seus alertas. Não compartilhe. Para usar no celular, copie a chave e cole lá em “Já tenho uma chave”.</p>`;
+    $("id-copiar").addEventListener("click", async () => { try { await navigator.clipboard.writeText(ID.chave); aviso("Chave copiada.", "ok", "aviso-alertas"); } catch { prompt("Copie sua chave:", ID.chave); } });
+    $("id-sair").addEventListener("click", () => { if (!confirm("Sair? Os alertas continuam guardados; para voltar, use a mesma chave.")) return; ID.chave = null; ls.set("radar-chave", null); desenharIdentidade(); $("lista-alertas").innerHTML = ""; $("notificacoes").innerHTML = ""; atualizarBadge(0); });
+  }
+}
+let ALERTAS = { alertas: [], notificacoes: [] };
+async function carregarAlertas(silencioso) {
+  desenharIdentidade();
+  if (!ID.chave) { $("lista-alertas").innerHTML = '<div class="card vazio-estado"><svg class="ic"><use href="#i-sino"/></svg><p>Crie sua chave acima para começar a salvar alertas.</p></div>'; $("notificacoes").innerHTML = ""; return; }
+  if (!silencioso) $("lista-alertas").innerHTML = '<div class="carregando">Carregando alertas…</div>';
+  try {
+    const r = await fetch(`${API}?chave=${encodeURIComponent(ID.chave)}`, { cache: "no-store" });
+    const j = await r.json().catch(() => ({ ok: false, erro: `Servidor respondeu ${r.status}.` }));
+    if (!j.ok) throw new Error(j.erro);
+    ALERTAS = j; semAviso("aviso-alertas");
+  } catch (e) {
+    if (!silencioso) { aviso("Não foi possível carregar os alertas: " + e.message, "erro", "aviso-alertas"); $("lista-alertas").innerHTML = ""; }
+    return;
+  }
+  atualizarBadge(ALERTAS.notificacoes.filter((n) => !n.lida).length);
+  desenharNotificacoes(); desenharAlertas();
+}
+function atualizarBadge(n) { const b = $("badge-alertas"); b.textContent = n > 99 ? "99+" : n; b.classList.toggle("oculto", !n); }
+function desenharNotificacoes() {
+  const ns = ALERTAS.notificacoes;
+  $("btn-ler-todas").classList.toggle("oculto", !ns.some((n) => !n.lida));
+  if (!ns.length) { $("notificacoes").innerHTML = '<p class="sub" style="margin:0">Nenhuma oportunidade nova ainda. Quando um alerta encontrar um imóvel compatível publicado depois do cadastro, ele aparece aqui.</p>'; return; }
+  $("notificacoes").innerHTML = ns.slice(0, 50).map((n) => `<article class="notif ${n.lida ? "" : "nao-lida"}" data-nid="${esc(n.id)}">
+    <div class="mini">${n.foto ? `<img src="${esc(urlSegura(n.foto))}" alt="" loading="lazy">` : '<svg class="ic"><use href="#i-foto"/></svg>'}</div>
+    <div><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">${n.lida ? "" : '<span class="chip azul">Nova</span>'}${n.tipo === "reducao" ? '<span class="chip verde">Preço reduzido</span>' : '<span class="chip">Imóvel novo</span>'}<span class="sub" style="margin:0;font-size:.8rem">${esc(n.alertaNome)} · ${dataHoraBR(n.criadaEm)}</span></div>
+      <p style="margin:4px 0 0"><b>${esc(n.titulo)}</b> · Ref. ${esc(n.ref)} · ${brl(n.preco)}${n.precoAnterior ? ` <s class="sub">${brl(n.precoAnterior)}</s>` : ""}</p>
+      <ul>${(n.motivo || []).map((m) => `<li>Atende: ${esc(m)}</li>`).join("")}${(n.pendencias || []).map((m) => `<li>Atenção: ${esc(m)}</li>`).join("")}</ul>
+      <div class="acoes" style="margin-top:8px"><a class="botao pequeno sec" href="${esc(urlSegura(n.url))}" target="_blank" rel="noopener">Abrir anúncio</a><button class="botao pequeno" type="button" data-n="analisar">Ver análise</button>${n.lida ? "" : '<button class="botao pequeno fantasma" type="button" data-n="lida">Marcar como lida</button>'}</div></div></article>`).join("");
+}
+$("notificacoes").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-n]"); if (!b) return;
+  const art = b.closest("[data-nid]"); const n = ALERTAS.notificacoes.find((x) => x.id === art.dataset.nid); if (!n) return;
+  if (b.dataset.n === "lida") { await marcarLidas([n.id]); }
+  if (b.dataset.n === "analisar") {
+    if (!n.lida) marcarLidas([n.id]);
+    const a = ALERTAS.alertas.find((x) => x.id === n.alertaId);
+    try { await garantirCatalogo(); } catch {}
+    const im = acharNoCatalogo(n.ref) || { ref: n.ref, url: n.url, foto: n.foto, tipo: n.titulo.split(" em ")[0], bairro: n.bairro, preco_venda: n.preco, area: n.area, quartos: n.quartos, vagas: n.vagas };
+    abrirAnaliseDe(im, a?.criterios?.finalidade || "moradia", "alertas");
+  }
+});
+$("btn-ler-todas").addEventListener("click", () => marcarLidas(ALERTAS.notificacoes.filter((n) => !n.lida).map((n) => n.id)));
+async function marcarLidas(ids) {
+  if (!ids.length) return;
+  try { await api({ acao: "lida", ids }); ALERTAS.notificacoes.forEach((n) => { if (ids.includes(n.id)) n.lida = true; }); ALERTAS.alertas.forEach((a) => (a.novas = ALERTAS.notificacoes.filter((n) => n.alertaId === a.id && !n.lida).length)); desenharNotificacoes(); desenharAlertas(); atualizarBadge(ALERTAS.notificacoes.filter((n) => !n.lida).length); }
+  catch (e) { aviso("Não foi possível marcar como lida: " + e.message, "erro", "aviso-alertas"); }
+}
+function desenharAlertas() {
+  const as = ALERTAS.alertas;
+  if (!as.length) { $("lista-alertas").innerHTML = '<div class="card vazio-estado"><svg class="ic"><use href="#i-sino"/></svg><p><b>Nenhum alerta ainda.</b></p><p>Em “Oportunidades”, preencha o perfil do cliente e clique em “Salvar busca e criar alerta”.</p></div>'; return; }
+  as.sort((a, b) => (b.novas || 0) - (a.novas || 0) || b.criadoEm.localeCompare(a.criadoEm));
+  $("lista-alertas").innerHTML = as.map((a) => `<article class="alerta ${a.status === "pausado" ? "pausado" : ""}" data-aid="${esc(a.id)}">
+    <div class="topo"><div><h3 style="margin:0">${esc(a.nome)}</h3><p class="sub" style="margin:2px 0 0">${a.cliente ? `Cliente: ${esc(a.cliente)} · ` : ""}${esc(resumoCriterios(a.criterios))}</p></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${a.novas ? `<span class="chip azul">${a.novas} ${a.novas === 1 ? "nova" : "novas"}</span>` : ""}<span class="chip ${a.status === "ativo" ? "verde" : ""}">${a.status === "ativo" ? "Ativo" : "Pausado"}</span></div></div>
+    <dl><div><dt>Criado em</dt><dd>${dataBR(a.criadoEm)}</dd></div><div><dt>Última verificação</dt><dd>${dataHoraBR(a.ultimaVerificacao)}</dd></div>
+      <div><dt>Próxima verificação</dt><dd>${a.status === "ativo" ? (a.frequencia === "semanal" ? "semanal, " : "") + "a partir de " + dataHoraBR(a.proximaVerificacao) : "pausado"}</dd></div>
+      <div><dt>Imóveis compatíveis hoje</dt><dd>${a.encontrados ?? "—"}</dd></div><div><dt>Compatibilidade mínima</dt><dd>${a.nivelMin === "parcial" ? "alta e parcial" : "só alta"}</dd></div></dl>
+    <div class="acoes"><button class="botao pequeno" type="button" data-a="ver">Ver imóveis encontrados</button><button class="botao pequeno sec" type="button" data-a="verificar">Verificar agora</button><button class="botao pequeno sec" type="button" data-a="editar">Editar</button>
+      <button class="botao pequeno sec" type="button" data-a="pausar">${a.status === "ativo" ? "Pausar" : "Reativar"}</button><button class="botao pequeno fantasma" type="button" data-a="historico">Histórico</button><button class="botao pequeno perigo" type="button" data-a="excluir">Excluir</button></div>
+    <div class="oculto" data-hist><table style="margin-top:10px"><thead><tr><th>Data</th><th>Compatíveis</th><th>Novas oportunidades</th></tr></thead><tbody>${(a.historico || []).map((h) => `<tr><td>${dataHoraBR(h.data)}${h.baseline ? " (cadastro)" : ""}</td><td>${h.encontrados}</td><td>${h.novos}</td></tr>`).join("") || '<tr><td colspan="3">Sem execuções.</td></tr>'}</tbody></table></div></article>`).join("");
+}
+$("lista-alertas").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-a]"); if (!b) return;
+  const art = b.closest("[data-aid]"); const a = ALERTAS.alertas.find((x) => x.id === art.dataset.aid); if (!a) return;
+  const acao = b.dataset.a;
+  if (acao === "historico") { art.querySelector("[data-hist]").classList.toggle("oculto"); return; }
+  if (acao === "ver" || acao === "editar") {
+    aplicarCriterios(a.criterios); BUSCA.mostrarBaixa = false;
+    BUSCA.editandoId = acao === "editar" ? a.id : null;
+    $("editando-alerta").textContent = acao === "editar" ? `Editando o alerta “${a.nome}”. Ajuste os filtros e clique em “Salvar busca e criar alerta”.` : "";
+    $("editando-alerta").classList.toggle("oculto", acao !== "editar");
+    $("btn-criar-alerta").lastChild.textContent = acao === "editar" ? "Salvar alterações do alerta" : "Salvar busca e criar alerta";
+    irPara("oportunidades"); await buscar(acao === "ver"); return;
+  }
+  b.disabled = true;
+  try {
+    if (acao === "pausar") { const j = await api({ acao: "salvar", alerta: { ...a, status: a.status === "ativo" ? "pausado" : "ativo" } }); Object.assign(a, j.alerta); }
+    if (acao === "verificar") { const j = await api({ acao: "verificar", id: a.id }); aviso(j.novos ? `${j.novos} nova(s) oportunidade(s) encontrada(s) para “${a.nome}”.` : `Verificação concluída: nenhum imóvel novo para “${a.nome}” desde a última vez.`, "ok", "aviso-alertas"); await carregarAlertas(true); return; }
+    if (acao === "excluir") { if (!confirm(`Excluir o alerta “${a.nome}” e as notificações dele?`)) { b.disabled = false; return; } await api({ acao: "excluir", id: a.id }); await carregarAlertas(true); return; }
+    desenharAlertas();
+  } catch (err) { aviso("Não foi possível concluir: " + err.message, "erro", "aviso-alertas"); b.disabled = false; }
+});
+$("btn-novo-alerta").addEventListener("click", () => { BUSCA.editandoId = null; irPara("oportunidades"); $("b-bairros").focus(); aviso("Preencha o perfil do cliente e clique em “Salvar busca e criar alerta”.", "info", "aviso-alertas"); });
+
+// diálogo de criação/edição
+$("btn-criar-alerta").addEventListener("click", () => abrirDialogoAlerta());
+function abrirDialogoAlerta() {
+  const c = lerCriterios();
+  if (vazioCrit(c)) { alert("Preencha pelo menos um critério antes de criar o alerta."); return; }
+  if (!ID.chave) { irPara("alertas"); aviso("Antes, crie sua chave de corretor aqui. Depois volte em Oportunidades: os filtros ficam guardados.", "info", "aviso-alertas"); return; }
+  const editando = BUSCA.editandoId && ALERTAS.alertas.find((a) => a.id === BUSCA.editandoId);
+  $("dlg-titulo").textContent = editando ? "Salvar alterações do alerta" : "Salvar busca e criar alerta";
+  $("dlg-resumo").textContent = resumoCriterios(c);
+  $("a-nome").value = editando?.nome || sugestaoNome(c); $("a-cliente").value = editando?.cliente || "";
+  $("a-nivel").value = editando?.nivelMin || "alta"; $("a-freq").value = editando?.frequencia || "diaria"; $("a-status").value = editando?.status || "ativo";
+  $("dlg-alerta").showModal();
+}
+function sugestaoNome(c) {
+  const tipo = c.tipo ? ($("b-tipo").querySelector(`option[value="${c.tipo}"]`)?.text.split(" ")[0] || c.tipo).toLowerCase() : "imóvel";
+  return `Cliente procurando ${tipo}${c.quartosMin ? ` de ${c.quartosMin} quartos` : ""}${c.bairros.length ? ` em ${c.bairros.slice(0, 2).join(" ou ")}` : ""}`.slice(0, 100);
+}
+$("dlg-alerta").addEventListener("close", async () => {
+  if ($("dlg-alerta").returnValue !== "salvar") return;
+  const editando = BUSCA.editandoId && ALERTAS.alertas.find((a) => a.id === BUSCA.editandoId);
+  const alerta = { ...(editando || {}), id: editando?.id, nome: $("a-nome").value.trim(), cliente: $("a-cliente").value.trim(), corretor: ID.nome, criterios: lerCriterios(), nivelMin: $("a-nivel").value, frequencia: $("a-freq").value, status: $("a-status").value };
+  try {
+    const j = await api({ acao: "salvar", alerta });
+    BUSCA.editandoId = null; $("editando-alerta").classList.add("oculto"); $("btn-criar-alerta").lastChild.textContent = "Salvar busca e criar alerta";
+    irPara("alertas");
+    aviso(j.aviso || `Alerta “${j.alerta.nome}” salvo. Hoje há ${j.alerta.encontrados ?? 0} imóveis compatíveis (veja em “Ver imóveis encontrados”); a partir de agora você será avisado dos novos.`, j.aviso ? "info" : "ok", "aviso-alertas");
+  } catch (e) { alert("Não foi possível salvar o alerta: " + e.message); }
+});
+
+// ================= DADOS =================
+async function mostrarStatus() {
+  const L = BASES.log, A = BASES.airbnb, I = BASES.indicadores || {};
+  const linhas = [];
+  linhas.push(`<p style="margin:0 0 6px"><b>Temporada (Inside Airbnb):</b> ${A?.versao ? `coleta de ${dataBR(A.versao)}, carregada em ${dataHoraBR(A.processado_em)}, ${A.anuncios_no_arquivo.toLocaleString("pt-BR")} anúncios.` : "base detalhada ainda não carregada; usando média da cidade de jun/2026."}</p>`);
+  linhas.push(`<p style="margin:0 0 6px"><b>Juros:</b> Selic ${virg(I.selic?.valor ?? "—")}% (${esc(I.selic?.data || "—")}). <b>IPCA 12 meses:</b> ${I.ipca12m ? virg(I.ipca12m.valor) + "% (" + esc(I.ipca12m.data) + ")" : "aguardando"}.</p>`);
+  linhas.push(`<p style="margin:0 0 6px"><b>Aluguel e venda:</b> ${esc(I.aluguel_m2_sp?.fonte || "FipeZAP")}, ${esc(I.aluguel_m2_sp?.data || "")}.</p>`);
+  linhas.push(`<p class="sub" style="margin:0">Última verificação: ${dataHoraBR(L?.ultima_execucao)}. Próxima: ${dataHoraBR(L?.proxima_execucao_prevista)}.</p>`);
+  const s = BASES.serie?.pontos || [];
+  if (s.length >= 2) linhas.push(`<p class="sub" style="margin-top:6px">Evolução da diária mediana: ${s.map((p) => `${dataBR(p.versao)} ${brl(p.diaria_p50)}`).join("; ")}.</p>`);
+  $("status-resumo").innerHTML = linhas.join("");
+  const rot = { atualizado: ["Atualizado", "verde"], sem_novidade: ["Sem novidade", "azul"], erro: ["Erro", "vermelho"], monitorado: ["Monitorado", "ambar"], pulado: ["Pulado", "ambar"] };
+  const ex = (L?.execucoes || []).slice(0, 5);
+  $("status-lista").innerHTML = ex.length ? ex.map((e) => `<li><b>${dataHoraBR(e.inicio)}</b> (${e.gatilho === "agendado" ? "automática" : "manual"}): ${esc(e.resumo)}
+    ${e.fontes.map((fo) => `<div class="fonte-linha"><span class="chip ${rot[fo.status]?.[1] ?? ""}">${rot[fo.status]?.[0] ?? esc(fo.status)}</span><span>${esc(fo.fonte)}: ${esc(fo.mensagem)}</span></div>`).join("")}</li>`).join("") : "<li>Nenhuma execução registrada ainda.</li>";
+  // catálogo
+  const URL_LOG = C.URL_PORTFOLIO.replace("portfolio.json", "portfolio-log.json");
+  const logCat = await fetch(URL_LOG + "?t=" + Date.now()).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  $("catalogo-status").innerHTML = logCat?.length ? `<ul class="status-lista">${logCat.slice(0, 5).map((e) => `<li><span class="chip ${e.status === "atualizado" ? "verde" : "vermelho"}">${e.status === "atualizado" ? "Atualizado" : "Erro"}</span> <b>${dataHoraBR(e.inicio)}</b>: ${esc(e.mensagem)}${Object.entries(e.paginas || {}).map(([k, v]) => `<div class="sub" style="margin:2px 0 0;font-size:.8rem">${esc(k)}: ${v.erro ? esc(v.erro) : v.pulado ? esc(v.pulado) : `${v.imoveis} imóveis em ${v.paginas_lidas} página(s), paginação ${esc(v.paginacao)}`}</div>`).join("")}</li>`).join("")}</ul>` : '<p class="sub">O catálogo ainda não foi montado. Rode “Atualizar catálogo de imóveis” na aba Actions do GitHub.</p>';
+  const logA = await fetch(API + "?sistema=1").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  $("alertas-status").innerHTML = logA?.log?.length ? logA.log.map((e) => `<li><span class="chip ${e.erro ? "ambar" : "verde"}">${e.erro ? "Com aviso" : "Concluída"}</span> <b>${dataHoraBR(e.inicio)}</b>: ${e.verificados} alerta(s) verificados, ${e.novos} nova(s) oportunidade(s)${e.erro ? ". " + esc(e.erro) : ""}</li>`).join("") : "<li>Nenhuma verificação automática registrada ainda. A primeira acontece às 8h do próximo dia.</li>";
+}
 
 // ================= início =================
+definirFinalidade("investimento", false);
+sincronizarSegmentos();
+mostrarSalvos();
+const buscaSalva = ss.get("radar-busca", null);
+if (buscaSalva?.c) { aplicarCriterios(buscaSalva.c); BUSCA.mostrarBaixa = !!buscaSalva.mostrarBaixa; }
 carregarBases().then(() => {
-  if (!lerDoLink()) {
+  const leu = lerDoLink();
+  if (!leu) {
     const q = new URLSearchParams(location.search).get("url");
-    if (q) { $("link").value = q; $("form-link").requestSubmit(); }
+    if (q) { $("link").value = q; irPara("analise"); $("form-link").requestSubmit(); }
+    else irPara(location.hash.slice(1) || "analise", false);
   }
+  if (ID.chave) carregarAlertas(true);
 });
 </script>
 </body>

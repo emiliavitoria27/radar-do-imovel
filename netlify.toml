@@ -2,9 +2,12 @@
   publish = "."
   functions = "netlify/functions"
   command = "echo 'sem etapa de build'"
+  # O ramo "dados" guarda só o catálogo diário: nunca publica o site (economiza créditos do plano grátis)
+  ignore = "if [ \"$BRANCH\" = \"dados\" ]; then exit 0; else exit 1; fi"
 
 [functions]
   node_bundler = "esbuild"
+  included_files = ["compat.mjs"]
 
 [[redirects]]
   from = "/api/ler-imovel"
@@ -15,3 +18,9 @@
   for = "/data/*"
   [headers.values]
     Cache-Control = "public, max-age=600"
+
+[[headers]]
+  for = "/compat.mjs"
+  [headers.values]
+    Content-Type = "text/javascript; charset=utf-8"
+    Cache-Control = "public, max-age=300"

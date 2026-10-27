@@ -1,11 +1,20 @@
-Radar do Imóvel - Nova São Paulo
+Radar do Imóvel - Nova São Paulo (versão 2)
 
-Pastas e arquivos:
-- index.html ........................ o site (tudo em um arquivo)
-- netlify/functions/ler-imovel.mjs .. lê o anúncio do novasaopaulo.com.br
-- scripts/atualizar.mjs ............. rotina que atualiza as bases
-- .github/workflows/atualizar-dados.yml  agendamento: dias 1 e 16, 06:00 de Brasília
-- data/ ............................. bases e relatório das atualizações
-- netlify.toml ...................... configuração do Netlify
+Arquivos na página inicial do repositório:
+- index.html ............ o site
+- compat.mjs ............ regras de compatibilidade e alertas (usado pelo site e pelas funções)
+- package.json .......... dependência do Netlify Blobs (onde os alertas ficam guardados)
+- netlify.toml .......... configuração do Netlify
 
-Fontes: Inside Airbnb (CC BY 4.0), Índice FipeZAP, Banco Central do Brasil.
+Pasta netlify/functions:
+- ler-imovel.mjs ........ lê um anúncio do novasaopaulo.com.br
+- alertas.mjs ........... salvar, listar, pausar, excluir e verificar alertas
+- verificar-alertas.mjs . verificação automática dos alertas, todo dia às 8h
+
+Pasta scripts:
+- atualizar.mjs ......... bases de mercado (a cada 15 dias)
+- portfolio.mjs ......... catálogo de imóveis da Nova SP (todo dia às 7h)
+
+Pasta .github/workflows:
+- atualizar-dados.yml ... agenda das bases de mercado (dias 1 e 16)
+- catalogo.yml .......... agenda do catálogo (todo dia), grava no ramo "dados"

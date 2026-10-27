@@ -1,0 +1,8 @@
+{
+  "name": "radar-do-imovel",
+  "private": true,
+  "description": "Radar do Imóvel - Nova São Paulo",
+  "dependencies": {
+    "@netlify/blobs": "8.1.0"
+  }
+}
