@@ -1,0 +1,10 @@
+{
+ "selic": { "valor": 14.0, "data": "05/08/2026", "fonte": "Copom (decisão de 05/08/2026). Valor inicial: a rotina automática troca pelo dado oficial do Banco Central." },
+ "ipca12m": null,
+ "aluguel_m2_sp": { "valor": 65.78, "data": "set/2026", "fonte": "Índice FipeZAP de Locação Residencial, média da cidade de São Paulo" },
+ "aluguel_var12m_sp": { "valor": 6.22, "data": "set/2026", "fonte": "Índice FipeZAP" },
+ "venda_var12m": { "valor": 5.51, "data": "set/2026", "fonte": "Índice FipeZAP Venda Residencial (média nacional)" },
+ "rental_yield_brasil": { "valor": 6.13, "data": "set/2026", "fonte": "Índice FipeZAP (média nacional)" },
+ "temporada_ref_cidade": { "diaria": 413, "noites_ano": 76, "data": "jun/2026", "fonte": "Inside Airbnb, painel de São Paulo (média da cidade)" },
+ "atualizado_em": null
+}
