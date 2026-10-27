@@ -1,0 +1,45 @@
+{
+ "execucoes": [
+  {
+   "inicio": "2026-10-27T18:56:35.996Z",
+   "fim": "2026-10-27T18:56:42.019Z",
+   "gatilho": "manual",
+   "fontes": [
+    {
+     "fonte": "Inside Airbnb (São Paulo)",
+     "url": "https://insideairbnb.com/get-the-data/",
+     "status": "atualizado",
+     "versao": "2026-09-14",
+     "registros": 44080,
+     "mensagem": "Nova versão 2026-09-14: 44080 anúncios lidos, 94 distritos. Diária mediana da cidade: R$ 354.",
+     "sha256": "37890e60aef92a54744ae6bb499568f428b75ed45b64fb8daae2cbaa9546c94b",
+     "tamanho_mb": 24.6
+    },
+    {
+     "fonte": "Radar Bewild",
+     "url": "https://radarbewild.com.br/",
+     "status": "monitorado",
+     "versao": "a7a43b45ba92940c",
+     "registros": null,
+     "mensagem": "Primeira verificação registrada. O Radar Bewild não publica arquivo de dados para download, então nenhum número dele é importado automaticamente."
+    },
+    {
+     "fonte": "Banco Central (Selic e IPCA)",
+     "url": "https://api.bcb.gov.br",
+     "status": "atualizado",
+     "versao": "04/11/2026",
+     "registros": 2,
+     "mensagem": "Selic 13.75% (04/11/2026); IPCA 12 meses 4.58% (01/09/2026)."
+    }
+   ],
+   "resumo": "Atualizado: Inside Airbnb (São Paulo), Banco Central (Selic e IPCA)."
+  }
+ ],
+ "ultima_execucao": "2026-10-27T18:56:42.019Z",
+ "base_temporada": {
+  "fonte": "Inside Airbnb",
+  "coleta": "2026-09-14",
+  "carregada_em": "2026-10-27T18:56:39.440Z"
+ },
+ "proxima_execucao_prevista": "2026-11-01T09:00:00.000Z"
+}
