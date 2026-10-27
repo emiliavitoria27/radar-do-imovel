@@ -11,7 +11,7 @@ const ARQ = path.join(SAIDA, "portfolio.json");
 const ARQ_LOG = path.join(SAIDA, "portfolio-log.json");
 const UA = "RadarImovel-NovaSP/1.0 (catalogo interno; 1 pedido a cada 1,5 s)";
 const PAUSA_MS = Number(process.env.RADAR_PAUSA_MS ?? 1500);
-const MAX_PAGINAS = 300;
+const MAX_PAGINAS = 1000; // limite de segurança; o site tinha mais de 300 páginas de venda
 const TIPOS = ["Casa Assobradada", "Casa De Vila", "Casa Térrea", "Conj. Comercial", "Ponto Comercial", "Apartamento", "Cobertura", "Duplex", "Garden", "Kit", "Penthouse", "Studio", "Triplex", "Condomínio", "Sobrado", "Comercial", "Galpão", "Loja", "Prédio", "Flat", "Sítio", "Terreno", "Area", "Casa"];
 
 const dormir = (ms) => new Promise((r) => setTimeout(r, ms));

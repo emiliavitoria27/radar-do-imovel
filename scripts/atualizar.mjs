@@ -240,11 +240,15 @@ async function fonteBancoCentral() {
   const reg = { fonte: "Banco Central (Selic e IPCA)", url: "https://api.bcb.gov.br", status: "", versao: null, registros: null, mensagem: "" };
   try {
     if (MODO_TESTE) { reg.status = "pulado"; reg.mensagem = "Modo de teste."; return reg; }
+    // Busca até hoje: a série da meta Selic vem preenchida até a próxima reunião do Copom (datas futuras)
+    const fmt = (d) => d.toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo", day: "2-digit", month: "2-digit", year: "numeric" });
+    const hoje = new Date(), inicio = new Date(hoje.getTime() - 400 * 864e5);
     const serie = async (cod) => {
-      const j = await (await buscar(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados/ultimos/1?formato=json`, { tempo: 30000 })).json();
-      const v = Number(String(j?.[0]?.valor).replace(",", "."));
+      const j = await (await buscar(`https://api.bcb.gov.br/dados/serie/bcdata.sgs.${cod}/dados?formato=json&dataInicial=${fmt(inicio)}&dataFinal=${fmt(hoje)}`, { tempo: 30000 })).json();
+      const ult = Array.isArray(j) ? j[j.length - 1] : null;
+      const v = Number(String(ult?.valor).replace(",", "."));
       if (!isFinite(v)) throw new Error(`série ${cod} sem valor`);
-      return { valor: v, data: j[0].data };
+      return { valor: v, data: ult.data };
     };
     const selic = await serie(432), ipca = await serie(13522);
     if (selic.valor < 1 || selic.valor > 40 || ipca.valor < -5 || ipca.valor > 30) throw new Error("valores fora do normal");
