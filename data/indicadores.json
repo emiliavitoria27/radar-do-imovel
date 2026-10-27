@@ -1,7 +1,7 @@
 {
  "selic": {
   "valor": 13.75,
-  "data": "04/11/2026",
+  "data": "27/10/2026",
   "fonte": "Banco Central, série 432 (meta Selic)"
  },
  "ipca12m": {
@@ -35,5 +35,5 @@
   "data": "jun/2026",
   "fonte": "Inside Airbnb, painel de São Paulo (média da cidade)"
  },
- "atualizado_em": "2026-10-27T18:56:42.019Z"
+ "atualizado_em": "2026-10-27T22:27:54.914Z"
 }
