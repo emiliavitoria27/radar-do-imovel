@@ -1,0 +1,55 @@
+name: Atualizar catálogo de imóveis (todo dia)
+
+on:
+  schedule:
+    # Todo dia às 10:00 UTC (07:00 em Brasília). Os alertas são verificados às 08:00.
+    - cron: "0 10 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: catalogo
+  cancel-in-progress: false
+
+jobs:
+  catalogo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Baixar o projeto
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Abrir o ramo de dados
+        run: |
+          git config user.name "robo-catalogo"
+          git config user.email "robo-catalogo@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin dados >/dev/null; then
+            git fetch origin dados
+            git worktree add -B dados ramo-dados origin/dados
+          else
+            git worktree add --detach ramo-dados
+            cd ramo-dados && git checkout --orphan dados && git rm -rf -q . && cd ..
+          fi
+
+      - name: Ler os imóveis do site da Nova São Paulo
+        run: node scripts/portfolio.mjs ramo-dados/data
+
+      - name: Salvar o catálogo
+        run: |
+          cd ramo-dados
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Nada mudou."
+          else
+            git commit -m "Catálogo $(date -u +%Y-%m-%d)"
+            git push origin dados
+          fi
