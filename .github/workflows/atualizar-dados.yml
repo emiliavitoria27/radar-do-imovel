@@ -1,0 +1,52 @@
+name: Atualizar dados (a cada 15 dias)
+
+on:
+  schedule:
+    # Dias 1 e 16 de cada mês, 09:00 UTC (06:00 em Brasília)
+    - cron: "0 9 1,16 * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: atualizar-dados
+  cancel-in-progress: false
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Baixar o projeto
+        uses: actions/checkout@v4
+
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Rodar a rotina de atualização
+        env:
+          GATILHO: ${{ github.event_name == 'schedule' && 'agendado' || 'manual' }}
+        run: node scripts/atualizar.mjs
+
+      - name: Guardar os arquivos brutos baixados (90 dias)
+        if: hashFiles('bruto/*') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: arquivos-brutos-${{ github.run_number }}
+          path: bruto/
+          retention-days: 90
+
+      - name: Salvar resultado no projeto
+        run: |
+          git config user.name "robo-atualizacao"
+          git config user.email "robo-atualizacao@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Nada mudou."
+          else
+            git commit -m "Atualização automática de dados $(date -u +%Y-%m-%d)"
+            git push
+          fi
