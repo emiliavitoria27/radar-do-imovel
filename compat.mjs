@@ -4,8 +4,10 @@
 export const REPO_GITHUB = "emiliavitoria27/radar-do-imovel";
 export const URL_PORTFOLIO = `https://raw.githubusercontent.com/${REPO_GITHUB}/dados/data/portfolio.json`;
 
+// Atenção: sem cabeçalhos extras no pedido. Um cabeçalho como "cache-control" faz o navegador
+// enviar uma checagem prévia (CORS preflight), que o GitHub recusa com erro 403.
 export async function carregarPortfolio() {
-  const r = await fetch(URL_PORTFOLIO + "?t=" + Date.now(), { headers: { "cache-control": "no-cache" } });
+  const r = await fetch(URL_PORTFOLIO + "?v=" + Math.floor(Date.now() / 600000)); // renova a cada 10 minutos
   if (!r.ok) throw new Error(r.status === 404 ? "O catálogo de imóveis ainda não foi montado. Rode a rotina “Atualizar catálogo” no GitHub." : `Catálogo indisponível (HTTP ${r.status}).`);
   const p = await r.json();
   if (!Array.isArray(p.imoveis) || !p.imoveis.length) throw new Error("Catálogo vazio ou inválido.");
@@ -68,7 +70,7 @@ export function avaliarCompat(im, c, stats) {
   const preco = c.negociacao === "locacao" ? im.preco_locacao : im.preco_venda;
   const est = estimativas(im, stats);
   const itens = [];
-  const add = (nome, essencial, status, detalhe) => itens.push({ nome, essencial, status, detalhe });
+  const add = (nome, essencial, status, detalhe, perto = false) => itens.push({ nome, essencial, status, detalhe, perto });
   const tem = (v) => v !== undefined && v !== null && v !== "" && !(Array.isArray(v) && !v.length);
   const fmt = (v) => "R$ " + Math.round(v).toLocaleString("pt-BR");
 
@@ -83,15 +85,15 @@ export function avaliarCompat(im, c, stats) {
   }
   if (tem(c.precoMax)) {
     if (!preco) add("Preço máximo", true, "sem", "preço não informado");
-    else add("Preço máximo", true, preco <= c.precoMax ? "ok" : "falha", preco <= c.precoMax ? fmt(preco) : `${fmt(preco)}, ${Math.round((preco / c.precoMax - 1) * 100)}% acima do teto`);
+    else add("Preço máximo", true, preco <= c.precoMax ? "ok" : "falha", preco <= c.precoMax ? fmt(preco) : `${fmt(preco)}, ${Math.round((preco / c.precoMax - 1) * 100)}% acima do teto`, preco <= c.precoMax * 1.1);
   }
   if (tem(c.quartosMin)) {
     if (im.quartos == null) add("Quartos", true, "sem", "não informado");
-    else add("Quartos", true, im.quartos >= c.quartosMin ? "ok" : "falha", `${im.quartos} quarto(s)`);
+    else add("Quartos", true, im.quartos >= c.quartosMin ? "ok" : "falha", `${im.quartos} quarto(s)`, im.quartos === c.quartosMin - 1);
   }
   if (tem(c.vagasMin)) {
     if (im.vagas == null) add("Vagas", true, "sem", "não informado no anúncio");
-    else add("Vagas", true, im.vagas >= c.vagasMin ? "ok" : "falha", `${im.vagas} vaga(s)`);
+    else add("Vagas", true, im.vagas >= c.vagasMin ? "ok" : "falha", `${im.vagas} vaga(s)`, im.vagas === c.vagasMin - 1);
   }
   if (tem(c.precoMin)) { if (preco) add("Preço mínimo", false, preco >= c.precoMin ? "ok" : "falha", fmt(preco)); else add("Preço mínimo", false, "sem", "não informado"); }
   if (tem(c.areaMin)) { if (im.area) add("Área mínima", false, im.area >= c.areaMin ? "ok" : "falha", `${im.area} m²`); else add("Área mínima", false, "sem", "não informada"); }
@@ -113,9 +115,14 @@ export function avaliarCompat(im, c, stats) {
   const desFalha = des.filter((i) => i.status === "falha").length;
   const avaliados = itens.filter((i) => i.status !== "sem");
   const taxa = avaliados.length ? avaliados.filter((i) => i.status === "ok").length / avaliados.length : 1;
+  // Alta: atende tudo. Parcial: nenhuma exigência essencial descumprida (só falta dado ou um desejável),
+  // ou uma única essencial "por pouco" (preço até 10% acima, um quarto ou uma vaga a menos).
+  // Tipo ou bairro diferente nunca é parcial.
+  const essFalhas = ess.filter((i) => i.status === "falha");
   let nivel;
   if (essFalha === 0 && essSem === 0 && desFalha === 0) nivel = "alta";
-  else if (essFalha <= 1 && taxa >= 0.6) nivel = "parcial";
+  else if (essFalha === 0 && taxa >= 0.5) nivel = "parcial";
+  else if (essFalha === 1 && essFalhas[0].perto && taxa >= 0.6) nivel = "parcial";
   else nivel = "baixa";
   // nunca "alta" se estourar orçamento ou faltar exigência essencial
   return { nivel, itens, atendidos: itens.filter((i) => i.status === "ok"), falhas: itens.filter((i) => i.status === "falha"), semDado: itens.filter((i) => i.status === "sem"), taxa, est };

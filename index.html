@@ -6,6 +6,7 @@
 <title>Radar do Imóvel · Nova São Paulo</title>
 <meta name="description" content="Inteligência imobiliária da Nova São Paulo: análise de moradia e investimento, busca de oportunidades no portfólio e alertas.">
 <meta name="theme-color" content="#0E2A47">
+<script>try{var t=localStorage.getItem("radar-tema");t=t?JSON.parse(t):null;if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
@@ -185,7 +186,28 @@ th{font-weight:600;color:var(--suave);font-size:.8rem;background:var(--superfici
 .poi span{color:var(--suave)}
 details.premissas summary{cursor:pointer;font-weight:650}
 details.premissas .campos{margin-top:14px}
-body:not(.corretor) .corretor-only{display:none!important}
+/* login, conta e tema */
+body.sem-login .lateral,body.sem-login .topo-movel{display:none!important}
+body.sem-login main{margin-left:0}
+body.compartilhado .lateral,body.compartilhado .topo-movel,body.compartilhado #bloco-busca,body.compartilhado #voltar-busca,body.compartilhado .so-equipe{display:none!important}
+body.compartilhado main{margin-left:0}
+.login{min-height:calc(100vh - 80px);display:grid;place-items:center}
+.login .caixa{width:100%;max-width:420px}
+.login .marca-login{display:flex;gap:10px;align-items:center;margin-bottom:18px}
+.login .marca-login .logo{width:40px;height:40px;border-radius:10px;background:var(--marinho);display:grid;place-items:center}
+.login .marca-login .logo svg{stroke:#5B9BFF}
+.abas{display:flex;border-bottom:1px solid var(--linha);margin:-4px 0 16px}
+.abas button{flex:1;border:0;background:none;font:inherit;font-weight:650;color:var(--suave);padding:10px;cursor:pointer;border-bottom:2px solid transparent}
+.abas button[aria-selected="true"]{color:var(--azul);border-bottom-color:var(--azul)}
+.conta{display:flex;flex-direction:column;gap:8px}
+.conta .quem{font-size:.82rem;line-height:1.3;color:#fff;overflow-wrap:anywhere}
+.conta .quem small{display:block;color:var(--marinho-tinta);opacity:.8}
+.conta .linha{display:flex;gap:6px;flex-wrap:wrap}
+.conta button,.btn-tema{border:1px solid var(--marinho-ativo);background:transparent;color:var(--marinho-tinta);font:inherit;font-size:.8rem;padding:6px 10px;border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.conta button:hover,.btn-tema:hover{background:var(--marinho-ativo)}
+.topo-movel .btn-tema,.topo-movel .sair-m{border-color:var(--linha);color:var(--tinta);background:var(--superficie)}
+.faixa-compartilhada{display:none;margin-bottom:14px}
+body.compartilhado .faixa-compartilhada{display:flex}
 body.f-moradia .so-inv{display:none!important}
 body.f-investimento .so-mor{display:none!important}
 #form-imovel summary{cursor:pointer;font-weight:650}
@@ -236,7 +258,38 @@ dialog .cab{padding:18px 20px 0} dialog .corpo{padding:14px 20px} dialog .pe{pad
 .fonte-linha{display:flex;gap:8px;align-items:baseline;margin-top:4px}
 footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
-@media print{.lateral,.busca,.acoes,#form-imovel,details.premissas,.topo-movel,#voltar-busca,.segmento{display:none!important} main{margin:0;padding:0} body{background:#fff} .card{break-inside:avoid;box-shadow:none}}
+/* ---------- relatório em PDF ---------- */
+#relatorio{display:none}
+.opcoes-rel{display:grid;gap:6px;grid-template-columns:1fr}
+@media(min-width:560px){.opcoes-rel{grid-template-columns:1fr 1fr}}
+.opcoes-rel label{display:flex;gap:8px;align-items:flex-start;padding:8px 10px;border:1px solid var(--linha);border-radius:var(--raio-p);font-size:.9rem;cursor:pointer}
+.opcoes-rel label small{display:block;color:var(--suave);font-size:.76rem}
+.opcoes-rel input{accent-color:var(--azul);margin-top:3px}
+.opcoes-rel label.indisponivel{opacity:.55;cursor:not-allowed}
+@media print{
+  @page{size:A4;margin:14mm 13mm 16mm}
+  :root,:root[data-theme="dark"]{--fundo:#fff;--superficie:#fff;--superficie-2:#F4F6F9;--tinta:#0F1B2D;--suave:#4A5A6E;--linha:#D8DEE6;--marinho:#0E2A47;--azul:#1F6FEB;--azul-claro:#E6F0FE;--verde:#138A52;--verde-claro:#E3F4EB;--ambar:#9A5B00;--ambar-claro:#FCF1DF;--vermelho:#C62828;--vermelho-claro:#FBE7E6;--roxo:#6B4FD8;--roxo-claro:#EEEAFC;color-scheme:light}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:11pt}
+  body.imprimindo>*:not(#relatorio):not(svg){display:none!important}
+  body.imprimindo #relatorio{display:block}
+  body:not(.imprimindo) .lateral,body:not(.imprimindo) .topo-movel,body:not(.imprimindo) .busca,body:not(.imprimindo) .acoes{display:none!important}
+  #relatorio .rel-cab{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #0E2A47;padding-bottom:8px;margin-bottom:14px}
+  #relatorio .rel-cab b{font-size:15pt;color:#0E2A47}
+  #relatorio .rel-cab span{font-size:9pt;color:#4A5A6E;text-align:right}
+  #relatorio h1{font-size:17pt;margin:0 0 2px}
+  #relatorio .rel-secao{margin:0 0 14px;padding:12px 14px;border:1px solid #D8DEE6;border-radius:8px;break-inside:avoid}
+  #relatorio .rel-secao.longa{break-inside:auto}
+  #relatorio .rel-secao>h2{font-size:12.5pt;color:#0E2A47;margin:0 0 6px;padding-bottom:4px;border-bottom:1px solid #D8DEE6}
+  #relatorio .rel-secao>h2 .n{color:#1F6FEB;margin-right:6px}
+  #relatorio table{font-size:9.5pt} #relatorio th,#relatorio td{padding:5px 6px}
+  #relatorio .rel-foto{width:100%;max-height:70mm;object-fit:cover;border-radius:6px;margin-bottom:8px}
+  #relatorio .estrategias{grid-template-columns:repeat(3,1fr)} #relatorio .estr{padding:10px;break-inside:avoid}
+  #relatorio .indicadores{grid-template-columns:repeat(4,1fr)}
+  #relatorio .grade-2{grid-template-columns:1fr 1fr}
+  #relatorio .anel svg{width:90px;height:90px}
+  #relatorio .rel-rodape{margin-top:16px;padding-top:8px;border-top:1px solid #D8DEE6;font-size:8.5pt;color:#4A5A6E}
+}
 </style>
 </head>
 <body class="f-investimento">
@@ -250,6 +303,8 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
   <symbol id="i-moradia" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M10 21v-5h4v5"/></symbol>
   <symbol id="i-invest" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
   <symbol id="i-externo" viewBox="0 0 24 24"><path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-tema" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+  <symbol id="i-equipe" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7"/><path d="M18 14a6.5 6.5 0 0 1 3.5 6"/></symbol>
   <symbol id="i-estrela" viewBox="0 0 24 24"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
 </svg>
 
@@ -260,30 +315,63 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
     <a href="#oportunidades" data-view="oportunidades"><svg class="ic"><use href="#i-busca"/></svg><span>Oportunidades</span></a>
     <a href="#alertas" data-view="alertas"><svg class="ic"><use href="#i-sino"/></svg><span>Meus alertas</span><span class="badge oculto" id="badge-alertas">0</span></a>
     <a href="#dados" data-view="dados"><svg class="ic"><use href="#i-dados"/></svg><span>Dados</span></a>
+    <a href="#equipe" data-view="equipe" class="oculto" id="nav-equipe"><svg class="ic"><use href="#i-equipe"/></svg><span>Equipe</span><span class="badge oculto" id="badge-equipe">0</span></a>
   </div>
-  <div class="rodape">
-    <p>Quem está usando</p>
-    <div class="alternar" role="group" aria-label="Quem está usando">
-      <button type="button" id="modo-cliente" aria-pressed="true">Comprador</button>
-      <button type="button" id="modo-corretor" aria-pressed="false">Corretor</button>
+  <div class="rodape conta">
+    <div class="quem" id="conta-quem"></div>
+    <div class="linha">
+      <button type="button" class="btn-tema" data-tema aria-label="Alternar modo claro e escuro"><svg class="ic" style="width:16px;height:16px"><use href="#i-tema"/></svg><span>Tema escuro</span></button>
     </div>
+    <div class="linha"><button type="button" id="btn-trocar-senha">Trocar senha</button><button type="button" data-sair>Sair</button></div>
   </div>
 </nav>
 
 <main>
 <div class="conteudo">
   <div class="topo-movel"><b>Radar do Imóvel</b>
-    <div class="alternar" role="group" aria-label="Quem está usando" style="background:var(--superficie);border:1px solid var(--linha)">
-      <button type="button" id="modo-cliente-m" aria-pressed="true" style="color:var(--suave)">Comprador</button>
-      <button type="button" id="modo-corretor-m" aria-pressed="false" style="color:var(--suave)">Corretor</button>
-    </div>
+    <span style="display:flex;gap:6px"><button type="button" class="btn-tema" data-tema aria-label="Alternar modo claro e escuro"><svg class="ic" style="width:16px;height:16px"><use href="#i-tema"/></svg><span>Tema escuro</span></button><button type="button" class="btn-tema sair-m" data-sair>Sair</button></span>
   </div>
+
+  <!-- ================= LOGIN ================= -->
+  <section class="view" id="v-login" aria-labelledby="t-login">
+    <div class="login"><div class="caixa">
+      <div class="marca-login"><span class="logo"><svg class="ic"><use href="#i-invest"/></svg></span><span><b style="font-size:1.15rem">Radar do Imóvel</b><br><span class="sub">Nova São Paulo</span></span>
+        <button type="button" class="botao pequeno sec" data-tema style="margin-left:auto" aria-label="Alternar modo claro e escuro"><svg class="ic" style="width:16px;height:16px"><use href="#i-tema"/></svg><span>Tema escuro</span></button></div>
+      <div class="card">
+        <h1 id="t-login" style="font-size:1.35rem">Acesso da equipe</h1>
+        <p class="sub">Use seu e-mail corporativo @novasaopaulo.com.br.</p>
+        <div class="abas" role="tablist"><button type="button" role="tab" id="aba-entrar" aria-selected="true">Entrar</button><button type="button" role="tab" id="aba-criar" aria-selected="false">Criar conta</button></div>
+        <form id="form-entrar" class="pilha" style="gap:12px">
+          <label class="campo">E-mail corporativo<input id="l-email" type="email" autocomplete="username" required placeholder="nome@novasaopaulo.com.br"></label>
+          <label class="campo">Senha<input id="l-senha" type="password" autocomplete="current-password" required></label>
+          <button class="botao" type="submit" id="l-btn">Entrar</button>
+        </form>
+        <form id="form-criar" class="pilha oculto" style="gap:12px">
+          <label class="campo">Seu nome<input id="c-nome" autocomplete="name" required maxlength="60"></label>
+          <label class="campo">E-mail corporativo<input id="c-email" type="email" autocomplete="username" required placeholder="nome@novasaopaulo.com.br"></label>
+          <label class="campo">Senha<input id="c-senha" type="password" autocomplete="new-password" required minlength="10"><span class="ajuda">Mínimo de 10 caracteres, com letras e números.</span></label>
+          <label class="campo">Repita a senha<input id="c-senha2" type="password" autocomplete="new-password" required minlength="10"></label>
+          <button class="botao" type="submit" id="c-btn">Criar conta</button>
+          <p class="sub" style="margin:0;font-size:.8rem">Novas contas precisam ser aprovadas por um administrador antes do primeiro acesso.</p>
+        </form>
+        <div class="aviso" id="aviso-login" role="status"></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- ================= EQUIPE (administradores) ================= -->
+  <section class="view so-equipe" id="v-equipe" aria-labelledby="t-equipe">
+    <div class="cabeca"><div><h1 id="t-equipe">Equipe</h1><p class="sub" style="margin:0">Aprove novos acessos, bloqueie quem saiu da empresa e redefina senhas.</p></div></div>
+    <div class="aviso" id="aviso-equipe" role="status"></div>
+    <div class="card" style="margin-top:12px"><div class="tabela"><table id="tabela-equipe"></table></div></div>
+  </section>
 
   <!-- ================= ANALISAR IMÓVEL ================= -->
   <section class="view" id="v-analise" aria-labelledby="t-analise">
+    <div class="faixa-compartilhada aviso on info" style="justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><span>Análise compartilhada pela Nova São Paulo. Os valores são estimativas com dados públicos.</span><a class="botao pequeno sec" href="/#analise">Acesso da equipe</a></div>
     <div class="cabeca"><div><h1 id="t-analise">Analisar imóvel</h1><p class="sub" style="margin:0">Cole o link de um anúncio da Nova São Paulo para ver a análise de moradia e de investimento.</p></div>
       <button class="botao sec oculto" id="voltar-busca" type="button">← Voltar aos resultados da busca</button></div>
-    <div class="card">
+    <div class="card" id="bloco-busca">
       <form class="busca" id="form-link" autocomplete="off">
         <input id="link" type="url" inputmode="url" placeholder="https://www.novasaopaulo.com.br/imovel/…" aria-label="Link do anúncio">
         <button class="botao" id="btn-analisar" type="submit">Analisar imóvel</button>
@@ -335,18 +423,21 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
       </div>
 
       <div class="grade-score">
-        <section class="card" aria-labelledby="t-score">
+        <section class="card" aria-labelledby="t-score" id="sec-score">
           <h2 id="t-score">Score de oportunidade</h2>
-          <div class="anel" style="margin-top:10px">
+          <p class="sub" style="margin:0">Mede o imóvel como oportunidade imobiliária. É o mesmo em Moradia e Investimento.</p>
+          <div class="anel" style="margin-top:12px">
             <svg viewBox="0 0 120 120" role="img" aria-labelledby="score-txt"><circle cx="60" cy="60" r="50" stroke="var(--linha)" stroke-width="11" fill="none"/><circle id="score-arco" cx="60" cy="60" r="50" stroke="var(--verde)" stroke-width="11" fill="none" stroke-linecap="round" transform="rotate(-90 60 60)" stroke-dasharray="314.16" stroke-dashoffset="314.16" style="transition:stroke-dashoffset .6s ease"/><text x="60" y="60" text-anchor="middle" dominant-baseline="central" font-size="30" font-weight="780" fill="var(--tinta)" font-family="Archivo, system-ui, sans-serif" id="score-num">–</text></svg>
-            <div><p class="veredito-t" id="v-titulo"></p><p class="sub" style="margin:0" id="score-txt"></p></div>
+            <div><p class="veredito-t" id="score-classe"></p><p class="sub" style="margin:0" id="score-txt"></p></div>
           </div>
           <ul class="fatores" id="score-fatores"></ul>
           <div class="limites oculto" id="score-limites"></div>
-          <p class="sub" style="margin:10px 0 0;font-size:.8rem">Como o score é calculado: começa em 50 e soma o resultado financeiro em 10 anos (até ±35), o preço comparado aos parecidos (até ±10) e a facilidade de revenda (até ±7). Preço baixo sozinho não torna o imóvel um bom negócio.</p>
+          <details class="metodo" style="margin-top:12px"><summary class="sub" style="cursor:pointer;margin:0">Como o score é calculado</summary>
+            <div class="sub" style="font-size:.82rem;margin:8px 0 0" id="score-metodo"></div></details>
         </section>
-        <section class="card" aria-labelledby="t-pc">
-          <h2 id="t-pc">Resumo</h2>
+        <section class="card" aria-labelledby="t-pc" id="sec-conclusao">
+          <h2 id="t-pc">Conclusão para <span id="pc-fin">investimento</span></h2>
+          <p class="veredito-t" id="v-titulo" style="margin-top:8px"></p>
           <p class="sub" id="v-frase"></p>
           <div class="grade-2">
             <div><h3 class="pos">Pontos a favor</h3><ul class="lista-pc" id="v-pros"></ul></div>
@@ -411,9 +502,9 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
         </section>
       </div>
 
-      <section class="card corretor-only" aria-labelledby="t-corretor">
-        <h2 id="t-corretor">Para o corretor</h2>
-        <p class="sub">Argumentos baseados nos números acima e como conduzir até a proposta.</p>
+      <section class="card" aria-labelledby="t-corretor">
+        <h2 id="t-corretor">Argumentos e negociação</h2>
+        <p class="sub">O que pesa a favor, dúvidas que costumam aparecer e uma faixa de proposta baseada nos números acima.</p>
         <div class="grade-2">
           <div><h3>Argumentos</h3><ul class="lista-pc" id="c-args"></ul></div>
           <div><h3>Objeções prováveis e como responder</h3><ul class="lista-pc" id="c-obj"></ul></div>
@@ -434,7 +525,7 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
       <div class="acoes" style="margin-top:0">
         <button class="botao" type="button" id="btn-whats">Enviar no WhatsApp</button>
         <button class="botao sec" type="button" id="btn-copiar">Copiar link desta análise</button>
-        <button class="botao sec" type="button" id="btn-imprimir">Salvar em PDF</button>
+        <button class="botao sec" type="button" id="btn-imprimir">Gerar relatório em PDF</button>
       </div>
     </div>
   </section>
@@ -504,9 +595,9 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
 
   <!-- ================= MEUS ALERTAS ================= -->
   <section class="view" id="v-alertas" aria-labelledby="t-alertas">
-    <div class="cabeca"><div><h1 id="t-alertas">Meus alertas</h1><p class="sub" style="margin:0">Buscas salvas são conferidas automaticamente todo dia às 8h. Quando surge um imóvel compatível, ele aparece aqui.</p></div>
+    <div class="cabeca"><div><h1 id="t-alertas">Meus alertas</h1><p class="sub" style="margin:0">Buscas salvas na sua conta são conferidas automaticamente todo dia às 8h. Quando surge um imóvel compatível, ele aparece aqui.</p></div>
       <button class="botao" type="button" id="btn-novo-alerta"><svg class="ic"><use href="#i-sino"/></svg>Novo alerta</button></div>
-    <section class="card" id="identidade" aria-labelledby="t-ident"></section>
+    <section class="card oculto" id="migracao"><h2>Alertas criados antes do login</h2><p class="sub">Este aparelho tem alertas salvos com a chave antiga. Traga-os para a sua conta para continuar recebendo as oportunidades.</p><div class="acoes" style="margin-top:0"><button class="botao" type="button" id="btn-migrar">Trazer para minha conta</button><button class="botao fantasma" type="button" id="btn-ignorar-migracao">Ignorar</button></div></section>
     <div class="aviso" id="aviso-alertas" role="status"></div>
     <section class="card" style="margin-top:16px" aria-labelledby="t-notifs">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 id="t-notifs">Novas oportunidades</h2><button class="botao pequeno sec" id="btn-ler-todas" type="button">Marcar todas como lidas</button></div>
@@ -546,6 +637,34 @@ footer{color:var(--suave);font-size:.8rem;padding:24px 0 0;max-width:80ch}
   </form>
 </dialog>
 
+<dialog id="dlg-relatorio" aria-labelledby="dlg-rel-t">
+  <form method="dialog" id="form-relatorio">
+    <div class="cab"><h2 id="dlg-rel-t">Personalizar relatório</h2><p class="sub" style="margin:4px 0 0">Marque o que deve entrar no PDF. Os números são os mesmos da análise na tela.</p></div>
+    <div class="corpo">
+      <div class="acoes" style="margin:0 0 10px"><button class="botao pequeno sec" type="button" id="rel-todas">Marcar todas</button><button class="botao pequeno sec" type="button" id="rel-nenhuma">Desmarcar todas</button><button class="botao pequeno fantasma" type="button" id="rel-padrao">Sugestão para <span id="rel-fin">investimento</span></button></div>
+      <div class="opcoes-rel" id="rel-opcoes"></div>
+      <label class="campo" style="margin-top:12px">Preparado para (opcional)<input id="rel-para" maxlength="60" placeholder="ex.: nome ou código do cliente"></label>
+      <div class="aviso" id="aviso-rel" role="status"></div>
+    </div>
+    <div class="pe"><button class="botao sec" value="cancelar" type="submit" formnovalidate>Cancelar</button><button class="botao" type="button" id="rel-gerar">Gerar PDF</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-senha" aria-labelledby="dlg-senha-t">
+  <form method="dialog" id="form-senha">
+    <div class="cab"><h2 id="dlg-senha-t">Trocar senha</h2><p class="sub" style="margin:4px 0 0" id="dlg-senha-sub">Mínimo de 10 caracteres, com letras e números.</p></div>
+    <div class="corpo pilha" style="gap:12px">
+      <label class="campo">Senha atual<input id="s-atual" type="password" autocomplete="current-password"></label>
+      <label class="campo">Nova senha<input id="s-nova" type="password" autocomplete="new-password" minlength="10"></label>
+      <label class="campo">Repita a nova senha<input id="s-nova2" type="password" autocomplete="new-password" minlength="10"></label>
+      <div class="aviso" id="aviso-senha" role="status"></div>
+    </div>
+    <div class="pe"><button class="botao sec" value="cancelar" type="submit" formnovalidate>Cancelar</button><button class="botao" type="button" id="s-salvar">Salvar nova senha</button></div>
+  </form>
+</dialog>
+
+<div id="relatorio" aria-hidden="true"></div>
+
 <script type="module">
 import * as C from "./compat.mjs";
 "use strict";
@@ -568,15 +687,21 @@ function semAviso(id = "aviso") { $(id).className = "aviso"; }
 const iconeFoto = '<div class="vazio"><svg class="ic"><use href="#i-foto"/></svg><span>Foto não disponível</span></div>';
 
 // ================= navegação =================
-const VIEWS = ["analise", "oportunidades", "alertas", "dados"];
+const VIEWS = ["analise", "oportunidades", "alertas", "dados", "equipe", "login"];
+const SESSAO = { usuario: null, compartilhado: false };
 function irPara(v, empurrar = true) {
   if (!VIEWS.includes(v)) v = "analise";
+  if (SESSAO.compartilhado) v = "analise";
+  else if (!SESSAO.usuario) v = "login";
+  else if (v === "login" || (v === "equipe" && SESSAO.usuario.papel !== "admin")) v = "analise";
+  document.body.classList.toggle("sem-login", v === "login");
   VIEWS.forEach((x) => $("v-" + x).classList.toggle("on", x === v));
   document.querySelectorAll(".nav a").forEach((a) => { if (a.dataset.view === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
-  if (empurrar && location.hash !== "#" + v) history.replaceState(null, "", location.pathname + location.search + "#" + v);
+  if (empurrar && v !== "login" && location.hash !== "#" + v) history.replaceState(null, "", location.pathname + location.search + "#" + v);
   if (v === "oportunidades") garantirCatalogo().catch(() => {});
   if (v === "alertas") carregarAlertas();
   if (v === "dados") mostrarStatus();
+  if (v === "equipe") carregarEquipe();
   window.scrollTo({ top: 0 });
 }
 document.querySelectorAll(".nav a").forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); irPara(a.dataset.view); }));
@@ -705,7 +830,9 @@ function temporadaRef(distrito, quartos, lat, lng) {
 // ================= leitura do link =================
 async function lerAnuncio(link) {
   const r = await fetch("/api/ler-imovel?url=" + encodeURIComponent(link));
-  return r.json().catch(() => ({ ok: false, erro: "Resposta inválida do servidor." }));
+  const j = await r.json().catch(() => ({ ok: false, erro: "Resposta inválida do servidor." }));
+  if (r.status === 401) sessaoExpirada();
+  return j;
 }
 $("form-link").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -868,19 +995,77 @@ function calcular(rolar) {
   if (condoM2 > 20) liq -= 6;
   liq = clamp(Math.round(liq), 5, 95);
 
-  // score (mesma metodologia da versão anterior, agora com cada parcela exposta)
+  // conclusão da finalidade escolhida (moradia ou investimento): separada do score
   const ref10 = f.objetivo === "morar" ? morar[1].comprar / morar[1].alugar - 1 : proj[1].melhor.patrimonio / proj[1].aplicMelhor - 1;
-  const ptsFin = clamp(ref10 * 200, -35, 35);
-  const ptsPreco = difSim != null ? clamp(-difSim * 60, -10, 10) : 0;
-  const ptsLiq = (liq - 50) * 0.15;
-  const nota = clamp(Math.round(50 + ptsFin + ptsPreco + ptsLiq), 0, 100);
+  // score de oportunidade: independe de moradia/investimento e não usa comprar x alugar
+  const score = calcularScore({ f, difSim, sims, estBairro, liq, condoM2, fixoMes, alugMes });
 
-  const R = { f, P, ref, ests, trad, medio, curta, melhor, m2, sims, medSim, difSim, estBairro, proj, morar, breakeven, liq, condoM2, nota, ptsFin, ptsPreco, ptsLiq, ref10, alugMes, custoCompra, investBase, mobilia, aplicLiq, manutAno, fixoMes, fin };
+  const R = { f, P, ref, ests, trad, medio, curta, melhor, m2, sims, medSim, difSim, estBairro, proj, morar, breakeven, liq, condoM2, score, nota: score.nota, ref10, alugMes, custoCompra, investBase, mobilia, aplicLiq, manutAno, fixoMes, fin };
   desenhar(R);
   salvarNoLink(f);
   $("resultado").classList.remove("oculto");
   if (rolar) $("resumo").scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
 }
+// ================= SCORE DE OPORTUNIDADE =================
+// Critérios e pesos (somam 100). Critério sem dados sai do cálculo e o peso é redistribuído entre os demais,
+// com aviso. Com menos de 60% do peso avaliado, a classificação vira "dados insuficientes".
+const CRITERIOS_SCORE = [
+  { id: "preco", nome: "Preço e precificação", peso: 25, como: "Preço por m² comparado à mediana dos imóveis parecidos do anúncio e à mediana do portfólio da Nova SP no bairro. Nota 60 quando está na mediana; sobe até 100 com 16% abaixo e cai a 0 com 24% acima." },
+  { id: "local", nome: "Localização", peso: 15, como: "Distância do metrô (até 400 m = 100; até 800 m = 80; até 1,2 km = 55; acima = 30) e quantidade de serviços a até 800 m informados no anúncio (escola, hospital, parque, mercado, ônibus etc.)." },
+  { id: "venda", nome: "Potencial de venda (liquidez)", peso: 15, como: "Índice de facilidade de revenda já usado pelo Radar: tipo do imóvel, metrô, vaga, faixa de preço, tamanho e condomínio." },
+  { id: "locacao", nome: "Potencial de locação", peso: 15, como: "Aluguel bruto anual ÷ preço. Usa a mediana de aluguel por m² dos imóveis da Nova SP para alugar no mesmo bairro e tipo (mínimo de 3); sem amostra, usa a média da cidade (FipeZAP). 2,5% ao ano = 0; 7% ou mais = 100." },
+  { id: "valoriza", nome: "Potencial de valorização", peso: 10, como: "Exige série histórica de preços por bairro. Ainda não temos dados confiáveis; o critério fica fora até o catálogo acumular histórico." },
+  { id: "carac", nome: "Características do imóvel", peso: 10, como: "Área por quarto (28 m² ou mais = 100; 22 a 28 = 70; menos = 40), vaga de garagem, suíte e itens de lazer do condomínio. Conservação não é avaliada porque o anúncio não informa." },
+  { id: "riscos", nome: "Riscos e custos", peso: 10, como: "Começa em 100 e desconta: condomínio acima de R$ 15/m² (−20) ou R$ 20/m² (−40); condomínio + IPTU acima de 45% do aluguel estimado (−25); IPTU anual acima de 1% do preço (−15); preço mais de 10% acima dos parecidos (−20)." },
+];
+function calcularScore({ f, difSim, sims, estBairro, liq, condoM2, fixoMes, alugMes }) {
+  const r = {}; const add = (id, nota, txt) => (r[id] = { nota: nota == null ? null : clamp(Math.round(nota), 0, 100), txt });
+  // preço
+  const difs = []; const fontes = [];
+  if (difSim != null) { difs.push(difSim); fontes.push(`${difSim > 0 ? "+" : ""}${pct(difSim, 0)} vs. ${sims.length} parecidos do anúncio`); }
+  if (estBairro?.difBairro != null) { difs.push(estBairro.difBairro); fontes.push(`${estBairro.difBairro > 0 ? "+" : ""}${pct(estBairro.difBairro, 0)} vs. mediana de ${estBairro.nBairro} imóveis da Nova SP no bairro`); }
+  if (difs.length) { const d = difs.reduce((a, b) => a + b, 0) / difs.length; add("preco", 60 - d * 250, `Preço por m² ${brl(f.preco / f.area)}: ${fontes.join("; ")}.`); }
+  else add("preco", null, "Sem imóveis comparáveis (parecidos do anúncio ou amostra do bairro).");
+  // localização
+  const pois = IMOVEL.pois || [];
+  const partes = []; const notasL = [];
+  if (f.metro != null) { notasL.push(f.metro <= 400 ? 100 : f.metro <= 800 ? 80 : f.metro <= 1200 ? 55 : 30); partes.push(`metrô a ${f.metro} m`); }
+  if (pois.length) { const n = pois.filter((p) => p.metros <= 800 && !/metr/i.test(p.tipo)).length; notasL.push(n >= 4 ? 100 : n === 3 ? 80 : n === 2 ? 65 : n === 1 ? 50 : 35); partes.push(`${n} serviço(s) a até 800 m`); }
+  add("local", notasL.length ? notasL.reduce((a, b) => a + b, 0) / notasL.length : null, notasL.length ? partes.join(", ") + "." : "Distância do metrô e pontos de interesse não informados.");
+  // venda
+  add("venda", liq, `Índice de facilidade de revenda: ${liq} de 100.`);
+  // locação
+  const alugBairro = estBairro && /bairro/.test(estBairro.fonteAluguel || "") ? estBairro.aluguelEst : null;
+  const alug = alugBairro || alugMes;
+  const y = alug * 12 / f.preco;
+  add("locacao", ((y - 0.025) / 0.045) * 100, `Aluguel estimado ${brl(alug)}/mês (${alugBairro ? estBairro.fonteAluguel : "média da cidade, FipeZAP; menos preciso"}): ${pct(y)} ao ano bruto.`);
+  // valorização
+  add("valoriza", null, "Sem série histórica confiável por bairro; critério não avaliado.");
+  // características
+  const nc = []; const pc2 = [];
+  if (f.quartos) { const apq = f.area / f.quartos; nc.push(apq >= 28 ? 100 : apq >= 22 ? 70 : 40); pc2.push(`${Math.round(apq)} m² por quarto`); }
+  if ($("f-vagas").value.trim() !== "") { nc.push(f.vagas >= 1 ? 100 : 30); pc2.push(f.vagas >= 1 ? `${f.vagas} vaga(s)` : "sem vaga"); }
+  if (IMOVEL.suites != null) { nc.push(IMOVEL.suites >= 1 ? 100 : 60); pc2.push(IMOVEL.suites >= 1 ? `${IMOVEL.suites} suíte(s)` : "sem suíte"); }
+  if ((IMOVEL.lazer || []).length) { nc.push(IMOVEL.lazer.length >= 3 ? 100 : 70); pc2.push(`${IMOVEL.lazer.length} item(ns) de lazer`); }
+  add("carac", nc.length ? nc.reduce((a, b) => a + b, 0) / nc.length : null, nc.length ? pc2.join(", ") + "." : "Quartos, vagas e diferenciais não informados.");
+  // riscos e custos
+  let rc = 100; const pr = [];
+  if (f.condoInformado) { if (condoM2 > 20) { rc -= 40; pr.push(`condomínio de ${brl(condoM2, 2)}/m²`); } else if (condoM2 > 15) { rc -= 20; pr.push(`condomínio de ${brl(condoM2, 2)}/m²`); } }
+  if ((f.condoInformado || f.iptuInformado) && alug && fixoMes / alug > 0.45) { rc -= 25; pr.push(`condomínio + IPTU = ${pct(fixoMes / alug, 0)} do aluguel estimado`); }
+  if (f.iptuInformado && f.iptu * 12 / f.preco > 0.01) { rc -= 15; pr.push("IPTU alto para o preço"); }
+  if (difSim != null && difSim > 0.1) { rc -= 20; pr.push("preço mais de 10% acima dos parecidos"); }
+  add("riscos", f.condoInformado || f.iptuInformado ? rc : null, f.condoInformado || f.iptuInformado ? (pr.length ? "Descontos: " + pr.join("; ") + "." : "Sem custos ou riscos acima do normal nos dados disponíveis.") : "Condomínio e IPTU não informados; custos não avaliados.");
+
+  const avaliados = CRITERIOS_SCORE.filter((c) => r[c.id].nota != null);
+  const pesoAval = avaliados.reduce((a, c) => a + c.peso, 0);
+  const nota = pesoAval ? Math.round(avaliados.reduce((a, c) => a + c.peso * r[c.id].nota, 0) / pesoAval) : null;
+  const itens = CRITERIOS_SCORE.map((c) => ({ ...c, ...r[c.id], pesoEf: r[c.id].nota != null && pesoAval ? (c.peso / pesoAval) * 100 : 0, pontos: r[c.id].nota != null && pesoAval ? (c.peso / pesoAval) * r[c.id].nota : null }));
+  const cobertura = pesoAval / 100;
+  const classe = nota == null || cobertura < 0.6 ? "Dados insuficientes para classificar" : nota >= 75 ? "Oportunidade forte" : nota >= 60 ? "Boa oportunidade" : nota >= 45 ? "Oportunidade moderada" : "Oportunidade fraca";
+  const nivel = classe.startsWith("Dados") ? "neu" : nota >= 60 ? "bom" : nota >= 45 ? "medio" : "fraco";
+  return { nota, classe, nivel, itens, cobertura };
+}
+
 function mediana(a) { const s = [...a].sort((x, y) => x - y), m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
 function taxaEmpate(trad, f, inv, n, v, P) {
   const pat = (r) => { let a = 0; for (let t = 1; t <= n; t++) a = a * (1 + r) + trad.liq * Math.pow(1 + v, t - 1); const val = f.preco * Math.pow(1 + v, n); return val * (1 - P.custoVenda / 100) - Math.max(0, val * (1 - P.custoVenda / 100) - inv) * 0.15 + a; };
@@ -906,38 +1091,38 @@ function desenhar(R) {
     .filter(([, v]) => v != null && v !== "").map(([k, v]) => `<li>${esc(k)}: <b>${esc(v)}</b></li>`).join("");
   $("r-acoes").innerHTML = IMOVEL.url ? `<a class="botao sec pequeno" href="${esc(urlSegura(IMOVEL.url))}" target="_blank" rel="noopener"><svg class="ic"><use href="#i-externo"/></svg>Abrir anúncio original</a>` : "";
 
-  // score
-  const cls = R.nota >= 68 ? "bom" : R.nota >= 45 ? "medio" : "fraco";
-  const cor = cls === "bom" ? "var(--verde)" : cls === "medio" ? "var(--ambar)" : "var(--vermelho)";
-  $("score-arco").style.stroke = cor; $("score-arco").style.strokeDashoffset = String(314.16 * (1 - R.nota / 100));
-  $("score-num").textContent = R.nota;
-  const p10 = proj[1], m10 = morar[1];
-  if (investir) {
-    $("v-titulo").textContent = cls === "bom" ? "Faz sentido como investimento" : cls === "medio" ? "Pode fazer sentido, com condições" : "Como investimento, há opções melhores";
-    const dif = p10.melhor.patrimonio - p10.aplicMelhor;
-    $("v-frase").textContent = `Em 10 anos, comprando e alugando como ${nomeEstr(melhor)}, o patrimônio estimado é ${brl(p10.melhor.patrimonio)}, ${dif >= 0 ? brl(dif) + " a mais" : brl(-dif) + " a menos"} do que deixar o mesmo dinheiro aplicado.`;
-  } else {
-    $("v-titulo").textContent = cls === "bom" ? "Comprar para morar compensa" : cls === "medio" ? "Comprar ou alugar dá quase no mesmo" : "Alugar e investir a diferença rende mais";
-    const dif = m10.comprar - m10.alugar;
-    $("v-frase").textContent = `Em 10 anos, comprar deixa um patrimônio estimado de ${brl(m10.comprar)}; alugar um imóvel parecido e aplicar o dinheiro deixaria ${brl(m10.alugar)}. Diferença de ${brl(Math.abs(dif))} ${dif >= 0 ? "a favor da compra" : "a favor do aluguel"}.`;
-  }
-  $("score-txt").textContent = `${R.nota} de 100 na visão de ${investir ? "investimento" : "moradia"}.`;
-  const sinal = (x) => (x > 0.5 ? "pos" : x < -0.5 ? "neg" : "neu");
-  const ptsTxt = (x) => (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(0).replace(".", ",");
-  $("score-fatores").innerHTML = [
-    { n: "Ponto de partida", p: 50, t: "Todo imóvel começa no meio da escala.", neutro: true },
-    { n: investir ? "Patrimônio em 10 anos x aplicação" : "Comprar x alugar em 10 anos", p: R.ptsFin, t: `${R.ref10 >= 0 ? "+" : ""}${pct(R.ref10)} de diferença no cenário base.` },
-    { n: "Preço x parecidos anunciados", p: R.ptsPreco, t: R.difSim != null ? `Preço por m² ${R.difSim > 0 ? pct(R.difSim, 0) + " acima" : pct(-R.difSim, 0) + " abaixo"} da mediana de ${R.sims.length} parecidos.` : "Sem parecidos para comparar; parcela não aplicada." },
-    { n: "Facilidade de revenda", p: R.ptsLiq, t: `Índice indicativo de ${R.liq} de 100 (tipo, metrô, vaga, faixa de preço e tamanho).` },
-  ].map((x) => `<li><b>${esc(x.n)}</b><span class="pts ${x.neutro ? "neu" : sinal(x.p)}">${x.neutro ? x.p : ptsTxt(x.p)}</span><small>${esc(x.t)}</small></li>`).join("");
+  // score de oportunidade (independente da finalidade)
+  const S = R.score;
+  const cor = S.nivel === "bom" ? "var(--verde)" : S.nivel === "medio" ? "var(--ambar)" : S.nivel === "fraco" ? "var(--vermelho)" : "var(--suave)";
+  $("score-arco").style.stroke = cor; $("score-arco").style.strokeDashoffset = String(314.16 * (1 - (S.nota || 0) / 100));
+  $("score-num").textContent = S.nota ?? "–";
+  $("score-classe").textContent = S.classe;
+  $("score-txt").textContent = `${S.nota ?? "—"} de 100. ${Math.round(S.cobertura * 100)}% do peso avaliado com dados disponíveis.`;
+  $("score-fatores").innerHTML = S.itens.map((x) => x.nota == null
+    ? `<li><b>${esc(x.nome)} <span class="neu" style="font-weight:400">· peso ${x.peso}%</span></b><span class="pts neu">sem dados</span><small>${esc(x.txt)} Peso redistribuído entre os demais critérios.</small></li>`
+    : `<li><b>${esc(x.nome)} <span class="neu" style="font-weight:400">· peso ${x.peso}%</span></b><span class="pts ${x.nota >= 65 ? "pos" : x.nota <= 40 ? "neg" : "neu"}">nota ${x.nota}</span><small>${esc(x.txt)} Contribui com ${virg(x.pontos.toFixed(1))} pontos.</small></li>`).join("");
   const lim = [];
-  if (R.difSim == null) lim.push("Sem imóveis parecidos para comparar o preço.");
+  S.itens.filter((x) => x.nota == null).forEach((x) => lim.push(`${x.nome}: ${x.txt}`));
   if (!f.condoInformado) lim.push("Condomínio não informado: custos podem estar subestimados.");
   if (!f.iptuInformado) lim.push("IPTU não informado.");
-  if (f.metro == null) lim.push("Distância do metrô não informada.");
+  lim.push("Conservação e necessidade de reforma não são avaliadas: o anúncio não traz essa informação. Confira na visita.");
   if (investir && !ref.n) lim.push("Dados de temporada da região ainda não carregados; usada a média da cidade.");
-  $("score-limites").classList.toggle("oculto", !lim.length);
-  $("score-limites").innerHTML = lim.length ? `<b>Limitações desta análise</b><ul>${lim.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
+  $("score-limites").classList.remove("oculto");
+  $("score-limites").innerHTML = `<b>Limitações e dados ausentes</b><ul>${lim.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
+  $("score-metodo").innerHTML = `<p style="margin:0 0 6px">Nota final = média ponderada das notas (0 a 100) de cada critério. Classificação: 75 ou mais, oportunidade forte; 60 a 74, boa; 45 a 59, moderada; abaixo de 45, fraca. O score não usa a comparação entre comprar e alugar nem a projeção de investimento.</p><ul style="margin:0;padding-left:18px">${CRITERIOS_SCORE.map((c) => `<li><b>${esc(c.nome)} (${c.peso}%)</b>: ${esc(c.como)}</li>`).join("")}</ul>`;
+
+  // conclusão da finalidade escolhida
+  const p10 = proj[1], m10 = morar[1];
+  $("pc-fin").textContent = investir ? "investimento" : "moradia";
+  if (investir) {
+    const dif = p10.melhor.patrimonio - p10.aplicMelhor;
+    $("v-titulo").textContent = R.ref10 >= 0.05 ? "Como investimento, supera a aplicação" : R.ref10 >= -0.05 ? "Como investimento, fica perto da aplicação" : "Como investimento, a aplicação rende mais";
+    $("v-frase").textContent = `Em 10 anos, comprando e alugando como ${nomeEstr(melhor)}, o patrimônio estimado é ${brl(p10.melhor.patrimonio)}, ${dif >= 0 ? brl(dif) + " a mais" : brl(-dif) + " a menos"} do que deixar o mesmo dinheiro aplicado.`;
+  } else {
+    const dif = m10.comprar - m10.alugar;
+    $("v-titulo").textContent = R.ref10 >= 0.05 ? "Para morar, comprar compensa" : R.ref10 >= -0.05 ? "Para morar, comprar ou alugar dá quase no mesmo" : "Para morar, alugar e aplicar rende mais";
+    $("v-frase").textContent = `Em 10 anos, comprar deixa um patrimônio estimado de ${brl(m10.comprar)}; alugar um imóvel parecido e aplicar o dinheiro deixaria ${brl(m10.alugar)}. Diferença de ${brl(Math.abs(dif))} ${dif >= 0 ? "a favor da compra" : "a favor do aluguel"}.`;
+  }
 
   // prós e contras por finalidade
   const pros = [], contras = [];
@@ -1008,31 +1193,9 @@ function desenhar(R) {
   const mxB = Math.max(...itensB.map((x) => x.v), 0.01);
   $("estrategias-barras").innerHTML = itensB.map((b) => `<div class="barra"><div class="rot"><span>${esc(b.rot)}</span><b>${pct(b.v)} ao ano</b></div><div class="trilho"><i class="${b.cls}" style="width:${Math.max(0, b.v / mxB) * 100}%"></i></div></div>`).join("");
 
-  // futuro
-  const barra = (rot, val, mx, c) => `<div class="barra"><div class="rot"><span>${rot}</span><b>${brl(val)}</b></div><div class="trilho"><i class="${c}" style="width:${Math.max(0, val / mx) * 100}%"></i></div></div>`;
-  if (investir) {
-    $("t-futuro").textContent = "Patrimônio em 5, 10 e 15 anos";
-    $("futuro-sub").textContent = `Comprar e alugar (${nomeEstr(melhor)}) contra aplicar o mesmo valor a ${virg(R.P.aplicacao)}% ao ano bruto. Inclui venda no fim, corretagem e imposto sobre o ganho.`;
-    const mx = Math.max(...proj.map((p) => Math.max(p.ot.patrimonio, p.aplicMelhor)));
-    $("futuro-barras").innerHTML = proj.map((p) => `<h3 style="margin:14px 0 6px">Em ${p.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e alugar", p.melhor.patrimonio, mx, "verde")}${barra("Deixar aplicado", p.aplicMelhor, mx, "cinza")}</div>`).join("");
-    $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${proj.map((p) => `<th>${p.n} anos</th>`).join("")}</tr></thead><tbody>
-      <tr><td>Valor do imóvel (base)</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
-      <tr><td>Patrimônio, valorização baixa (${pct(Math.max(0, R.P.valoriza / 100 - 0.03))})</td>${proj.map((p) => `<td>${brl(p.pess.patrimonio)}</td>`).join("")}</tr>
-      <tr><td>Patrimônio, cenário base</td>${proj.map((p) => `<td>${brl(p.melhor.patrimonio)}</td>`).join("")}</tr>
-      <tr><td>Patrimônio, valorização alta (${pct(R.P.valoriza / 100 + 0.02)})</td>${proj.map((p) => `<td>${brl(p.ot.patrimonio)}</td>`).join("")}</tr>
-      <tr><td>Só aluguel tradicional</td>${proj.map((p) => `<td>${brl(p.trad.patrimonio)}</td>`).join("")}</tr>
-      <tr><td>Dinheiro aplicado</td>${proj.map((p) => `<td>${brl(p.aplicMelhor)}</td>`).join("")}</tr></tbody>`;
-  } else {
-    $("t-futuro").textContent = "Comprar ou continuar pagando aluguel?";
-    $("futuro-sub").textContent = `Comprar para morar (pagando à vista) contra alugar um imóvel parecido (≈ ${brl(R.alugMes)}/mês) e aplicar o dinheiro da compra a ${virg(R.P.aplicacao)}% ao ano bruto.`;
-    const mx = Math.max(...morar.map((m) => Math.max(m.comprar, m.alugar, 1)));
-    $("futuro-barras").innerHTML = morar.map((m) => `<h3 style="margin:14px 0 6px">Em ${m.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e morar", m.comprar, mx, "verde")}${barra("Alugar e aplicar", m.alugar, mx, "cinza")}</div>`).join("");
-    $("futuro-tabela").innerHTML = `<thead><tr><th>Cenário</th>${morar.map((m) => `<th>${m.n} anos</th>`).join("")}</tr></thead><tbody>
-      <tr><td>Valor do imóvel</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
-      <tr><td>Comprar (líquido de venda)</td>${morar.map((m) => `<td>${brl(m.comprar)}</td>`).join("")}</tr>
-      <tr><td>Alugar e aplicar</td>${morar.map((m) => `<td>${brl(m.alugar)}</td>`).join("")}</tr></tbody>`;
-  }
-  $("futuro-nota").textContent = "Projeção com premissas fixas; o futuro real varia. Ajuste em “Ajustar premissas”. Imposto sobre ganho de capital a 15% sem considerar isenções e fatores de redução.";
+  // futuro (a mesma função monta a página e o relatório)
+  const F = htmlFuturo(R, investir);
+  $("t-futuro").textContent = F.titulo; $("futuro-sub").textContent = F.sub; $("futuro-barras").innerHTML = F.barras; $("futuro-tabela").innerHTML = F.tabela; $("futuro-nota").textContent = F.nota;
 
   // custos
   $("custos-tabela").innerHTML = `<tbody>
@@ -1084,6 +1247,34 @@ function desenhar(R) {
   window.__ULTIMA = R;
 }
 
+// Projeção: investimento (patrimônio x aplicação) ou moradia (comprar x alugar). Só formata os números já calculados.
+function htmlFuturo(R, investir) {
+  const { proj, morar, melhor } = R;
+  const barra = (rot, val, mx, c) => `<div class="barra"><div class="rot"><span>${rot}</span><b>${brl(val)}</b></div><div class="trilho"><i class="${c}" style="width:${Math.max(0, val / mx) * 100}%"></i></div></div>`;
+  const nota = "Projeção com premissas fixas; o futuro real varia. Imposto sobre ganho de capital a 15% sem considerar isenções e fatores de redução.";
+  if (investir) {
+    const mx = Math.max(...proj.map((p) => Math.max(p.ot.patrimonio, p.aplicMelhor)));
+    return { titulo: "Patrimônio em 5, 10 e 15 anos", nota,
+      sub: `Comprar e alugar (${nomeEstr(melhor)}) contra aplicar o mesmo valor a ${virg(R.P.aplicacao)}% ao ano bruto. Inclui venda no fim, corretagem e imposto sobre o ganho.`,
+      barras: proj.map((p) => `<h3 style="margin:14px 0 6px">Em ${p.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e alugar", p.melhor.patrimonio, mx, "verde")}${barra("Deixar aplicado", p.aplicMelhor, mx, "cinza")}</div>`).join(""),
+      tabela: `<thead><tr><th>Cenário</th>${proj.map((p) => `<th>${p.n} anos</th>`).join("")}</tr></thead><tbody>
+      <tr><td>Valor do imóvel (base)</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, valorização baixa (${pct(Math.max(0, R.P.valoriza / 100 - 0.03))})</td>${proj.map((p) => `<td>${brl(p.pess.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, cenário base</td>${proj.map((p) => `<td>${brl(p.melhor.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Patrimônio, valorização alta (${pct(R.P.valoriza / 100 + 0.02)})</td>${proj.map((p) => `<td>${brl(p.ot.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Só aluguel tradicional</td>${proj.map((p) => `<td>${brl(p.trad.patrimonio)}</td>`).join("")}</tr>
+      <tr><td>Dinheiro aplicado</td>${proj.map((p) => `<td>${brl(p.aplicMelhor)}</td>`).join("")}</tr></tbody>` };
+  }
+  const mx = Math.max(...morar.map((m) => Math.max(m.comprar, m.alugar, 1)));
+  return { titulo: "Comprar ou continuar pagando aluguel?", nota,
+    sub: `Comprar para morar (pagando à vista) contra alugar um imóvel parecido (≈ ${brl(R.alugMes)}/mês) e aplicar o dinheiro da compra a ${virg(R.P.aplicacao)}% ao ano bruto.`,
+    barras: morar.map((m) => `<h3 style="margin:14px 0 6px">Em ${m.n} anos</h3><div class="barras" style="margin:0">${barra("Comprar e morar", m.comprar, mx, "verde")}${barra("Alugar e aplicar", m.alugar, mx, "cinza")}</div>`).join(""),
+    tabela: `<thead><tr><th>Cenário</th>${morar.map((m) => `<th>${m.n} anos</th>`).join("")}</tr></thead><tbody>
+      <tr><td>Valor do imóvel</td>${proj.map((p) => `<td>${brl(p.valorImovel)}</td>`).join("")}</tr>
+      <tr><td>Comprar (líquido de venda)</td>${morar.map((m) => `<td>${brl(m.comprar)}</td>`).join("")}</tr>
+      <tr><td>Alugar e aplicar</td>${morar.map((m) => `<td>${brl(m.alugar)}</td>`).join("")}</tr></tbody>` };
+}
+
 // ================= compartilhar análise =================
 function salvarNoLink(f) {
   const dados = { ...f, fin: FINALIDADE, ref: IMOVEL.ref, url: IMOVEL.url, sim: IMOVEL.similares, lat: IMOVEL.lat, lng: IMOVEL.lng, foto: IMOVEL.foto, pois: IMOVEL.pois, suites: IMOVEL.suites, lazer: IMOVEL.lazer, est: IMOVEL.metroEstacao };
@@ -1110,22 +1301,186 @@ $("btn-copiar").addEventListener("click", async () => {
 $("btn-whats").addEventListener("click", () => {
   const R = window.__ULTIMA; if (!R) return;
   const linha = FINALIDADE === "investimento" ? `Melhor estratégia: ${R.melhor.nome.split(" (")[0]}, ${brl(R.melhor.liq / 12)}/mês líquidos (${pct(R.melhor.yield)} ao ano)` : `Financiando: 1ª parcela ${brl(R.fin.sac1)} (SAC), entrada de ${brl(R.fin.entrada)}`;
-  const txt = `${$("v-titulo").textContent} (score ${R.nota}/100)\n${$("r-titulo").textContent}, ${R.f.bairro} · ${brl(R.f.preco)}\n${linha}\nAnálise completa: ${location.href}`;
+  const txt = `Score de oportunidade: ${R.score.nota ?? "—"}/100 (${R.score.classe})\n${$("v-titulo").textContent}\n${$("r-titulo").textContent}, ${R.f.bairro} · ${brl(R.f.preco)}\n${linha}\nAnálise completa: ${location.href}`;
   window.open("https://wa.me/?text=" + encodeURIComponent(txt), "_blank", "noopener");
 });
-$("btn-imprimir").addEventListener("click", () => window.print());
+// ================= relatório em PDF personalizável =================
+// Cada seção reaproveita o conteúdo já calculado e exibido na análise: nada é recalculado ou inventado.
+const semIds = (html) => { const t = document.createElement("template"); t.innerHTML = html; t.content.querySelectorAll("[id]").forEach((e) => e.removeAttribute("id")); return t.innerHTML; };
+const conteudo = (...ids) => ids.map((id) => semIds($(id).outerHTML)).join("");
+const SECOES_REL = [
+  { id: "imovel", nome: "Dados do imóvel", desc: "Foto, preço, área, quartos, vagas, custos fixos e link do anúncio", fins: ["moradia", "investimento"],
+    html: (R) => `${IMOVEL.foto ? `<img class="rel-foto" src="${esc(urlSegura(IMOVEL.foto))}" alt="">` : ""}<p style="margin:0 0 4px"><b style="font-size:13pt">${esc($("r-titulo").textContent)}</b></p><p class="sub" style="margin:0 0 6px">${esc($("r-local").textContent)}</p>
+      <p style="margin:0"><b style="font-size:15pt">${esc($("r-preco").textContent)}</b> · ${esc($("r-m2").textContent)}${IMOVEL.ref ? ` · Ref. ${esc(IMOVEL.ref)}` : ""}</p>${conteudo("r-carac")}${IMOVEL.url ? `<p class="sub" style="margin:6px 0 0">Anúncio: ${esc(IMOVEL.url)}</p>` : ""}` },
+  { id: "score", nome: "Score de oportunidade", desc: "Nota, classificação, critérios, pesos e limitações", fins: ["moradia", "investimento"],
+    html: () => `<div class="anel">${semIds(document.querySelector("#sec-score .anel svg").outerHTML)}<div><p class="veredito-t">${esc($("score-classe").textContent)}</p><p class="sub" style="margin:0">${esc($("score-txt").textContent)}</p></div></div>${conteudo("score-fatores", "score-limites")}<div class="sub" style="font-size:8.5pt;margin-top:8px">${$("score-metodo").innerHTML}</div>` },
+  { id: "conclusao", nome: "Conclusão e pontos principais", desc: "Resultado para a finalidade escolhida, pontos a favor e de atenção", fins: ["moradia", "investimento"],
+    html: () => `<p class="veredito-t">${esc($("v-titulo").textContent)}</p><p class="sub">${esc($("v-frase").textContent)}</p><div class="grade-2"><div><h3 class="pos">Pontos a favor</h3>${conteudo("v-pros")}</div><div><h3 class="neg">Pontos de atenção</h3>${conteudo("v-contras")}</div></div>`, titulo: () => `Conclusão para ${FINALIDADE}` },
+  { id: "preco", nome: "Comparação de preços", desc: "Preço por m² contra imóveis parecidos e o bairro", fins: ["moradia", "investimento"],
+    html: () => `<p class="sub">${esc($("preco-sub").textContent)}</p>${conteudo("preco-num", "preco-barras")}<p class="sub">${esc($("preco-nota").textContent)}</p>` },
+  { id: "local", nome: "Localização e infraestrutura", desc: "Metrô e serviços próximos informados no anúncio", fins: ["moradia"],
+    html: () => `<p class="sub">${esc($("local-sub").textContent)}</p>${conteudo("pois")}` },
+  { id: "carac", nome: "Características", desc: "Área, quartos, suítes, banheiros, vagas e lazer", fins: ["moradia"],
+    html: () => `${conteudo("carac-num")}<p class="sub">${esc($("carac-lazer").textContent)}</p>` },
+  { id: "financiamento", nome: "Financiamento e custo mensal", desc: "Entrada, parcelas SAC e Price, renda sugerida", fins: ["moradia"],
+    html: () => `<p class="sub">${esc($("fin-sub").textContent)}</p>${conteudo("fin-num")}<div class="tabela">${conteudo("fin-tabela")}</div><p class="sub">${esc($("fin-nota").textContent)}</p>` },
+  { id: "rentabilidade", nome: "Rentabilidade", desc: "Aluguel tradicional, médio prazo e curta temporada", fins: ["investimento"], longa: true,
+    html: () => `${conteudo("estrategias", "estrategias-barras")}` },
+  { id: "projecao", nome: "Projeção patrimonial", desc: "Patrimônio em 5, 10 e 15 anos contra a aplicação", fins: ["investimento"],
+    html: (R) => { const F = htmlFuturo(R, true); return `<p class="sub">${esc(F.sub)}</p><div class="tabela"><table>${F.tabela}</table></div><p class="sub">${esc(F.nota)}</p>`; } },
+  { id: "comprar-alugar", nome: "Comprar x alugar", desc: "Patrimônio comprando para morar contra alugar e aplicar", fins: ["moradia"],
+    html: (R) => { const F = htmlFuturo(R, false); return `<p class="sub">${esc(F.sub)}</p><div class="tabela"><table>${F.tabela}</table></div><p class="sub">${esc(F.nota)}</p>`; } },
+  { id: "custos", nome: "Custos de compra e manutenção", desc: "ITBI, cartório, condomínio, IPTU e manutenção", fins: ["moradia", "investimento"],
+    html: () => `<div class="tabela">${semIds($("custos-tabela").outerHTML)}</div>` },
+  { id: "riscos", nome: "Riscos e facilidade de revenda", desc: "Índice de liquidez e riscos identificados", fins: ["moradia", "investimento"],
+    html: () => conteudo("liq-num", "riscos") },
+  { id: "argumentos", nome: "Argumentos comerciais e negociação", desc: "Argumentos, objeções e faixa de proposta", fins: [],
+    html: () => `<div class="grade-2"><div><h3>Argumentos</h3>${conteudo("c-args")}</div><div><h3>Objeções e respostas</h3>${conteudo("c-obj")}</div></div><h3>Faixa de proposta sugerida</h3>${conteudo("c-proposta")}<p class="sub">Sugestão de negociação com base nos números do anúncio, não é avaliação técnica.</p>` },
+  { id: "premissas", nome: "Premissas e fontes", desc: "Valores usados nos cálculos e de onde vêm", fins: ["moradia", "investimento"], longa: true,
+    html: () => `<div class="tabela"><table><thead><tr><th>Premissa</th><th>Valor</th><th style="text-align:left">Fonte</th></tr></thead><tbody>${premissasPadrao().map((p) => `<tr><td>${esc(p.rot)}</td><td>${esc(virg(PREMISSAS[p.id]))}</td><td style="text-align:left;white-space:normal">${esc(p.fonte)}</td></tr>`).join("")}</tbody></table></div>` },
+];
+function sugestaoRel() { return SECOES_REL.filter((x) => x.fins.includes(FINALIDADE)).map((x) => x.id); }
+function abrirRelatorio() {
+  if (!window.__ULTIMA) return;
+  const salvas = ls.get("radar-rel-" + FINALIDADE, null);
+  const marcadas = new Set(salvas || sugestaoRel());
+  $("rel-fin").textContent = FINALIDADE;
+  $("rel-opcoes").innerHTML = SECOES_REL.map((x) => `<label><input type="checkbox" value="${x.id}" ${marcadas.has(x.id) ? "checked" : ""}><span>${esc(x.nome)}<small>${esc(x.desc)}</small></span></label>`).join("");
+  semAviso("aviso-rel");
+  $("dlg-relatorio").showModal();
+}
+const marcarRel = (fn) => $("rel-opcoes").querySelectorAll("input").forEach((i) => (i.checked = fn(i.value)));
+$("rel-todas").addEventListener("click", () => marcarRel(() => true));
+$("rel-nenhuma").addEventListener("click", () => marcarRel(() => false));
+$("rel-padrao").addEventListener("click", () => { const s = new Set(sugestaoRel()); marcarRel((v) => s.has(v)); });
+function montarRelatorio(ids) {
+  const R = window.__ULTIMA;
+  const escolhidas = SECOES_REL.filter((x) => ids.includes(x.id));
+  const hoje = new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" });
+  const para = $("rel-para").value.trim();
+  $("relatorio").innerHTML = `<header class="rel-cab"><div><b>Radar do Imóvel</b><br><span style="text-align:left">Nova São Paulo</span></div><span>Relatório de análise · ${esc(hoje)}<br>Finalidade: ${esc(FINALIDADE)}${para ? `<br>Preparado para: ${esc(para)}` : ""}${SESSAO.usuario ? `<br>Por: ${esc(SESSAO.usuario.nome)}` : ""}</span></header>
+    <h1>${esc($("r-titulo").textContent)}</h1><p class="sub" style="margin:0 0 12px">${esc([IMOVEL.ref && "Ref. " + IMOVEL.ref, R.f.bairro, brl(R.f.preco)].filter(Boolean).join(" · "))}</p>
+    ${escolhidas.map((x, i) => `<section class="rel-secao${x.longa ? " longa" : ""}" data-secao="${x.id}"><h2><span class="n">${i + 1}.</span>${esc(x.titulo ? x.titulo() : x.nome)}</h2>${x.html(R)}</section>`).join("")}
+    <footer class="rel-rodape">Estimativas com dados públicos e premissas editáveis; não são recomendação de investimento, avaliação técnica nem garantia de renda. Fontes: anúncio em novasaopaulo.com.br, catálogo da Nova São Paulo, Inside Airbnb (CC BY 4.0), Índice FipeZAP e Banco Central do Brasil. Gerado pelo Radar do Imóvel em ${esc(hoje)}.</footer>`;
+  return escolhidas.map((x) => x.id);
+}
+$("rel-gerar").addEventListener("click", () => {
+  const ids = [...$("rel-opcoes").querySelectorAll("input:checked")].map((i) => i.value);
+  if (!ids.length) { aviso("Marque pelo menos uma seção.", "erro", "aviso-rel"); return; }
+  ls.set("radar-rel-" + FINALIDADE, ids);
+  montarRelatorio(ids);
+  $("dlg-relatorio").close("gerar");
+  const tituloAntes = document.title;
+  document.title = `Radar do Imóvel - ${IMOVEL.ref || $("r-titulo").textContent} - ${new Date().toISOString().slice(0, 10)}`;
+  document.body.classList.add("imprimindo");
+  const fim = () => { document.body.classList.remove("imprimindo"); document.title = tituloAntes; window.removeEventListener("afterprint", fim); };
+  window.addEventListener("afterprint", fim);
+  // a classe "imprimindo" só vale na impressão; some sozinha ao fechar a janela de impressão
+  setTimeout(() => window.print(), 300); // tempo para a foto carregar
+});
+$("btn-imprimir").addEventListener("click", abrirRelatorio);
 $("btn-restaurar").addEventListener("click", () => { PREMISSAS = {}; montarPremissas(false); calcular(); });
 
-// ================= modo comprador / corretor =================
-function modo(corretor) {
-  document.body.classList.toggle("corretor", corretor);
-  ["modo-corretor", "modo-corretor-m"].forEach((id) => $(id).setAttribute("aria-pressed", corretor));
-  ["modo-cliente", "modo-cliente-m"].forEach((id) => $(id).setAttribute("aria-pressed", !corretor));
-  ls.set("radar-modo", corretor ? "corretor" : "cliente");
+// ================= tema claro / escuro =================
+function temaAtual() { const t = document.documentElement.getAttribute("data-theme"); return t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"); }
+function aplicarTema(t) {
+  document.documentElement.setAttribute("data-theme", t);
+  ls.set("radar-tema", t);
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#0A1A2C" : "#0E2A47");
+  document.querySelectorAll("[data-tema] span").forEach((x) => (x.textContent = t === "dark" ? "Tema claro" : "Tema escuro"));
+  document.querySelectorAll("[data-tema]").forEach((x) => x.setAttribute("aria-pressed", t === "dark"));
 }
-["modo-corretor", "modo-corretor-m"].forEach((id) => $(id).addEventListener("click", () => modo(true)));
-["modo-cliente", "modo-cliente-m"].forEach((id) => $(id).addEventListener("click", () => modo(false)));
-if (ls.get("radar-modo") === "corretor") modo(true);
+document.querySelectorAll("[data-tema]").forEach((b) => b.addEventListener("click", () => aplicarTema(temaAtual() === "dark" ? "light" : "dark")));
+aplicarTema(temaAtual());
+
+// ================= login =================
+async function apiAuth(corpo) {
+  const r = await fetch("/api/auth", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(corpo) });
+  const j = await r.json().catch(() => ({ ok: false, erro: `Servidor respondeu ${r.status}.` }));
+  if (!j.ok) throw Object.assign(new Error(j.erro || "Erro desconhecido."), { status: r.status });
+  return j;
+}
+function abaLogin(criar) {
+  $("aba-entrar").setAttribute("aria-selected", !criar); $("aba-criar").setAttribute("aria-selected", criar);
+  $("form-entrar").classList.toggle("oculto", criar); $("form-criar").classList.toggle("oculto", !criar); semAviso("aviso-login");
+}
+$("aba-entrar").addEventListener("click", () => abaLogin(false));
+$("aba-criar").addEventListener("click", () => abaLogin(true));
+$("form-entrar").addEventListener("submit", async (e) => {
+  e.preventDefault(); const b = $("l-btn"); b.disabled = true; semAviso("aviso-login");
+  try { const j = await apiAuth({ acao: "entrar", email: $("l-email").value, senha: $("l-senha").value }); $("l-senha").value = ""; entrouNoSistema(j.usuario); }
+  catch (err) { aviso(err.message, "erro", "aviso-login"); }
+  finally { b.disabled = false; }
+});
+$("form-criar").addEventListener("submit", async (e) => {
+  e.preventDefault(); semAviso("aviso-login");
+  if ($("c-senha").value !== $("c-senha2").value) { aviso("As duas senhas não são iguais.", "erro", "aviso-login"); return; }
+  const b = $("c-btn"); b.disabled = true;
+  try {
+    const j = await apiAuth({ acao: "cadastrar", nome: $("c-nome").value, email: $("c-email").value, senha: $("c-senha").value });
+    $("c-senha").value = $("c-senha2").value = "";
+    if (j.pendente) { abaLogin(false); $("l-email").value = $("c-email").value; aviso(j.mensagem, "info", "aviso-login"); }
+    else { entrouNoSistema(j.usuario); if (j.mensagem) aviso(j.mensagem, "ok"); }
+  } catch (err) { aviso(err.message, "erro", "aviso-login"); }
+  finally { b.disabled = false; }
+});
+document.querySelectorAll("[data-sair]").forEach((b) => b.addEventListener("click", async () => {
+  try { await apiAuth({ acao: "sair" }); } catch {}
+  SESSAO.usuario = null; ALERTAS = { alertas: [], notificacoes: [] }; atualizarBadge(0); irPara("login");
+}));
+function sessaoExpirada() { if (SESSAO.compartilhado) return; SESSAO.usuario = null; irPara("login"); aviso("Sua sessão terminou. Entre de novo.", "info", "aviso-login"); }
+function entrouNoSistema(u) {
+  SESSAO.usuario = u;
+  $("conta-quem").innerHTML = `${esc(u.nome)}<small>${esc(u.email)}${u.papel === "admin" ? " · administrador" : ""}</small>`;
+  $("nav-equipe").classList.toggle("oculto", u.papel !== "admin");
+  const destino = location.hash.slice(1);
+  irPara(VIEWS.includes(destino) && destino !== "login" ? destino : "analise", true);
+  carregarAlertas(true);
+  if (u.papel === "admin") carregarEquipe(true);
+  garantirCatalogo().then(() => { if (!$("resultado").classList.contains("oculto")) calcular(); }).catch(() => {});
+  if (u.trocarSenha) abrirTrocaSenha(true);
+}
+function abrirTrocaSenha(obrigatoria) {
+  $("s-atual").value = $("s-nova").value = $("s-nova2").value = ""; semAviso("aviso-senha");
+  $("dlg-senha-sub").textContent = obrigatoria ? "Você entrou com uma senha temporária. Crie uma senha pessoal agora (mínimo de 10 caracteres, com letras e números)." : "Mínimo de 10 caracteres, com letras e números.";
+  $("dlg-senha").showModal();
+}
+$("btn-trocar-senha").addEventListener("click", () => abrirTrocaSenha(false));
+$("s-salvar").addEventListener("click", async () => {
+  if ($("s-nova").value !== $("s-nova2").value) { aviso("As duas senhas novas não são iguais.", "erro", "aviso-senha"); return; }
+  try { const j = await apiAuth({ acao: "trocar-senha", atual: $("s-atual").value, nova: $("s-nova").value }); SESSAO.usuario = j.usuario; $("dlg-senha").close("ok"); aviso("Senha alterada.", "ok"); }
+  catch (err) { aviso(err.message, "erro", "aviso-senha"); }
+});
+
+// ================= equipe (administradores) =================
+async function carregarEquipe(silencioso) {
+  try {
+    const j = await apiAuth({ acao: "equipe" });
+    const pend = j.usuarios.filter((u) => u.status === "pendente").length;
+    $("badge-equipe").textContent = pend; $("badge-equipe").classList.toggle("oculto", !pend);
+    const st = { ativo: ["Ativo", "verde"], pendente: ["Aguardando aprovação", "ambar"], bloqueado: ["Bloqueado", "vermelho"] };
+    $("tabela-equipe").innerHTML = `<thead><tr><th>Pessoa</th><th>Situação</th><th>Último acesso</th><th>Ações</th></tr></thead><tbody>${j.usuarios.map((u) => `<tr data-email="${esc(u.email)}">
+      <td><b>${esc(u.nome)}</b><br><span class="sub" style="font-size:.8rem">${esc(u.email)}${u.papel === "admin" ? " · administrador" : ""}</span></td>
+      <td><span class="chip ${st[u.status][1]}">${st[u.status][0]}</span></td><td>${dataHoraBR(u.ultimoAcesso)}</td>
+      <td style="white-space:normal">${u.id === SESSAO.usuario.id ? '<span class="sub">você</span>' : `<span style="display:inline-flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">
+        ${u.status !== "ativo" ? '<button class="botao pequeno" type="button" data-eq="aprovar">Aprovar</button>' : '<button class="botao pequeno perigo" type="button" data-eq="bloquear">Bloquear</button>'}
+        <button class="botao pequeno sec" type="button" data-eq="redefinir">Redefinir senha</button>
+        <button class="botao pequeno fantasma" type="button" data-eq="tornar-admin">${u.papel === "admin" ? "Tirar administrador" : "Tornar administrador"}</button></span>`}</td></tr>`).join("")}</tbody>`;
+  } catch (err) { if (err.status === 401) sessaoExpirada(); else if (!silencioso) aviso("Não foi possível carregar a equipe: " + err.message, "erro", "aviso-equipe"); }
+}
+$("tabela-equipe").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-eq]"); if (!b) return;
+  const email = b.closest("[data-email]").dataset.email, acao = b.dataset.eq;
+  if (acao === "bloquear" && !confirm(`Bloquear o acesso de ${email}? A pessoa sai na hora de todos os aparelhos.`)) return;
+  if (acao === "redefinir" && !confirm(`Gerar uma senha temporária para ${email}? A senha atual deixa de valer.`)) return;
+  b.disabled = true;
+  try {
+    const j = await apiAuth({ acao, email });
+    if (j.senhaTemporaria) aviso(`Senha temporária de ${email}: ${j.senhaTemporaria} . Passe pessoalmente; ela será trocada no primeiro acesso. Esta mensagem não aparece de novo.`, "ok", "aviso-equipe");
+    else aviso("Alteração salva.", "ok", "aviso-equipe");
+    await carregarEquipe();
+  } catch (err) { aviso(err.message, "erro", "aviso-equipe"); b.disabled = false; }
+});
 
 // ================= OPORTUNIDADES =================
 const BUSCA = { fin: "moradia", neg: "venda", resultados: [], comparar: new Set(), mostrarBaixa: false, editandoId: null };
@@ -1311,40 +1666,31 @@ async function abrirAnaliseDe(im, finalidade, origem = "oportunidades") {
 $("voltar-busca").addEventListener("click", () => irPara($("voltar-busca").dataset.origem || "oportunidades"));
 
 // ================= ALERTAS =================
-const ID = { chave: ls.get("radar-chave", null), nome: ls.get("radar-corretor", "") };
 const API = "/api/alertas";
 async function api(corpo) {
-  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ chave: ID.chave, ...corpo }) });
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(corpo) });
   const j = await r.json().catch(() => ({ ok: false, erro: `Servidor respondeu ${r.status}.` }));
+  if (r.status === 401) sessaoExpirada();
   if (!j.ok) throw new Error(j.erro || "Erro desconhecido.");
   return j;
 }
-function novaChave() { const a = new Uint8Array(16); crypto.getRandomValues(a); return [...a].map((b) => b.toString(16).padStart(2, "0")).join("").replace(/(.{8})(.{4})(.{4})(.{4})/, "$1-$2-$3-$4-"); }
-function desenharIdentidade() {
-  const box = $("identidade");
-  if (!ID.chave) {
-    box.innerHTML = `<h2 id="t-ident">Comece identificando o corretor</h2><p class="sub">Os alertas ficam guardados no servidor e ligados a uma chave pessoal criada agora. Não é um login com senha: guarde a chave para usar em outro aparelho.</p>
-      <div class="campos"><label class="campo">Seu nome (como aparece para a equipe)<input id="id-nome" maxlength="60" value="${esc(ID.nome)}"></label></div>
-      <div class="acoes"><button class="botao" type="button" id="id-criar">Criar minha chave</button><span class="sub" style="margin:0">ou</span>
-      <label class="campo" style="flex:1 1 260px">Já tenho uma chave<input id="id-colar" placeholder="cole aqui sua chave"></label><button class="botao sec" type="button" id="id-usar">Usar esta chave</button></div>`;
-    $("id-criar").addEventListener("click", () => { ID.nome = $("id-nome").value.trim(); ID.chave = novaChave(); ls.set("radar-chave", ID.chave); ls.set("radar-corretor", ID.nome); desenharIdentidade(); carregarAlertas(); });
-    $("id-usar").addEventListener("click", () => { const k = $("id-colar").value.trim().toLowerCase(); if (!/^[a-z0-9-]{24,64}$/.test(k)) { aviso("Essa chave não está no formato certo.", "erro", "aviso-alertas"); return; } ID.chave = k; ID.nome = $("id-nome").value.trim(); ls.set("radar-chave", k); ls.set("radar-corretor", ID.nome); desenharIdentidade(); carregarAlertas(); });
-  } else {
-    box.innerHTML = `<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center"><div><h2 id="t-ident" style="margin:0">${esc(ID.nome || "Corretor")}</h2><p class="sub" style="margin:2px 0 0">Sua chave: <code style="user-select:all">${esc(ID.chave)}</code></p></div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="botao pequeno sec" type="button" id="id-copiar">Copiar chave</button><button class="botao pequeno fantasma" type="button" id="id-sair">Sair deste aparelho</button></div></div>
-      <p class="sub" style="margin:8px 0 0;font-size:.8rem">Quem tiver a chave vê e altera os seus alertas. Não compartilhe. Para usar no celular, copie a chave e cole lá em “Já tenho uma chave”.</p>`;
-    $("id-copiar").addEventListener("click", async () => { try { await navigator.clipboard.writeText(ID.chave); aviso("Chave copiada.", "ok", "aviso-alertas"); } catch { prompt("Copie sua chave:", ID.chave); } });
-    $("id-sair").addEventListener("click", () => { if (!confirm("Sair? Os alertas continuam guardados; para voltar, use a mesma chave.")) return; ID.chave = null; ls.set("radar-chave", null); desenharIdentidade(); $("lista-alertas").innerHTML = ""; $("notificacoes").innerHTML = ""; atualizarBadge(0); });
-  }
-}
+// alertas criados antes do login (chave antiga guardada neste aparelho)
+function mostrarMigracao() { const k = ls.get("radar-chave", null); $("migracao").classList.toggle("oculto", !k); }
+$("btn-migrar").addEventListener("click", async () => {
+  const k = ls.get("radar-chave", null); if (!k) return;
+  try { const j = await api({ acao: "migrar", chaveAntiga: k }); ls.set("radar-chave", null); mostrarMigracao(); aviso(`${j.migrados} alerta(s) trazido(s) para a sua conta.`, "ok", "aviso-alertas"); carregarAlertas(true); }
+  catch (e) { aviso("Não foi possível trazer os alertas: " + e.message, "erro", "aviso-alertas"); }
+});
+$("btn-ignorar-migracao").addEventListener("click", () => { if (confirm("Ignorar? Os alertas antigos deste aparelho deixam de aparecer aqui.")) { ls.set("radar-chave", null); mostrarMigracao(); } });
 let ALERTAS = { alertas: [], notificacoes: [] };
 async function carregarAlertas(silencioso) {
-  desenharIdentidade();
-  if (!ID.chave) { $("lista-alertas").innerHTML = '<div class="card vazio-estado"><svg class="ic"><use href="#i-sino"/></svg><p>Crie sua chave acima para começar a salvar alertas.</p></div>'; $("notificacoes").innerHTML = ""; return; }
+  mostrarMigracao();
+  if (!SESSAO.usuario) return;
   if (!silencioso) $("lista-alertas").innerHTML = '<div class="carregando">Carregando alertas…</div>';
   try {
-    const r = await fetch(`${API}?chave=${encodeURIComponent(ID.chave)}`, { cache: "no-store" });
+    const r = await fetch(API, { cache: "no-store" });
     const j = await r.json().catch(() => ({ ok: false, erro: `Servidor respondeu ${r.status}.` }));
+    if (r.status === 401) { sessaoExpirada(); return; }
     if (!j.ok) throw new Error(j.erro);
     ALERTAS = j; semAviso("aviso-alertas");
   } catch (e) {
@@ -1426,7 +1772,6 @@ $("btn-criar-alerta").addEventListener("click", () => abrirDialogoAlerta());
 function abrirDialogoAlerta() {
   const c = lerCriterios();
   if (vazioCrit(c)) { alert("Preencha pelo menos um critério antes de criar o alerta."); return; }
-  if (!ID.chave) { irPara("alertas"); aviso("Antes, crie sua chave de corretor aqui. Depois volte em Oportunidades: os filtros ficam guardados.", "info", "aviso-alertas"); return; }
   const editando = BUSCA.editandoId && ALERTAS.alertas.find((a) => a.id === BUSCA.editandoId);
   $("dlg-titulo").textContent = editando ? "Salvar alterações do alerta" : "Salvar busca e criar alerta";
   $("dlg-resumo").textContent = resumoCriterios(c);
@@ -1441,7 +1786,7 @@ function sugestaoNome(c) {
 $("dlg-alerta").addEventListener("close", async () => {
   if ($("dlg-alerta").returnValue !== "salvar") return;
   const editando = BUSCA.editandoId && ALERTAS.alertas.find((a) => a.id === BUSCA.editandoId);
-  const alerta = { ...(editando || {}), id: editando?.id, nome: $("a-nome").value.trim(), cliente: $("a-cliente").value.trim(), corretor: ID.nome, criterios: lerCriterios(), nivelMin: $("a-nivel").value, frequencia: $("a-freq").value, status: $("a-status").value };
+  const alerta = { ...(editando || {}), id: editando?.id, nome: $("a-nome").value.trim(), cliente: $("a-cliente").value.trim(), criterios: lerCriterios(), nivelMin: $("a-nivel").value, frequencia: $("a-freq").value, status: $("a-status").value };
   try {
     const j = await api({ acao: "salvar", alerta });
     BUSCA.editandoId = null; $("editando-alerta").classList.add("oculto"); $("btn-criar-alerta").lastChild.textContent = "Salvar busca e criar alerta";
@@ -1479,15 +1824,24 @@ sincronizarSegmentos();
 mostrarSalvos();
 const buscaSalva = ss.get("radar-busca", null);
 if (buscaSalva?.c) { aplicarCriterios(buscaSalva.c); BUSCA.mostrarBaixa = !!buscaSalva.mostrarBaixa; }
-carregarBases().then(() => {
-  const leu = lerDoLink();
-  if (!leu) {
-    const q = new URLSearchParams(location.search).get("url");
-    if (q) { $("link").value = q; irPara("analise"); $("form-link").requestSubmit(); }
-    else irPara(location.hash.slice(1) || "analise", false);
+const temAnaliseNoLink = new URLSearchParams(location.search).has("a") || /^#a=/.test(location.hash);
+(async () => {
+  await carregarBases();
+  let u = null;
+  try { const r = await fetch("/api/auth", { cache: "no-store" }); if (r.ok) u = (await r.json()).usuario; } catch {}
+  if (!u && temAnaliseNoLink) {
+    // quem recebeu uma análise pelo WhatsApp vê só a análise, sem precisar de login
+    SESSAO.compartilhado = true; document.body.classList.add("compartilhado");
+    garantirCatalogo().then(() => { if (!$("resultado").classList.contains("oculto")) calcular(); }).catch(() => {});
+    if (!lerDoLink()) { SESSAO.compartilhado = false; document.body.classList.remove("compartilhado"); irPara("login"); }
+    return;
   }
-  if (ID.chave) carregarAlertas(true);
-});
+  if (!u) { irPara("login"); return; }
+  entrouNoSistema(u);
+  if (lerDoLink()) return;
+  const q = new URLSearchParams(location.search).get("url");
+  if (q) { $("link").value = q; irPara("analise"); $("form-link").requestSubmit(); }
+})();
 </script>
 </body>
 </html>
