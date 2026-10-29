@@ -4,7 +4,7 @@ on:
   schedule:
     # Dias 1 e 16 de cada mês, 09:00 UTC (06:00 em Brasília)
     - cron: "0 9 1,16 * *"
-  workflow_dispatch: {}
+  workflow_dispatch: {}   # botão "Run workflow" para rodar na hora
 
 permissions:
   contents: write
