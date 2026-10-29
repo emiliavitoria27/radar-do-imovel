@@ -1,6 +1,8 @@
 // Lê um anúncio do site www.novasaopaulo.com.br e devolve os dados em JSON.
 // Roda no servidor do Netlify (o navegador não consegue ler outro site direto).
 
+import { usuarioDaSessao } from "./auth.mjs";
+
 const DOMINIOS_PERMITIDOS = ["novasaopaulo.com.br"];
 
 export default async (req) => {
@@ -8,6 +10,7 @@ export default async (req) => {
     "content-type": "application/json; charset=utf-8",
     "cache-control": "public, max-age=900", // 15 min de cache: aguenta muita gente ao mesmo tempo
   };
+  if (!(await usuarioDaSessao(req))) return new Response(JSON.stringify({ ok: false, erro: "Entre com seu e-mail e senha para ler anúncios.", login: true }), { status: 401, headers: { "content-type": "application/json; charset=utf-8" } });
   try {
     const url = new URL(req.url).searchParams.get("url") || "";
     let alvo;

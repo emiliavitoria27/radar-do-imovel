@@ -1,6 +1,7 @@
 // API dos alertas de oportunidades. Guarda tudo no Netlify Blobs (incluído no plano gratuito).
-// Identificação: cada corretor tem uma "chave" aleatória criada no navegador. Não há login de verdade.
+// Cada alerta pertence ao usuário logado (login com e-mail corporativo, ver auth.mjs).
 import { getStore } from "@netlify/blobs";
+import { usuarioDaSessao, origemValida } from "./auth.mjs";
 import { rodarVerificacao, proximaVerificacao, carregarPortfolio } from "../../compat.mjs";
 
 export const config = { path: "/api/alertas" };
@@ -26,14 +27,16 @@ function sanitizarCriterios(c = {}) {
 
 export default async (req) => {
   const store = getStore({ name: "radar-alertas", consistency: "strong" });
+  if (!origemValida(req)) return json({ ok: false, erro: "Origem não permitida." }, 403);
+  const usuario = await usuarioDaSessao(req);
+  if (!usuario) return json({ ok: false, erro: "Entre com seu e-mail e senha para usar os alertas.", login: true }, 401);
+  const chave = usuario.id; // espaço de dados do usuário
   try {
     if (req.method === "GET" && new URL(req.url).searchParams.has("sistema")) {
       const log = (await store.get("sistema/log-verificacoes", { type: "json" })) || [];
       return json({ ok: true, log: log.slice(0, 10) });
     }
     if (req.method === "GET") {
-      const chave = new URL(req.url).searchParams.get("chave");
-      if (!chaveValida(chave)) return json({ ok: false, erro: "Chave do corretor inválida." }, 400);
       const [la, ln] = await Promise.all([store.list({ prefix: `alerta/${chave}/` }), store.list({ prefix: `notif/${chave}/` })]);
       const alertas = (await Promise.all(la.blobs.map((b) => store.get(b.key, { type: "json" })))).filter(Boolean);
       const notificacoes = (await Promise.all(ln.blobs.map(async (b) => ({ id: b.key.split("/").pop(), ...(await store.get(b.key, { type: "json" })) })))).filter((n) => n.ref);
@@ -43,8 +46,24 @@ export default async (req) => {
     }
     if (req.method !== "POST") return json({ ok: false, erro: "Método não aceito." }, 405);
     const corpo = await req.json().catch(() => ({}));
-    const { acao, chave } = corpo;
-    if (!chaveValida(chave)) return json({ ok: false, erro: "Chave do corretor inválida." }, 400);
+    const { acao } = corpo;
+
+    if (acao === "migrar") {
+      // traz para a conta os alertas criados antes do login, com a chave antiga deste aparelho
+      const antiga = corpo.chaveAntiga;
+      if (!chaveValida(antiga) || antiga === chave) return json({ ok: false, erro: "Chave antiga inválida." }, 400);
+      let n = 0;
+      for (const prefixo of ["alerta", "notif"]) {
+        const { blobs } = await store.list({ prefix: `${prefixo}/${antiga}/` });
+        for (const b of blobs) {
+          const v = await store.get(b.key, { type: "json" }); if (!v) continue;
+          if (prefixo === "alerta") { v.chave = chave; v.corretor = usuario.nome; n++; }
+          await store.setJSON(b.key.replace(`${prefixo}/${antiga}/`, `${prefixo}/${chave}/`), v);
+          await store.delete(b.key);
+        }
+      }
+      return json({ ok: true, migrados: n });
+    }
 
     if (acao === "salvar") {
       const a = corpo.alerta || {};
@@ -55,7 +74,7 @@ export default async (req) => {
       const novo = {
         ...(antigo || {}), id, chave,
         nome: limpa(a.nome, 100) || "Alerta sem nome",
-        corretor: limpa(a.corretor, 60), cliente: limpa(a.cliente, 60),
+        corretor: usuario.nome, corretorEmail: usuario.email, cliente: limpa(a.cliente, 60),
         criterios: sanitizarCriterios(a.criterios),
         nivelMin: a.nivelMin === "parcial" ? "parcial" : "alta",
         frequencia: a.frequencia === "semanal" ? "semanal" : "diaria",
